@@ -17,7 +17,9 @@
                         </button>
                         <ul class="dropdown-menu" id="classDropdown">
                             <li>
-                                <a href="#">Class</a>
+                                {{#each Class}}
+                                    <a href="{{class_id}}">{{class_name}}</a>
+                                {{/each}}
                             </li>
                         </ul>
                     </div>

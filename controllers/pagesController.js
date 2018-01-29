@@ -7,13 +7,60 @@ var db = require("../models/");
 
 // Create all our routes and set up logic within those routes where required.
 router.get("/", function(req, res) {
-  db.User.all(function(data) {
-    var hbsObject = {
-      User: data
-    };
-    console.log(hbsObject);
-    res.render("login", hbsObject);
-  });
+    // db.User.all(function(data) {
+    //     var hbsObject = {
+    //     User: data
+    //     };
+    //     console.log(hbsObject);
+    // });
+    res.render("login");
+});
+
+//generates page based on which class is selected
+router.get("/generator/:id", function(req, res) {
+    db.Class.all(function(data) {
+        var hbsObject = {
+            Class: data,
+            Stats: [{name: "Strength",
+                reference: "strength_point"},
+                {name: "Speed",
+                reference: "speed_point"},
+                {name: "Ghost HP",
+                reference: "ghost_hp"}
+            ]
+        };
+        console.log(hbsObject);
+        res.render("character-generator", hbsObject);
+    });
+});
+
+router.get("/selection/:id", function(req, res) {
+    // With no choices input from other characters
+    // db.Character.findOne({
+    //     where: {
+    //     id: req.params.id
+    // }}).then(function(hbsObject) {
+    //     res.render("character-selection", hbsObject);
+    // });
+});
+
+router.get("/profile/:id", function(req, res) {
+    db.User.all(function(data) {
+      var hbsObject = {
+        User: data
+      };
+      console.log(hbsObject);
+      res.render("profile", hbsObject);
+    });
+});
+router.get("/battle", function(req, res) {
+    db.User.all(function(data) {
+      var hbsObject = {
+        User: data
+      };
+      console.log(hbsObject);
+      res.render("battle", hbsObject);
+    });
 });
 
 router.put("/api/cats/:id", function(req, res) {
