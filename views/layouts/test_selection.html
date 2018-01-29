@@ -97,7 +97,7 @@
             <div id="firechat-wrapper"></div>
     </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <!-- <script src="/assets/js/game.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
@@ -126,11 +126,45 @@
         
             // Create a Firechat instance
             var chat = new FirechatUI(chatRef, document.getElementById("firechat-wrapper"));
-        
+            console.log("About to chat");
             // Set the Firechat user
-            chat.setUser(user.uid, user.displayName);
+            chat.setUser(user.uid, "Anna");
         }
-        initChat("Anna");
+
+        firebase.auth().createUserWithEmailAndPassword("aylatrigger@yahoo.com", "password").catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // ...
+        });
+
+        firebase.auth().signInWithEmailAndPassword("aylatrigger@yahoo.com", "password").catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // ...
+        });
+
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                // User is signed in.
+                var isAnonymous = user.isAnonymous;
+                var uid = user.uid;
+                user["displayName"] = "Anna";
+                console.log(user);
+                console.log(user.emailVerified);
+                initChat(user);
+                // ...
+            } else {
+                // User is signed out.
+                // ...
+            }
+            // ...
+        });
+        var anna = {
+            uid: 112053710,
+            displayName: "Anna"
+        }
     </script>
   </body>
 </html>
