@@ -1,0 +1,24 @@
+{
+  "name": "miridon-hunters",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PhilippW73/Miridon-Hunters.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PhilippW73/Miridon-Hunters/issues"
+  },
+  "homepage": "https://github.com/PhilippW73/Miridon-Hunters#readme",
+  "dependencies": {
+    "mysql2": "^1.5.1",
+    "sequelize": "^4.32.2"
+  }
+}

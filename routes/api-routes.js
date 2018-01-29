@@ -1,18 +1,8 @@
-// *********************************************************************************
-// api-routes.js - this file offers a set of routes for displaying and saving data to the db
-// *********************************************************************************
 
-// Dependencies
-// =============================================================
-
-// Requiring our Todo model
 var db = require("../models");
 
-// Routes
-// =============================================================
 module.exports = function(app) {
 
-  // GET route for getting all of the posts
   app.get("/api/posts/", function(req, res) {
     db.Post.findAll({})
     .then(function(dbPost) {
@@ -20,63 +10,58 @@ module.exports = function(app) {
     });
   });
 
-  // Get route for returning posts of a specific category
-  app.get("/api/posts/category/:category", function(req, res) {
+  app.get("/api/posts/character/:class", function(req, res) {
     db.Post.findAll({
-      where: {
-        category: req.params.category
-      }
-    })
-    .then(function(dbPost) {
-      res.json(dbPost);
-    });
-  });
-
-  // Get rotue for retrieving a single post
-  app.get("/api/posts/:id", function(req, res) {
-    db.Post.findOne({
-      where: {
-        id: req.params.id
-      }
-    })
-    .then(function(dbPost) {
-      res.json(dbPost);
-    });
-  });
-
-  // POST route for saving a new post
-  app.post("/api/posts", function(req, res) {
-    console.log(req.body);
-    db.Post.create({
-      title: req.body.title,
-      body: req.body.body,
-      category: req.body.category
-    })
-    .then(function(dbPost) {
-      res.json(dbPost);
-    });
-  });
-
-  // DELETE route for deleting posts
-  app.delete("/api/posts/:id", function(req, res) {
-    db.Post.destroy({
-      where: {
-        id: req.params.id
-      }
-    })
-    .then(function(dbPost) {
-      res.json(dbPost);
-    });
-  });
-
-  // PUT route for updating posts
-  app.put("/api/posts", function(req, res) {
-    db.Post.update(req.body,
-      {
-        where: {
-          id: req.body.id
+        where : {
+          class_name : req.params.class
         }
-      })
+    })
+    .then(function(dbPost) {
+      res.json(dbPost);
+    });
+  });
+
+  app.post("/api/user/posts", function(req, res) {
+    db.Post.create(
+    {
+        user_name : req.body.user_name,
+        password : req.body.password,
+        user_bio : req.body.user_bio,
+        profile_image : req.body.profile_image
+    })
+    .then(function(dbPost) {
+      res.json(dbPost);
+    });
+  });
+
+  app.post("/api/character/posts", function(req, res) {
+    db.Post.create(
+    {
+        character_name : req.body.character_name,
+        character_descy : req.body.character_desc,
+        class_name : req.body.class_name,
+        character_image : req.body.character_image,
+        strength_point : req.body.strength_point,
+        speed_point : req.body.speed_point,
+        skill_point : req.body.skill_point,
+        ghost_hp : req.body.ghost_hp,
+        skills : req.body.skills
+    })
+    .then(function(dbPost) {
+      res.json(dbPost);
+    });
+  });
+
+  app.put("/api/user/:username", function(req, res) {
+    db.Post.update({
+    {
+        password : req.body.password,
+        user_bio : req.body.user_bio,
+        profile_image : req.body.profile_image
+    },    
+    where : {
+        user_name : req.params.user_name
+    })
     .then(function(dbPost) {
       res.json(dbPost);
     });
