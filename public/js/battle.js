@@ -1,5 +1,8 @@
-//Reads attacks
 
+
+// Makes sure all stats are set to max at start of combat
+// Reads offensive action from buttons, applies it
+// Enemy phase
 
 
 // Code from cat activity:
