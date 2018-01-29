@@ -8,6 +8,9 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var session = require("express-session");
 
+// Requiring passport as we've configured it
+var passport = require("./config/passport");
+
 // Sets up the Express App
 // =============================================================
 var app = express();
