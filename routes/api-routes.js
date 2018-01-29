@@ -52,18 +52,18 @@ module.exports = function(app) {
     });
   });
 
-  app.put("/api/user/:username", function(req, res) {
-    db.Post.update({
-    {
-        password : req.body.password,
-        user_bio : req.body.user_bio,
-        profile_image : req.body.profile_image
-    },    
-    where : {
-        user_name : req.params.user_name
-    })
-    .then(function(dbPost) {
-      res.json(dbPost);
-    });
-  });
+  // app.put("/api/user/:username", function(req, res) {
+  //   db.Post.update({
+  //   {
+  //       password : req.body.password,
+  //       user_bio : req.body.user_bio,
+  //       profile_image : req.body.profile_image
+  //   },    
+  //   where : {
+  //       user_name : req.params.user_name
+  //   })
+  //   .then(function(dbPost) {
+  //     res.json(dbPost);
+  //   });
+  // });
 };

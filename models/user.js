@@ -12,25 +12,25 @@ module.exports = function(sequelize, DataTypes) {
             allowNull: false,
         },
         password : {
-            type: Sequelize.STRING,
+            type: DataTypes.STRING,
             allowNull: false
         },
         user_bio : {
-            type : Sequelize.TEXT
+            type : DataTypes.TEXT
         },
         profile_image : {
-            type : Sequelize.STRING
+            type : DataTypes.STRING
         },
         wins : {
-            type : Sequelize.INTEGER,
+            type : DataTypes.INTEGER,
             defaultValue: 0
         }, 
         losses : {
-            type : Sequelize.INTEGER,
+            type : DataTypes.INTEGER,
             defaultValue: 0
         }, 
         last_played : {
-            type : Sequelize.INTEGER
+            type : DataTypes.INTEGER
         }
     });
     return User;

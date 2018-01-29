@@ -13,34 +13,34 @@ module.exports = function(sequelize, DataTypes) {
             allowNull: false,
         },
         character_desc : {
-            type: Sequelize.TEXT
+            type: DataTypes.TEXT
         },
         class_name : {
-            type : Sequelize.STRING,
+            type : DataTypes.STRING,
             allowNull: false
         },
         character_image : {
-            type : Sequelize.STRING,
+            type : DataTypes.STRING,
             allowNull: false
         },
         strength_point : {
-            type : Sequelize.INTEGER,
+            type : DataTypes.INTEGER,
             allowNull: false
         }, 
         speed_point : {
-            type : Sequelize.INTEGER,
+            type : DataTypes.INTEGER,
             allowNull: false
         },
         skill_point : {
-            type : Sequelize.INTEGER,
+            type : DataTypes.INTEGER,
             allowNull: false
         },
         ghost_hp : {
-            type : Sequelize.INTEGER,
+            type : DataTypes.INTEGER,
             allowNull: false
         },
         skills : {
-            type: Sequelize.TEXT
+            type: DataTypes.TEXT
         }
     });
     return Character;
