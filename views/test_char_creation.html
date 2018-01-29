@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Miridon Hunters Game</title>
+    <link rel="stylesheet" href="https://bootswatch.com/3/cyborg/bootstrap.min.css"  crossorigin="anonymous">
+    <link href="/css/style.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+
+  </head>
+  <body class="bg">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <form role="form">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <!-- <label for="name">
+                                    Name
+                                </label> -->
+                                <input type="text" placeholder="Name" class="form-control" id="name" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="btn-group">
+                                <button class="btn btn-default">
+                                    Class
+                                </button> 
+                                <button data-toggle="dropdown" class="btn btn-default dropdown-toggle">
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" id="classDropdown">
+                                    <li>
+                                        <a href="#">Class</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <!-- <label for="description">
+                            Description
+                        </label> -->
+                        <textarea class="form-control" rows="3" placeholder="Character Description" id="description"></textarea>
+                    </div>
+                </form>
+                <p>Total Points Left: {{pointsLeft}}</p>
+                <div class="row">
+                    <div class="col-md-6">
+                        
+                <div class="input-group">
+                  <span class="input-group-addon">Strength</span>
+                  <input class="form-control" aria-label="Amount" type="number" value="20">
+                  <span class="input-group-addon">Points Used: {{pointCostStrength}}</span>
+                </div>
+                <div class="input-group">
+                  <span class="input-group-addon">Speed</span>
+                  <input class="form-control" aria-label="Amount" type="number" value="20">
+                  <span class="input-group-addon">Points Used: {{pointCostSpeed}}</span>
+                </div>
+                    </div>
+                    <div class="col-md-6">
+                        
+                <div class="input-group">
+                  <span class="input-group-addon">Ghost HP</span>
+                  <input class="form-control" aria-label="Amount" type="number" value="0">
+                  <span class="input-group-addon">Points Used: {{pointCostGhostHP}}</span>
+                </div>
+                    </div>
+                </div>
+                <br>
+                <br>
+
+                <button type="submit" class="btn btn-default">
+                    Submit Character
+                </button>
+                <!-- <ul class="nav nav-pills">
+                    <li>
+                            <a href="#"> <span class="badge pull-right">20</span> Strength</a>
+                    </li>
+                    <li>
+                            <a href="#"> <span class="badge pull-right">16</span> More</a>
+                    </li>
+                </ul> -->
+                <!-- <div class="btn-group">
+                        
+                    <button class="btn btn-default" type="button">
+                        <em class="glyphicon glyphicon-align-left"></em> Left
+                    </button> 
+                    <button class="btn btn-default" type="button">
+                        <em class="glyphicon glyphicon-align-center"></em> Center
+                    </button> 
+                    <button class="btn btn-default" type="button">
+                        <em class="glyphicon glyphicon-align-right"></em> Right
+                    </button> 
+                    <button class="btn btn-default" type="button">
+                        <em class="glyphicon glyphicon-align-justify"></em> Justify
+                    </button>
+                </div> -->
+            </div>
+            <div class="col-md-4">
+                <div class="thumbnail">
+                    <img alt="Bootstrap Thumbnail First" src="http://lorempixel.com/output/people-q-c-600-600-1.jpg" />
+                    <div class="caption form-group">
+                        <label class="btn btn-primary btn-file">
+                                Add New Image <input type="file" style="display: none;">
+                        </label>
+                        <label for="exampleInputFile">
+                                {{newImageName}}
+                        </label>
+                        <p class="help-block">
+                            Please add an image 600px by 600px.
+                        </p>
+                    </div>
+                </div>                    
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <!-- <script src="/assets/js/game.js"></script> -->
+  </body>
+</html>
