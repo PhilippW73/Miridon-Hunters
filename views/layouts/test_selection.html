@@ -8,6 +8,23 @@
     <link rel="stylesheet" href="https://bootswatch.com/3/cyborg/bootstrap.min.css"  crossorigin="anonymous">
     <link href="/css/style.css" rel="stylesheet">
     <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+    <!-- Custom CSS -->
+    <style>
+      #firechat-wrapper {
+        height: 200px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        margin: 50px auto;
+        text-align: center;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+        -webkit-box-shadow: 0 5px 25px #666;
+        -moz-box-shadow: 0 5px 25px #666;
+        box-shadow: 0 5px 25px #666;
+      }
+    </style>
 
   </head>
   <body class="bg">
@@ -77,11 +94,43 @@
                     </button>
                 </div>
             </div>
-        
+            <div id="firechat-wrapper"></div>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <!-- <script src="/assets/js/game.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyAN2-g_79raqf9zPv7MXOOa2GDofvSt6qk",
+        authDomain: "miridon-hunters.firebaseapp.com",
+        databaseURL: "https://miridon-hunters.firebaseio.com",
+        projectId: "miridon-hunters",
+        storageBucket: "miridon-hunters.appspot.com",
+        messagingSenderId: "948005463087"
+      };
+      firebase.initializeApp(config);
+    </script>
+    <!-- Firechat -->
+    <link rel="stylesheet" href="https://cdn.firebase.com/libs/firechat/3.0.1/firechat.min.css" />
+    <script src="https://cdn.firebase.com/libs/firechat/3.0.1/firechat.min.js"></script>
+
+    <script>
+        function initChat(user) {
+            // Get a Firebase Database ref
+            var chatRef = firebase.database().ref("chat");
+        
+            // Create a Firechat instance
+            var chat = new FirechatUI(chatRef, document.getElementById("firechat-wrapper"));
+        
+            // Set the Firechat user
+            chat.setUser(user.uid, user.displayName);
+        }
+        initChat("Anna");
+    </script>
   </body>
 </html>
