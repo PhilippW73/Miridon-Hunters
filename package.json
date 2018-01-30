@@ -1,7 +1,7 @@
 {
   "name": "miridon-hunters",
   "version": "1.0.0",
-  "description": "",
+  "description": "## About",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -18,7 +18,13 @@
   },
   "homepage": "https://github.com/PhilippW73/Miridon-Hunters#readme",
   "dependencies": {
-    "mysql2": "^1.5.1",
-    "sequelize": "^4.32.2"
-  }
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "express-session": "^1.15.6",
+    "mysql2": "^1.3.6",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "sequelize": "^4.3.1"
+  },
+  "devDependencies": {}
 }
