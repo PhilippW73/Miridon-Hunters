@@ -31,6 +31,7 @@ router.get("/generator/:id", function(req, res) {
         };
         console.log(hbsObject);
         res.render("character-generator", hbsObject);
+        //update text for id="{{name}}_pointsUsed" to give cost to upgrade
     });
 });
 
