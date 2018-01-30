@@ -1,0 +1,18 @@
+
+<div class="btn-group">
+    <button class="btn btn-default" type="button">
+        <i class="fa {{faIcon}}"></i> {{typeName}}
+    </button> 
+    <button data-toggle="dropdown" class="btn btn-default dropdown-toggle">
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+        {{#each ../actions}}
+            {{#with type = typeName}}
+                <li>
+                    <a href="#">Action</a>
+                </li>
+            {{/with}}
+        {{/each}}
+    </ul>
+</div>
