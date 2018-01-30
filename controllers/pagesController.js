@@ -123,31 +123,44 @@ router.get("/battle/:id", function(req, res) {
   });
 });
 
+//API routes to get json data
+router.get("/api/users", function(req, res) {
+    db.User.findAll({
+    }).then(function(dbUser) {
+      res.json(dbUser);
+    });
+});
+
+router.get("/api/characters", function(req, res) {
+    db.Character.findAll({
+    }).then(function(dbCharacter) {
+      res.json(dbCharacter);
+    });
+});
+
+router.get("/api/characters/:id", function(req, res) {
+  db.Character.findOne({
+    where: {
+      id: req.params.id
+    }
+  }).then(function(dbCharacter) {
+    res.json(dbCharacter);
+  });
+});
+
+router.get("/api/users/:id", function(req, res) {
+  db.User.findOne({
+    where: {
+      id: req.params.id
+    }
+  }).then(function(dbUser) {
+    res.json(dbUser);
+  });
+});
+
 //--------------------------------
 // UNFINISHED ROUTES
 //--------------------------------
-
-
-
-
-router.get("/profile/:id", function(req, res) {
-    db.User.all(function(data) {
-      var hbsObject = {
-        User: data
-      };
-      console.log(hbsObject);
-      res.render("profile", hbsObject);
-    });
-});
-router.get("/battle", function(req, res) {
-    db.User.all(function(data) {
-      var hbsObject = {
-        User: data
-      };
-      console.log(hbsObject);
-      res.render("battle", hbsObject);
-    });
-});
 
 router.put("/api/cats/:id", function(req, res) {
   var condition = "id = " + req.params.id;
@@ -166,15 +179,29 @@ router.put("/api/cats/:id", function(req, res) {
   });
 });
 
-router.get("/api/users", function(req, res) {
-    // Here we add an "include" property to our options in our findAll query
-    // We set the value to an array of the models we want to include in a left outer join
-    // In this case, just db.Post
-    db.User.findAll({
-    }).then(function(dbUser) {
-    res.json(dbUser);
+
+router.get("/profile/:id", function(req, res) {
+  db.User.all(function(data) {
+    var hbsObject = {
+      User: data
+    };
+    console.log(hbsObject);
+    res.render("profile", hbsObject);
+  });
+});
+
+
+router.get("/battle", function(req, res) {
+    db.User.all(function(data) {
+      var hbsObject = {
+        User: data
+      };
+      console.log(hbsObject);
+      res.render("battle", hbsObject);
     });
 });
+
+
 
 router.get("/api/characters", function(req, res) {
     var query = {};
