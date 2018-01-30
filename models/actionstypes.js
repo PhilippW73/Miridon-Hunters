@@ -1,6 +1,6 @@
 module.exports = function(sequelize, DataTypes) {
     
-    var User = sequelize.define("Actions", {
+    var User = sequelize.define("ActionsTypes", {
         id : {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -20,6 +20,6 @@ module.exports = function(sequelize, DataTypes) {
             defaultValue: 1
         }
     });
-    return Action;
+    return ActionTypes;
 };
 

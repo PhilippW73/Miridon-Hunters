@@ -45,6 +45,14 @@ module.exports = function(sequelize, DataTypes) {
         },
         skills : {
             type: DataTypes.TEXT
+        },
+        wins : {
+            type : DataTypes.INTEGER,
+            allowNull: false
+        },
+        losses : {
+            type : DataTypes.INTEGER,
+            allowNull: false
         }
     });
     return Character;
