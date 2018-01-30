@@ -4,7 +4,9 @@ var router = express.Router();
 
 // Import the models to use their database functions.
 var db = require("../models/");
-
+//--------------------------------
+// FINISHED ROUTES
+//--------------------------------
 // Create all our routes and set up logic within those routes where required.
 router.get("/", function(req, res) {
     // db.User.all(function(data) {
@@ -18,50 +20,147 @@ router.get("/", function(req, res) {
 
 //generates page based on which class is selected
 router.get("/generator/:id", function(req, res) {
-    db.Class.all(function(data) {
-        var hbsObject = {
-            Class: data,
-            Stats: [{name: "Strength",
-                reference: "strength_point"},
-                {name: "Speed",
-                reference: "speed_point"},
-                {name: "Ghost HP",
-                reference: "ghost_hp"}
-            ]
-        };
-        console.log(hbsObject);
-        res.render("character-generator", hbsObject);
-    });
+  db.Class.findAll({
+  }).then(function(data) {
+    var hbsObject = {
+        Class: data,
+        Stats: [{name: "Strength",
+            reference: "strength_point"},
+            {name: "Speed",
+            reference: "speed_point"},
+            {name: "Ghost HP",
+            reference: "ghost_hp"}
+        ]};
+    console.log(hbsObject);
+    res.render("character-generator", hbsObject);
+  });
 });
 
 router.get("/selection/:id", function(req, res) {
-    // With no choices input from other characters
-    // db.Character.findOne({
-    //     where: {
-    //     id: req.params.id
-    // }}).then(function(hbsObject) {
-    //     res.render("character-selection", hbsObject);
-    // });
+  // With no choices input from other characters
+  // db.Character.findOne({
+  //     where: {
+  //     id: req.params.id
+  // }}).then(function(hbsObject) {
+  //     res.render("character-selection", hbsObject);
+  // });
+
+
+  //we want to get all the names and id's from character, but only the full character of the one shown.
+  var hbsObject;
+  db.Character.findAll({
+    attributes: ['character_id','character_name']
+  }).then(function(data) {
+    hbsObject = {
+      AllCharacters: data
+    };
+    console.log(hbsObject);
+      db.Character.findOne({
+        where: {
+            id: req.params.id
+        }
+      }).then(function(data2) {
+        hbsObject.character = data2;
+        res.render("character-selection", hbsObject);
+      });
+    
+  });
 });
 
-router.get("/profile/:id", function(req, res) {
-    db.User.all(function(data) {
-      var hbsObject = {
-        User: data
+router.get("/battle/:id", function(req, res) {
+  // Battle page needs:
+  //   -All actions that are listed as 'basic' ...later we can add more types
+  //   -actiontypes
+  //   -player's character with findOne
+  //   -enemy's character with findOne (generated based on player's win/loss ratio)
+
+  //Action Types
+  db.ActionTypes.findAll({
+  }).then(function(typeData) {
+    var hbsObject = {
+      ActionTypes: typeData
       };
+    console.log(hbsObject);
+
+    //Actions
+    db.Action.findAll({
+      where: {
+        //List only basics for now
+        category: 'basics'
+      }
+    }).then(function(ActionsData) {
+      hbsObject.Actions = ActionsData;
       console.log(hbsObject);
-      res.render("profile", hbsObject);
+
+      //player
+      db.Action.findOne({
+        where: {
+          id: req.params.id
+        }
+      }).then(function(PlayerData) {
+        hbsObject.Player = PlayerData;
+        console.log(hbsObject);
+        //Finds win/plays ratio of player, adds random number between -.1 and .1 to it
+        var randEnemy = (Math.random()*.2 - .1) + (parseFloat(PlayerData.wins) / (parseFloat(PlayerData.wins) + parseFloat(PlayerData.losses)));
+        //enemy
+        db.Action.findOne({
+          where: {
+            //not the player
+            id: {
+              [Op.ne]: req.params.id
+            }
+          },
+          order: [
+            //orders by how close enemy's win/play ratio is to players
+          [ABS( (parseFloat(wins) / (parseFloat(wins) + parseFloat(losses))) - randEnemy ), 'ASC']]
+        }).then(function(EnemyData) {
+          hbsObject.Enemy = EnemyData;
+          console.log(hbsObject);
+          res.render("battle", hbsObject);
+        });
+      });
+    });
+  });
+});
+
+//API routes to get json data
+router.get("/api/users", function(req, res) {
+    db.User.findAll({
+    }).then(function(dbUser) {
+      res.json(dbUser);
     });
 });
-router.get("/battle", function(req, res) {
-    db.User.all(function(data) {
-      var hbsObject = {
-        User: data
-      };
-      console.log(hbsObject);
-      res.render("battle", hbsObject);
+
+router.get("/api/characters", function(req, res) {
+    db.Character.findAll({
+    }).then(function(dbCharacter) {
+      res.json(dbCharacter);
     });
 });
+
+router.get("/api/characters/:id", function(req, res) {
+  db.Character.findOne({
+    where: {
+      id: req.params.id
+    }
+  }).then(function(dbCharacter) {
+    res.json(dbCharacter);
+  });
+});
+
+router.get("/api/users/:id", function(req, res) {
+  db.User.findOne({
+    where: {
+      id: req.params.id
+    }
+  }).then(function(dbUser) {
+    res.json(dbUser);
+  });
+});
+
+//--------------------------------
+// UNFINISHED ROUTES
+//--------------------------------
 
 router.put("/api/cats/:id", function(req, res) {
   var condition = "id = " + req.params.id;
@@ -80,15 +179,29 @@ router.put("/api/cats/:id", function(req, res) {
   });
 });
 
-router.get("/api/users", function(req, res) {
-    // Here we add an "include" property to our options in our findAll query
-    // We set the value to an array of the models we want to include in a left outer join
-    // In this case, just db.Post
-    db.User.findAll({
-    }).then(function(dbUser) {
-    res.json(dbUser);
+
+router.get("/profile/:id", function(req, res) {
+  db.User.all(function(data) {
+    var hbsObject = {
+      User: data
+    };
+    console.log(hbsObject);
+    res.render("profile", hbsObject);
+  });
+});
+
+
+router.get("/battle", function(req, res) {
+    db.User.all(function(data) {
+      var hbsObject = {
+        User: data
+      };
+      console.log(hbsObject);
+      res.render("battle", hbsObject);
     });
 });
+
+
 
 router.get("/api/characters", function(req, res) {
     var query = {};
