@@ -12,6 +12,10 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false,
         },
+        character_author : {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
         character_desc : {
             type: DataTypes.TEXT
         },
