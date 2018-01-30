@@ -20,32 +20,51 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="thumbnail">
-                        <dl>
-                            <dt>
-                                {{characterName}}
-                            </dt>
-                            <dd>
-                                {{characterBio}}
-                            </dd>
-                            <br>
-                            <dd>
-                                <strong>Class: </strong>{{characterClass}}
-                            </dd>
-                            <dd>
-                                <strong>Strength: </strong>{{characterStrength}}
-                            </dd>
-                            <dd>
-                                <strong>Speed: </strong>{{characterSpeed}}
-                            </dd>
-                            <dd>
-                                <strong>Author: </strong>{{characterAuthor}}
-                            </dd>
-                        </dl> 
+                    <dl>
+                        <dt>
+                            {{character_name}}
+                        </dt>
+                        <dd>
+                            {{character_desc}}
+                        </dd>
+                        <br>
+                    </dl>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <dl>
+                                <dd>
+                                    <strong>Class: </strong>{{class_name}}
+                                </dd>
+                                <dd>
+                                    <strong>Strength: </strong>{{strength_point}}
+                                </dd>
+                                <dd>
+                                    <strong>Speed: </strong>{{speed_point}}
+                                </dd>
+                                <dd>
+                                    <strong>Ghost HP: </strong>{{ghost_hp}}
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-md-6">
+                            <dl>
+                                <dd>
+                                    <strong>Skills: </strong>{{skills}}
+                                </dd>
+                                <dd>
+                                    <strong>Skill points: </strong>{{skill_point}}
+                                </dd>
+                                <dd>
+                                    <strong>Author: </strong>{{character_author}}
+                                </dd>
+                            </dl> 
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="thumbnail">
-                    <img alt="Bootstrap Thumbnail Third" src="{{characterImage}}" />
+                    <img alt="Bootstrap Thumbnail Third" src="{{character_image}}" />
                 </div>
             </div>
         </div>
