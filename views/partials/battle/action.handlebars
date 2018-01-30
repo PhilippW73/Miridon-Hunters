@@ -8,11 +8,11 @@
     </button>
     <ul class="dropdown-menu">
         {{#each ../actions}}
-            {{#with type = typeName}}
+            {{#ifvalue actionTypes equals=type}}
                 <li>
-                    <a href="#">Action</a>
+                    <a href="#">{{name}}</a>
                 </li>
-            {{/with}}
+            {{/ifvalue}}
         {{/each}}
     </ul>
 </div>
