@@ -4,7 +4,9 @@ var router = express.Router();
 
 // Import the models to use their database functions.
 var db = require("../models/");
-
+//--------------------------------
+// FINISHED ROUTES
+//--------------------------------
 // Create all our routes and set up logic within those routes where required.
 router.get("/", function(req, res) {
     // db.User.all(function(data) {
@@ -18,31 +20,115 @@ router.get("/", function(req, res) {
 
 //generates page based on which class is selected
 router.get("/generator/:id", function(req, res) {
-    db.Class.all(function(data) {
-        var hbsObject = {
-            Class: data,
-            Stats: [{name: "Strength",
-                reference: "strength_point"},
-                {name: "Speed",
-                reference: "speed_point"},
-                {name: "Ghost HP",
-                reference: "ghost_hp"}
-            ]
-        };
-        console.log(hbsObject);
-        res.render("character-generator", hbsObject);
-    });
+  db.Class.findAll({
+  }).then(function(data) {
+    var hbsObject = {
+        Class: data,
+        Stats: [{name: "Strength",
+            reference: "strength_point"},
+            {name: "Speed",
+            reference: "speed_point"},
+            {name: "Ghost HP",
+            reference: "ghost_hp"}
+        ]};
+    console.log(hbsObject);
+    res.render("character-generator", hbsObject);
+  });
 });
 
 router.get("/selection/:id", function(req, res) {
-    // With no choices input from other characters
-    // db.Character.findOne({
-    //     where: {
-    //     id: req.params.id
-    // }}).then(function(hbsObject) {
-    //     res.render("character-selection", hbsObject);
-    // });
+  // With no choices input from other characters
+  // db.Character.findOne({
+  //     where: {
+  //     id: req.params.id
+  // }}).then(function(hbsObject) {
+  //     res.render("character-selection", hbsObject);
+  // });
+
+
+  //we want to get all the names and id's from character, but only the full character of the one shown.
+  var hbsObject;
+  db.Character.findAll({
+    attributes: ['character_id','character_name']
+  }).then(function(data) {
+    hbsObject = {
+      AllCharacters: data
+    };
+    console.log(hbsObject);
+      db.Character.findOne({
+        where: {
+            id: req.params.id
+        }
+      }).then(function(data2) {
+        hbsObject.character = data2;
+        res.render("character-selection", hbsObject);
+      });
+    
+  });
 });
+
+router.get("/battle/:id", function(req, res) {
+  // Battle page needs:
+  //   -All actions that are listed as 'basic' ...later we can add more types
+  //   -actiontypes
+  //   -player's character with findOne
+  //   -enemy's character with findOne (generated based on player's win/loss ratio)
+
+  //Action Types
+  db.ActionTypes.findAll({
+  }).then(function(typeData) {
+    var hbsObject = {
+      ActionTypes: typeData
+      };
+    console.log(hbsObject);
+
+    //Actions
+    db.Action.findAll({
+      where: {
+        //List only basics for now
+        category: 'basics'
+      }
+    }).then(function(ActionsData) {
+      hbsObject.Actions = ActionsData;
+      console.log(hbsObject);
+
+      //player
+      db.Action.findOne({
+        where: {
+          id: req.params.id
+        }
+      }).then(function(PlayerData) {
+        hbsObject.Player = PlayerData;
+        console.log(hbsObject);
+        //Finds win/plays ratio of player, adds random number between -.1 and .1 to it
+        var randEnemy = (Math.random()*.2 - .1) + (parseFloat(PlayerData.wins) / (parseFloat(PlayerData.wins) + parseFloat(PlayerData.losses)));
+        //enemy
+        db.Action.findOne({
+          where: {
+            //not the player
+            id: {
+              [Op.ne]: req.params.id
+            }
+          },
+          order: [
+            //orders by how close enemy's win/play ratio is to players
+          [ABS( (parseFloat(wins) / (parseFloat(wins) + parseFloat(losses))) - randEnemy ), 'ASC']]
+        }).then(function(EnemyData) {
+          hbsObject.Enemy = EnemyData;
+          console.log(hbsObject);
+          res.render("battle", hbsObject);
+        });
+      });
+    });
+  });
+});
+
+//--------------------------------
+// UNFINISHED ROUTES
+//--------------------------------
+
+
+
 
 router.get("/profile/:id", function(req, res) {
     db.User.all(function(data) {
