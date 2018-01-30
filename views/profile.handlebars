@@ -1,0 +1,37 @@
+<div class="row">
+    <div class="col-md-12">
+        div class="row">
+            <div class="col-md-8">
+                <div class="thumbnail">
+                        <dl>
+                            <dt>
+                                {{userName}}
+                            </dt>
+                            <dd>
+                                {{userBio}}
+                            </dd>
+                            <br>
+                            <dd>
+                                <strong>Wins: </strong>{{userWins}}
+                            </dd>
+                            <dd>
+                                <strong>Losses: </strong>{{userLosses}}
+                            </dd>
+                            <dd>
+                                <strong>Last Played Character: </strong>{{lastCharacter}}
+                            </dd>
+                            
+                        </dl> 
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="thumbnail">
+                    <img alt="Bootstrap Thumbnail Third" src="{{profileImage}}" />
+                </div>
+            </div>
+        </div>
+        <button type="button" class="btn btn-default">
+            Select & Battle!
+        </button>
+    </div>
+</div>
