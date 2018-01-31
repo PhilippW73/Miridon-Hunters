@@ -158,15 +158,12 @@ router.get("/api/users/:id", function(req, res) {
   });
 });
 
-//--------------------------------
-// UNFINISHED ROUTES
-//--------------------------------
-
 router.put("/api/users/:id", function(req, res) {
-  var condition = "id = " + req.params.id;
+  var condition = "user_id = " + req.params.id;
   console.log("condition", condition);
   User.update({
-    user_name: req.body.name,
+    //user_name: req.body.name,
+    user_email: req.body.email,
     password: req.body.password,
     user_bio: req.body.bio,
     profile_image: req.body.image
@@ -179,6 +176,66 @@ router.put("/api/users/:id", function(req, res) {
     }
   });
 });
+
+//update wins for user and character
+router.put("/won/:user/:character", function(req, res) {
+  var conditionUser = "user_id = " + req.params.user;
+  console.log("User condition ", conditionUser);
+  var conditionCharacter = "character_id = " + req.params.character;
+  console.log("Character condition ", conditionCharacter);
+  User.update({
+    wins: sequelize.literal(wins + 1)
+  }, conditionUser, function(result) {
+    if (result.changedRows == 0) {
+      // If no rows were changed, then the ID must not exist, so 404
+      return res.status(404).end();
+    } else {
+      res.status(200).end();
+    }
+  });
+  Character.update({
+    wins: sequelize.literal(wins + 1)
+  }, conditionCharacter, function(result) {
+    if (result.changedRows == 0) {
+      // If no rows were changed, then the ID must not exist, so 404
+      return res.status(404).end();
+    } else {
+      res.status(200).end();
+    }
+  });
+});
+
+//update losses for user and character
+router.put("/lost/:user/:character", function(req, res) {
+  var conditionUser = "user_id = " + req.params.user;
+  console.log("User condition ", conditionUser);
+  var conditionCharacter = "character_id = " + req.params.character;
+  console.log("Character condition ", conditionCharacter);
+  User.update({
+    losses: sequelize.literal(losses + 1)
+  }, conditionUser, function(result) {
+    if (result.changedRows == 0) {
+      // If no rows were changed, then the ID must not exist, so 404
+      return res.status(404).end();
+    } else {
+      res.status(200).end();
+    }
+  });
+  Character.update({
+    losses: sequelize.literal(losses + 1)
+  }, conditionCharacter, function(result) {
+    if (result.changedRows == 0) {
+      // If no rows were changed, then the ID must not exist, so 404
+      return res.status(404).end();
+    } else {
+      res.status(200).end();
+    }
+  });
+});
+//--------------------------------
+// UNFINISHED ROUTES
+//--------------------------------
+
 
 
 router.get("/profile/:id", function(req, res) {
