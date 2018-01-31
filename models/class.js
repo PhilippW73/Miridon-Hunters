@@ -12,6 +12,9 @@ module.exports =  function(squelize, DataTypes){
             type: DataTypes.STRING,
             allowNull: false
         },
+        class_quote: {
+            type: DataTypes.TEXT
+        },
         class_desc: {
             type: DataTypes.TEXT
         },
