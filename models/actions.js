@@ -1,38 +1,40 @@
 module.exports = function(sequelize, DataTypes) {
     
-    var User = sequelize.define("User", {
-        user_id : {
+    var User = sequelize.define("Action", {
+        id : {
             type: DataTypes.INTEGER,
             primaryKey: true,
             allowNull: false,
             autoIncrement: true
         },
-        user_name : {
+        name : {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        password : {
+        actionType : {
             type: DataTypes.STRING,
             allowNull: false
         },
-        user_bio : {
+        category : {
+            type: DataTypes.STRING,
+            defaultValue: "basics"
+        },
+        function : {
             type : DataTypes.TEXT
         },
-        profile_image : {
-            type : DataTypes.STRING
+        strength_cost : {
+            type : DataTypes.INTEGER,
+            defaultValue: 0
         },
-        wins : {
+        speed_cost : {
             type : DataTypes.INTEGER,
             defaultValue: 0
-        }, 
-        losses : {
+        },
+        subtlety_mod : {
             type : DataTypes.INTEGER,
-            defaultValue: 0
-        }, 
-        last_played : {
-            type : DataTypes.INTEGER
-        }
+            allowNull: true
+        }        
     });
-    return User;
+    return Action;
 };
 

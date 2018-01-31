@@ -1,30 +1,22 @@
-module.exports = function(sequelize, DataTypes) {
+module.exports =  function(squelize, DataTypes){
 
-    var Character = sequelize.define("Character", {
-        
-        character_id : {
+    var Class = squelize.define("Class", {
+
+        class_id : {
             type: DataTypes.INTEGER,
             primaryKey: true,
             allowNull: false,
             autoIncrement: true
         },
-        character_name : {
+        class_name: {
             type: DataTypes.STRING,
-            allowNull: false,
-        },
-        character_author : {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        character_desc : {
-            type: DataTypes.TEXT
-        },
-        class_name : {
-            type : DataTypes.STRING,
             allowNull: false
         },
-        character_image : {
-            type : DataTypes.STRING,
+        class_desc: {
+            type: DataTypes.TEXT
+        },
+        class_image: {
+            type: DataTypes.STRING,
             allowNull: false
         },
         strength_point : {
@@ -45,15 +37,7 @@ module.exports = function(sequelize, DataTypes) {
         },
         skills : {
             type: DataTypes.TEXT
-        },
-        wins : {
-            type : DataTypes.INTEGER,
-            allowNull: false
-        },
-        losses : {
-            type : DataTypes.INTEGER,
-            allowNull: false
         }
     });
-    return Character;
+    return Class;
 };
