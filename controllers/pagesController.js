@@ -18,6 +18,16 @@ router.get("/", function(req, res) {
     res.render("login");
 });
 
+router.get("/profile/:id", function(req, res) {
+  db.User.findOne({
+    where: {
+      id: req.params.id
+    }
+  }).then(function(hbsObject) {
+    res.render("profile", hbsObject);
+  });
+});
+
 //generates page based on which class is selected
 router.get("/generator/:id", function(req, res) {
   db.Class.findAll({
@@ -123,6 +133,25 @@ router.get("/battle/:id", function(req, res) {
   });
 });
 
+//New user route
+router.post("/api/User", function(req, res) {
+  db.User.create([
+    'email', 'password'
+  ],[
+    req.body.email, req.body.password
+  ]).then(function(dbUser) {
+  res.json({ id: dbUser.insertId });
+  });
+});
+
+//New character
+router.post("/api/Character", function(req, res) {
+  db.Character.create(req.body).then(function(dbUser) {
+  res.json({ id: dbUser.insertId });
+  });
+});
+
+
 //API routes to get json data
 router.get("/api/users", function(req, res) {
     db.User.findAll({
@@ -158,84 +187,91 @@ router.get("/api/users/:id", function(req, res) {
   });
 });
 
+//Update profile
 router.put("/api/users/:id", function(req, res) {
-  var condition = "user_id = " + req.params.id;
-  console.log("condition", condition);
-  User.update({
+  db.User.update({
     user_name: req.body.name,
     //user_email: req.body.email,
     password: req.body.password,
     user_bio: req.body.bio,
     profile_image: req.body.image
-  }, condition, function(result) {
-    if (result.changedRows == 0) {
-      // If no rows were changed, then the ID must not exist, so 404
-      return res.status(404).end();
-    } else {
-      res.status(200).end();
+  }, {
+    where: {
+      id: req.body.id
     }
+  }).then(function(dbUser) {
+    res.json(dbUser);
   });
 });
 
 //update wins for user and character
 router.put("/won/:user/:character", function(req, res) {
-  var conditionUser = "user_id = " + req.params.user;
-  console.log("User condition ", conditionUser);
-  var conditionCharacter = "character_id = " + req.params.character;
-  console.log("Character condition ", conditionCharacter);
-  User.update({
+  db.User.update({
     wins: sequelize.literal(wins + 1)
-  }, conditionUser, function(result) {
-    if (result.changedRows == 0) {
-      // If no rows were changed, then the ID must not exist, so 404
-      return res.status(404).end();
-    } else {
-      res.status(200).end();
+  }, {
+    where: {
+      id: req.body.user
     }
+  }).then(function(dbUser) {
+    res.json(dbUser);
   });
-  Character.update({
+  db.Character.update({
     wins: sequelize.literal(wins + 1)
-  }, conditionCharacter, function(result) {
-    if (result.changedRows == 0) {
-      // If no rows were changed, then the ID must not exist, so 404
-      return res.status(404).end();
-    } else {
-      res.status(200).end();
+  }, {
+    where: {
+      id: req.body.character
     }
+  }).then(function(dbCharacter) {
+    res.json(dbCharacter);
   });
 });
 
 //update losses for user and character
 router.put("/lost/:user/:character", function(req, res) {
-  var conditionUser = "user_id = " + req.params.user;
-  console.log("User condition ", conditionUser);
-  var conditionCharacter = "character_id = " + req.params.character;
-  console.log("Character condition ", conditionCharacter);
   User.update({
     losses: sequelize.literal(losses + 1)
-  }, conditionUser, function(result) {
-    if (result.changedRows == 0) {
-      // If no rows were changed, then the ID must not exist, so 404
-      return res.status(404).end();
-    } else {
-      res.status(200).end();
+  }, {
+    where: {
+      id: req.body.id
     }
+  }).then(function(dbUser) {
+    res.json(dbUser);
   });
   Character.update({
     losses: sequelize.literal(losses + 1)
-  }, conditionCharacter, function(result) {
-    if (result.changedRows == 0) {
-      // If no rows were changed, then the ID must not exist, so 404
-      return res.status(404).end();
-    } else {
-      res.status(200).end();
+  }, {
+    where: {
+      id: req.body.character
     }
+  }).then(function(dbCharacter) {
+    res.json(dbCharacter);
+  });
+});
+
+//Delete user
+router.delete("/api/users/:id", function(req, res) {
+  db.User.destroy({
+    where: {
+        id: req.params.id
+    }
+  }).then(function(dbUser) {
+  res.json(dbUser);
+  });
+});
+
+//Delete character
+router.delete("/api/characters/:id", function(req, res) {
+  db.Character.destroy({
+    where: {
+        id: req.params.id
+    }
+  }).then(function(dbCharacter) {
+  res.json(dbCharacter);
   });
 });
 //--------------------------------
 // UNFINISHED ROUTES
 //--------------------------------
-
 
 
 router.get("/profile/:id", function(req, res) {
@@ -295,28 +331,7 @@ router.post("/api/characters", function(req, res) {
     });
 });
 
-router.delete("/api/characters/:id", function(req, res) {
-    db.Character.destroy({
-    where: {
-        id: req.params.id
-    }
-    }).then(function(dbCharacter) {
-    res.json(dbCharacter);
-    });
-});
 
-router.delete("/api/cats/:id", function(req, res) {
-    var condition = "id = " + req.params.id;
-  
-    cat.delete(condition, function(result) {
-      if (result.affectedRows == 0) {
-        // If no rows were changed, then the ID must not exist, so 404
-        return res.status(404).end();
-      } else {
-        res.status(200).end();
-      }
-    });
-  });
   
 // Export routes for server.js to use.
 module.exports = router;
