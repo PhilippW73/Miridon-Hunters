@@ -162,8 +162,8 @@ router.put("/api/users/:id", function(req, res) {
   var condition = "user_id = " + req.params.id;
   console.log("condition", condition);
   User.update({
-    //user_name: req.body.name,
-    user_email: req.body.email,
+    user_name: req.body.name,
+    //user_email: req.body.email,
     password: req.body.password,
     user_bio: req.body.bio,
     profile_image: req.body.image
