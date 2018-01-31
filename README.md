@@ -26,9 +26,9 @@
 #### Post (New rows)
 [ ] New user (just login info)
 [ ] New character
-#### Put (Update data)
-[ ] Update user from Profile
-[ ] Update wins and losses for both user and character - depends if won or lost
+#### Put (Update data) - my work
+[x] Update user from Profile
+[x] Update wins and losses for both user and character - depends if won or lost
 [ ] Level up (to add later)
 #### Delete
 [ ] Delete user
