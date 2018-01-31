@@ -18,6 +18,16 @@ router.get("/", function(req, res) {
     res.render("login");
 });
 
+router.get("/profile/:id", function(req, res) {
+  db.User.findOne({
+    where: {
+      id: req.params.id
+    }
+  }).then(function(hbsObject) {
+    res.render("profile", hbsObject);
+  });
+});
+
 //generates page based on which class is selected
 router.get("/generator/:id", function(req, res) {
   db.Class.findAll({
