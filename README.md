@@ -31,8 +31,8 @@
 [x] Update wins and losses for both user and character - depends if won or lost
 [ ] Level up (to add later)
 #### Delete
-[ ] Delete user
-[ ] Delete character (checks if original user first... to do later)
+[x] ] Delete user
+[x] Delete character (checks if original user first... to do later)
 
 ## Future Plans
 
