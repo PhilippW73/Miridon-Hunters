@@ -1,69 +1,45 @@
 
 var db = require("../models");
+var passport = require("../config/passport");
 
 module.exports = function(app) {
 
-  app.get("/api/posts/", function(req, res) {
-    db.Post.findAll({})
-    .then(function(dbPost) {
-      res.json(dbPost);
-    });
+  app.post("/api/login", passport.authenticate("local"), function(req, res) {
+    res.json("/members");
   });
 
-  app.get("/api/posts/character/:class", function(req, res) {
-    db.Post.findAll({
-        where : {
-          class_name : req.params.class
-        }
-    })
-    .then(function(dbPost) {
-      res.json(dbPost);
-    });
-  });
-
-  app.post("/api/user/posts", function(req, res) {
-    db.Post.create(
+  app.post("/api/signup", function(req, res) {
+    db.User.create(
     {
-        user_name : req.body.user_name,
+        email : req.body.email,
         password : req.body.password,
+        username : req.body.username,
         user_bio : req.body.user_bio,
         profile_image : req.body.profile_image
     })
-    .then(function(dbPost) {
-      res.json(dbPost);
+    .then(function() {
+      res.redirect(307,"/api/login");
+    }).catch(function(err) {
+      console.log(err);
+      res.json(err);
+      // res.status(422).json(err.errors[0].message);
     });
+
   });
 
-  app.post("/api/character/posts", function(req, res) {
-    db.Post.create(
-    {
-        character_name : req.body.character_name,
-        character_descy : req.body.character_desc,
-        class_name : req.body.class_name,
-        character_image : req.body.character_image,
-        strength_point : req.body.strength_point,
-        speed_point : req.body.speed_point,
-        skill_point : req.body.skill_point,
-        ghost_hp : req.body.ghost_hp,
-        skills : req.body.skills
-    })
-    .then(function(dbPost) {
-      res.json(dbPost);
-    });
+  app.get("/api/user_data", function(req, res) {
+    if (!req.user) {
+      // The user is not logged in, send back an empty object
+      res.json({});
+    }
+    else {
+      // Otherwise send back the user's email and id
+      // Sending back a password, even a hashed password, isn't a good idea
+      res.json({
+        email: req.user.email,
+        username: req.user.username
+      });
+    }
   });
 
-  // app.put("/api/user/:username", function(req, res) {
-  //   db.Post.update({
-  //   {
-  //       password : req.body.password,
-  //       user_bio : req.body.user_bio,
-  //       profile_image : req.body.profile_image
-  //   },    
-  //   where : {
-  //       user_name : req.params.user_name
-  //   })
-  //   .then(function(dbPost) {
-  //     res.json(dbPost);
-  //   });
-  // });
 };

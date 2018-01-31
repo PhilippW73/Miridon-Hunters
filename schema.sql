@@ -4,13 +4,13 @@ USE Miridon_db;
 
 CREATE TABLE user(
     user_id INT NOT NULL AUTO INCREMENT,
-    username VARCHAR(30) NOT NULL,
+    email VARCHAR(30) NOT NULL,
     password PASSWORD NOT NULL,
+    user_name VARCHAR(30),
     user_bio VARCHAR(300),
     profile_image VARCHAR(100),
     wins INT DEFAULT 0,
     losses INT DEFAULT 0,
-    created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     last_played INT,
     PRIMARY KEY (user_id)
 )
