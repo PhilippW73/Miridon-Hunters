@@ -5,6 +5,12 @@ var bodyParser = require("body-parser");
 var session = require("express-session");
 // Requiring passport as we've configured it
 var passport = require("./config/passport");
+// 
+
+// For Chat
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
+// 
 
 var app = express();
 var PORT = process.env.PORT || 8080;
