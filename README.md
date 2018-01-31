@@ -40,5 +40,5 @@
 ## Contributers
 * Anna Bruestle
 * Joon Ho
-* Priya Pollo
+* Priya Polla
 * Philipp Wickart
