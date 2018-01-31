@@ -1,38 +1,83 @@
 $(document).ready(function() {
-  // Getting references to our form and inputs
-  var loginForm = $("form.login");
-  var emailInput = $("input#email-input");
-  var passwordInput = $("input#password-input");
 
-  // When the form is submitted, we validate there's an email and password entered
-  loginForm.on("submit", function(event) {
+  $(document).on("click", ".submitLogin", function(event) {
+ 
+    var emailInput = $(".clsemailInputLogin").val().trim();
+
+    var passwordInput = $(".clspasswordInputLogin").val().trim();
+
     event.preventDefault();
     var userData = {
-      email: emailInput.val().trim(),
-      password: passwordInput.val().trim()
+      email: emailInput,
+      password: passwordInput
     };
 
     if (!userData.email || !userData.password) {
       return;
     }
-
-    // If we have an email and password we run the loginUser function and clear the form
+    
     loginUser(userData.email, userData.password);
-    emailInput.val("");
-    passwordInput.val("");
+    $(".clsemailInputLogin").val("");
+    $(".clspasswordInputLogin").val("");
+
   });
 
-  // loginUser does a post to our "api/login" route and if successful, redirects us the the members page
   function loginUser(email, password) {
     $.post("/api/login", {
       email: email,
       password: password
     }).then(function(data) {
       window.location.replace(data);
-      // If there's an error, log the error
     }).catch(function(err) {
       console.log(err);
     });
+  }
+
+
+  $(document).on("click", ".submitSignUp", function(event) {
+
+    var emailInput = $(".clsemailInput").val().trim();
+    var passwordInput = $(".clspasswordInput").val().trim();
+    var usernameInput = $(".clsusernameInput").val().trim();
+    var profileimageInput = $(".clsprofileimageInput").val().trim();
+    var bioInput = $(".clsbioInput").val().trim();
+
+    event.preventDefault();
+
+    var userData = {
+      email: emailInput,
+      password: passwordInput,
+      username: usernameInput,
+      profile_image: profileimageInput,
+      user_bio: bioInput
+    };
+
+    if (!userData.email || !userData.password) {
+      return;
+    }
+    signUpUser(userData.email, userData.password, userData.username, userData.profile_image, userData.user_bio);
+    $(".clsemailInput").val("");
+    $(".clspasswordInput").val("");
+    $(".clsusernameInput").val("");
+    $(".clsprofileimageInput").val("");
+    $(".clsbioInput").val("");
+  });
+
+  function signUpUser(email, password, username, profile_image, user_bio) {
+    $.post("/api/signup", {
+      email: email,
+      password: password,
+      username: username,
+      profile_image: profile_image,
+      user_bio: user_bio
+    }).then(function(data) {
+      window.location.replace(data);
+    }).catch(handleLoginErr);
+  }
+
+  function handleLoginErr(err) {
+    $("#alert .msg").text(err.responseJSON);
+    $("#alert").fadeIn(500);
   }
 
 });

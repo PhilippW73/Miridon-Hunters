@@ -1,6 +1,6 @@
 module.exports = function(sequelize, DataTypes) {
     
-    var User = sequelize.define("Actions", {
+    var Action = sequelize.define("Action", {
         id : {
             type: DataTypes.INTEGER,
             primaryKey: true,

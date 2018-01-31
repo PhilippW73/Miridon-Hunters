@@ -199,6 +199,7 @@ router.put("/api/users/:id", function(req, res) {
   });
 });
 
+
 //update wins for user and character
 router.put("/won/:user/:character", function(req, res) {
   db.User.update({
@@ -228,10 +229,13 @@ router.put("/lost/:user/:character", function(req, res) {
   }, {
     where: {
       id: req.body.id
+
+
     }
   }).then(function(dbUser) {
     res.json(dbUser);
   });
+
   Character.update({
     losses: sequelize.literal(losses + 1)
   }, {
@@ -242,7 +246,6 @@ router.put("/lost/:user/:character", function(req, res) {
     res.json(dbCharacter);
   });
 });
-
 //Delete user
 router.delete("/api/users/:id", function(req, res) {
   db.User.destroy({
