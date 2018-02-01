@@ -1,11 +1,13 @@
 $(document).ready(function() {
   //initialize
   var player = {
+    name: "player",
     movement,
     offense,
     defense
   }
   var enemy = {
+    name: "enemy",
     movement,
     offense,
     defense
@@ -69,7 +71,7 @@ $(document).ready(function() {
         //no offensive action taken
 
         //CHECK FOR SYNTAX - trying to get who's name and see if it matches first.
-        if(who == first) {
+        if(who.name === first) {
           if (first === "enemy"){
             enemyChoice();
           } else {
@@ -146,6 +148,21 @@ $(document).ready(function() {
     }
     //enable dropdowns
     $(".dropdown-toggle").removeClass("disabled");
+  }
+  function checkDead (who, func) {
+    if(who.curStats.hit_points < 1) {
+      $(".dropdown-toggle").addClass("disabled");
+      $("#startTurn").addClass("disabled");
+      if (who.name === "player") {
+        //lose
+        $("#comments p").append(" You lost the battle.");
+      } else {
+        //win
+        $("#comments p").append(" You won the battle!");
+      }
+    } else {
+      func();
+    }
   }
 
 
