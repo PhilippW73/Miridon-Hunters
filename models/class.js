@@ -36,7 +36,7 @@ module.exports =  function(squelize, DataTypes){
         },
         ghost_hp : {
             type : DataTypes.INTEGER,
-            allowNull: false
+            default: 0
         },
         skills : {
             type: DataTypes.TEXT
