@@ -52,11 +52,11 @@ module.exports = function(sequelize, DataTypes) {
         },
         wins : {
             type : DataTypes.INTEGER,
-            allowNull: false
+            default: 0
         },
         losses : {
             type : DataTypes.INTEGER,
-            allowNull: false
+            default: 0
         }
     });
     return Character;

@@ -133,6 +133,25 @@ router.get("/battle/:id", function(req, res) {
   });
 });
 
+//New user route
+router.post("/api/User", function(req, res) {
+  db.User.create([
+    'email', 'password'
+  ],[
+    req.body.email, req.body.password
+  ]).then(function(dbUser) {
+  res.json({ id: dbUser.insertId });
+  });
+});
+
+//New character
+router.post("/api/Character", function(req, res) {
+  db.Character.create(req.body).then(function(dbUser) {
+  res.json({ id: dbUser.insertId });
+  });
+});
+
+
 //API routes to get json data
 router.get("/api/users", function(req, res) {
     db.User.findAll({
