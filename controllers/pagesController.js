@@ -2,6 +2,8 @@ var express = require("express");
 
 var passport = require("../config/passport");
 
+var path = require("path");
+
 var isAuthenticated = require("../config/middleware/isAuthenticated");
 
 var router = express.Router();
