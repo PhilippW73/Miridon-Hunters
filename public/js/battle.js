@@ -2,15 +2,15 @@ $(document).ready(function() {
   //initialize
   var player = {
     name: "player",
-    movement,
-    offense,
-    defense
+    Movement,
+    Offensive,
+    Defensive
   }
   var enemy = {
     name: "enemy",
-    movement,
-    offense,
-    defense
+    Movement,
+    Offensive,
+    Defensive
   }
   var stats = ["hit_points","strength_point", "speed_point","ghost_hp"];
   var actionTypes = ["Offensive","Defensive","Movement"];
@@ -47,7 +47,7 @@ $(document).ready(function() {
   }
   //actions
   function chooseOffense (who) {
-    switch(who.offense) {
+    switch(who.Offensive) {
       case "Restore Strength Points":
         restoreStrengthPointsFunc(who);
         break;
@@ -83,7 +83,7 @@ $(document).ready(function() {
     }
   }
   function chooseMove (who) {
-    switch(who.movement) {
+    switch(who.Movement) {
       case "Restore Speed Points":
         restoreSpeedPointsFunc(who);
         break;

@@ -1,31 +1,29 @@
 function restoreStrength(who){
-retoreValue <= player.strengthPoint
-retoreValue = (player.strengthPoint + 2) + Math.abs(player.fullStat.strengthPoint%5)
-if(player.movement === "Restore Speed Points"){
-    retoreValue = (player.strengthPoint+3) + Math.abs((player.fullStat.strengthPoint%5)*2) 
-}
-$("#comments p").text("Player restored" + player.strengthPoint + retoreValue + " Strength Points");
+    restoreValue = Math.min((who.curStats.strength_point + 2) + Math.floor(who.fullStats.strength_point / 5), (who.fullStats.strength_point - who.curStats.strength_point));
+    if(who.Movement === "Restore Speed Points"){
+        restoreValue = Math.min((who.curStats.strength_point+3)+ Math.floor(who.fullStats.strength_point / 5)*2, (who.fullStats.strength_point - who.curStats.strength_point)); 
+    }
+    $("#comments p").text(who.fullStats.character_name + " restored" + restoreValue + " Strength Points");
 }
 
 function restoreSpeed(who){
-    retoreValue <= player.speedPoint
-    retoreValue = (player.speedPoint + 2) + Math.abs(player.fullStat.speedPoint%5)
-    if(player.movement === "Restore Strength Points"){
-        retoreValue = (player.speedPoint+3) + Math.abs((player.fullStat.speedPoint%5)*2) 
+    restoreValue = Math.min((who.curStats.speed_point + 2) + Math.floor(who.fullStats.speed_point / 5), (who.fullStats.speed_point - who.curStats.speed_point));
+    if(who.Movement === "Restore Speed Points"){
+        restoreValue = Math.min((who.fullStats.speed_point+3)+ Math.floor(who.fullStats.speed_point / 5)*2, (who.fullStats.speed_point - who.curStats.speed_point)); 
     }
-    $("#comments p").text("Player restored" + player.speedPoint + retoreValue + " Speed Points");
-    }
+    $("#comments p").text(who.fullStats.character_name + " restored" + restoreValue + " Speed Points");
+}
 
 function meleeAttack(who){
     
-    if(who === 0){
-        if(block){
+    if(who.name === "player"){
+        if(who.Defensive = "Block"){
             enemy.hitPoint =  enemy.hitPoint - (Math.floor(Math.random()*6)+1) - 3
             player.strength = player.strength - 2
             player.speed = player.speed - 1 
             $("#comments p").text("Player's attacked dealt" + enemy.hitPoint - (Math.floor(Math.random()*6)+1) -3 + " damage due to enemy block");
         }
-        if(dodge){
+        if(who.Defensive = "Dodge"){
             enemy.hitPoint =  enemy.hitPoint - ((Math.floor(Math.random()*6)+1) - (Math.floor(Math.random()*6)+1))
             player.strength = player.strength - 2
             player.speed = player.speed - 1 
