@@ -1,0 +1,96 @@
+
+
+    <h1> Miridon Hunters </h1>
+    <button onclick="document.getElementById('id01').style.display='block'" type="button" class="btn btn-primary">Login</button>
+    <div id="id01" class="modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="imgcontainer">
+                </div>
+                <div class="modal-header">
+                    <h5 class="modal-title">Member Login</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+                    </button>
+                </div>
+                <form class="login" action="/login" method="POST">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Email address</label>
+                        <input type="email" class="form-control clsemailInputLogin" id="email-input-login" aria-describedby="emailHelp" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Password</label>
+                        <input type="password" class="form-control clspasswordInputLogin" id="password-input-login" placeholder="Password">
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary submitLogin" id="close" id="btn-inside" data-dismiss="modal">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button onclick="document.getElementById('id02').style.display='block'" type="button" class="btn btn-primary">Sign Up</button>
+    <div id="id02" class="modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="imgcontainer">
+                </div>
+                <div class="modal-header">
+                    <h5 class="modal-title">Sign Up</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
+                    </button>
+                </div>
+                <br>
+                <form class="signup" action="/signup" method="POST">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Email address  (Required Field)</label>
+                        <input type="email" class="form-control clsemailInput" id="email-input" aria-describedby="emailHelp" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Password  (Required Field)</label>
+                        <input type="password" class="form-control clspasswordInput" id="password-input" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                            <label for="exampleInputUsername1">Username </label>
+                            <input type="text" class="form-control clsusernameInput" id="username-input" placeholder="Username">
+                        </div>
+                    <div class="form-group">
+                        <label for="exampleInputProfileImage1">Profile Image</label>
+                        <input type="text" class="form-control clsprofileimageInput" id="profile-image-input" placeholder="Profile Image">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputBio1">Bio</label>
+                        <textarea placeholder="User Bio" class="form-control clsbioInput" id="bio-input" rows="5">
+                        </textarea> 
+                    </div>
+                    <div style="display: none" id="alert" class="alert alert-danger" role="alert">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        <span class="sr-only">Error:</span> <span class="msg"></span>
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary submitSignUp" id="close" id="btn-inside" data-dismiss="modal">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="js/login.js">
+    </script>
+
+    <script>
+    // Get the modal
+    var modal = document.getElementById('id01');
+    var modal = document.getElementById('id02');
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+    </script>

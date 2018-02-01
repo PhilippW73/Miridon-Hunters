@@ -38,6 +38,8 @@ app.set("view engine", "handlebars");
 var routes = require("./controllers/pagesController.js");
 app.use(routes);
 
+app.use(routes);
+
 // require("./routes/api-routes.js")(app);
 // require("./routes/html-routes.js")(app);
 
