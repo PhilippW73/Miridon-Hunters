@@ -23,14 +23,16 @@ $(document).ready(function() {
   });
 
   function loginUser(email, password) {
-    $.post("/api/login", {
+
+    $.post("/login", {
       email: email,
       password: password
     }).then(function(data) {
       window.location.replace(data);
-    }).catch(function(err) {
-      console.log(err);
-    });
+    })
+    // .catch(function(err) {
+    //   console.log(err);
+    // });
   }
 
 
@@ -64,7 +66,8 @@ $(document).ready(function() {
   });
 
   function signUpUser(email, password, username, profile_image, user_bio) {
-    $.post("/api/signup", {
+  
+    $.post("/signup", {
       email: email,
       password: password,
       username: username,
@@ -72,7 +75,8 @@ $(document).ready(function() {
       user_bio: user_bio
     }).then(function(data) {
       window.location.replace(data);
-    }).catch(handleLoginErr);
+    })
+    //.catch(handleLoginErr);
   }
 
   function handleLoginErr(err) {
