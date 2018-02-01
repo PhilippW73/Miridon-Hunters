@@ -139,6 +139,7 @@ $(document).ready(function() {
     //disable dropdowns
     $(".dropdown-toggle").addClass("disabled");
     //enemy selects
+    $(".dropdown-menu :contains('Melee Combo Attack')").addClass("disabled");
     $("#comments p").text("");
     enemyChoice();
     
