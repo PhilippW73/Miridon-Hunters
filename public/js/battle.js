@@ -139,6 +139,7 @@ $(document).ready(function() {
     //disable dropdowns
     $(".dropdown-toggle").addClass("disabled");
     //enemy selects
+    $("#comments p").text("");
     enemyChoice();
     
   }
