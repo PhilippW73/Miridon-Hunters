@@ -19,8 +19,11 @@ A New Miridon
 
 check out miridon website for player's handbook to be proficient in the game and more detail about the world including Factions, Cities and Districts, and Exchange rates!!!
 http://miridon.reuniontechnologies.com/
+
 ## Outside Resources Used
 http://miridon.reuniontechnologies.com/
+
+
 ## Future Plans
 Fully implement the game according to design available on the miridon website.
 - implement items and equipments
