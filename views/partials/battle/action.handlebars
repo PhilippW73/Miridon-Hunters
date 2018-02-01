@@ -1,12 +1,11 @@
-
 <div class="btn-group">
     <button class="btn btn-default" type="button">
-        <i class="fa {{faIcon}}"></i> {{typeName}}
+        <i class="fa {{faIcon}}"></i> <span id="{{typeName}}Dropdown">{{typeName}}</span>
     </button> 
     <button data-toggle="dropdown" class="btn btn-default dropdown-toggle">
         <span class="caret"></span>
     </button>
-    <ul class="dropdown-menu">
+    <ul class="dropdown-menu" value="{{typeName}}">
         {{#each ../actions}}
             {{#ifvalue actionTypes equals=type}}
                 <li>

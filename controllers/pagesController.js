@@ -168,6 +168,58 @@ router.get("/api/users/:id", function(req, res) {
   });
 });
 
+
+router.get("/api/actions", function(req, res) {
+  db.Action.findAll({
+  }).then(function(dbAction) {
+    res.json(dbAction);
+  });
+});
+
+router.get("/api/actions/basics/", function(req, res) {
+  db.User.findAll({
+    where: {
+      category: 'basics'
+    }
+  }).then(function(dbActions) {
+    res.json(dbActions);
+  });
+});
+
+router.get("/api/actions/availableByType/:type/:Strength/:Speed", function(req, res) {
+  db.User.findAll({
+    where: {
+      category: 'basics',
+      strength_cost: {[Op.lte]: reg.params.Strength},
+      speed_cost: {[Op.lte]: reg.params.Speed},
+      actionType: req.params.type
+    }
+  }).then(function(dbActions) {
+    res.json(dbActions);
+  });
+});
+
+router.get("/api/actions/available/:Strength/:Speed", function(req, res) {
+  db.User.findAll({
+    where: {
+      category: 'basics',
+      strength_cost: {[Op.lte]: req.params.Strength},
+      speed_cost: {[Op.lte]: req.params.Speed}
+    }
+  }).then(function(dbActions) {
+    res.json(dbActions);
+  });
+});
+
+router.get("/api/actions/:name", function(req, res) {
+  db.Action.findOne({
+    where: {
+      name: req.params.name
+    }
+  }).then(function(dbAction) {
+    res.json(dbAction);
+  });
+});
 //Update profile
 router.put("/api/users/:id", function(req, res) {
   db.User.update({
@@ -254,65 +306,5 @@ router.delete("/api/characters/:id", function(req, res) {
 // UNFINISHED ROUTES
 //--------------------------------
 
-
-router.get("/profile/:id", function(req, res) {
-  db.User.all(function(data) {
-    var hbsObject = {
-      User: data
-    };
-    console.log(hbsObject);
-    res.render("profile", hbsObject);
-  });
-});
-
-
-router.get("/battle", function(req, res) {
-    db.User.all(function(data) {
-      var hbsObject = {
-        User: data
-      };
-      console.log(hbsObject);
-      res.render("battle", hbsObject);
-    });
-});
-
-
-
-router.get("/api/characters", function(req, res) {
-    var query = {};
-    if (req.query.user_id) {
-      query.uid = req.query.user_id;
-    }
-    db.Character.findAll({
-      where: query,
-      include: [db.User]
-    }).then(function(dbCharacter) {
-      res.json(dbCharacter);
-    });
-  });
-
-router.get("/api/characters/:id", function(req, res) {
-    // Here we add an "include" property to our options in our findOne query
-    // We set the value to an array of the models we want to include in a left outer join
-    // In this case, just db.Post
-    db.Character.findOne({
-    where: {
-        id: req.params.id
-    },
-    include: [db.Post]
-    }).then(function(dbCharacter) {
-    res.json(dbCharacter);
-    });
-});
-
-router.post("/api/characters", function(req, res) {
-    db.Character.create(req.body).then(function(dbCharacter) {
-    // res.json(dbCharacter);
-    res.json({ id: dbCharacter.insertId });
-    });
-});
-
-
-  
 // Export routes for server.js to use.
 module.exports = router;

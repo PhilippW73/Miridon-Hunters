@@ -1,10 +1,10 @@
 <div class="thumbnail">
-    <img alt="Bootstrap Thumbnail First" src="http://lorempixel.com/output/people-q-c-600-600-1.jpg" data-toggle="tooltip" data-placement="top" title="{{(character).description}}" />
+    <img alt="{{character_name}}" src="http://lorempixel.com/output/people-q-c-600-600-1.jpg" data-toggle="tooltip" data-placement="top" title="{{character_desc}}" id="#{{this}}" value="{{character_id}}"/>
     <div class="caption">
         <h3>
-            {{player.name}}
+            {{character_name}}
         </h3>
-        {{#each stat}}
+        {{#each ../stat}}
         {{!-- each stat, send in  --}}
             {{>characters/progress-bar-block}}
         {{/each}}
