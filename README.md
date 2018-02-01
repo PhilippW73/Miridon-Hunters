@@ -17,41 +17,10 @@ A New Miridon
     With an inability of getting food from an outside source, Miridonians quickly ravaged the land for any potential resources, leaving the northern portion of the planet a bare wasteland. The Miridonians soon exhausted every food source available, plant and animal alike. The intense hunger was too much for most Miridonians, and human societies began to see each other as food. Cannibalism became the staple diet on Miridon, and many of the weaker denizens were forced to band together to fight off this growing threat. Thus, towns were made, living by the strict law of Miridon, where anybody from the town was safe from harm, and all outsiders were to be killed and eaten on sight.
     It quickly became apparent that the mystical affects of Miridon had become even stronger. Miridonians completely stopped aging, getting sick, and having children, and produce stopped growing completely. More importantly, after the lands were ravaged it was found that Miridonians did not need to eat to survive any more, as their energy never seemed to deplete. Food only served a few purposes, namely curbing the horrible hunger that Miridonians constantly felt, regenerating wounds received in battle, and gaining valuable muscles mass and flexibility. The last affect was so significant, that Miridonians who ate regularly soon found themselves gaining godly strength and speed. The godlike strength of Miridonians became a staple of the culture, quickly surpassing the need for any technology on the planet as nothing could surpass the raw power of humanity.
 
-## About
 check out miridon website for player's handbook to be proficient in the game and more detail about the world including Factions, Cities and Districts, and Exchange rates!!!
-http://miridon.reuniontechnologies.com/page/history
+http://miridon.reuniontechnologies.com/
 ## Outside Resources Used
-
-## ToDos
-
-[ ] Authentication
-[ ] Chat
-[ ] Handlebars - show pages
-[ ] Battle
-
-### Routes
-#### Get (go to the page)
-[x] Login Page
-[ ] Profile Page
-[x] Character Generator Page
-[x] Character Selection Page
-[x] Battle Page
-#### Get API Routes
-[x] All users
-[x] All characters
-[x] User by ID
-[x] Character by ID
-#### Post (New rows)
-[ ] New user (just login info)
-[ ] New character
-#### Put (Update data) - my work
-[x] Update user from Profile
-[x] Update wins and losses for both user and character - depends if won or lost
-[ ] Level up (to add later)
-#### Delete
-[x] ] Delete user
-[x] Delete character (checks if original user first... to do later)
-
+http://miridon.reuniontechnologies.com/
 ## Future Plans
 Fully implement the game according to design available on the miridon website.
 - implement items and equipments
