@@ -51,23 +51,23 @@ $(document).ready(function() {
   function chooseOffense (who) {
     switch(who.Offensive) {
       case "Restore Strength Points":
-        restoreStrengthPointsFunc(who);
+        restoreStrength(who);
         break;
       case "Melee Attack":
-        meleeAttackFunc(who);
+        meleeAttack(who);
         break;
       case "Melee Combo Attack":
-        meleeComboAttackFunc(who);
+        meleeComboAttack(who);
         break;
       case "Gun Attack":
-        gunAttackFunc(who);
+        gunAttack(who);
         break;
       case "Aimed Attack":
-        aimedAttackFunc(who);
+        aimedAttack(who);
         break;
-      case "Reload":
-        reloadFunc(who);
-        break;
+      // case "Reload":
+      //   reloadFunc(who);
+      //   break;
       default:
         break;
         //no offensive action taken
@@ -77,23 +77,38 @@ $(document).ready(function() {
           if (first === "enemy"){
             enemyChoice();
           } else {
-            chooseOffense("player")
+            chooseMove("player");
           }
         } else {
           endTurn();
         }
     }
   }
+  function chooseDefense (who) {
+    switch(who.Movement) {
+      case "Dodge":
+        dodge(who);
+        break;
+      case "Block":
+        block(who);
+        break;
+      default:
+        break;
+    }
+  }
   function chooseMove (who) {
     switch(who.Movement) {
       case "Restore Speed Points":
-        restoreSpeedPointsFunc(who);
+        restoreSpeed(who);
         break;
       case "Charge":
-        chargeFunc(who);
+        charge(who);
         break;
       default:
+        break;
     }
+    chooseDefense(window[who]);
+    chooseOffense(who);
   }
   function enemyChoice () {
     for (i = 0; i < actionTypes.length; i++){
