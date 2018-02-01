@@ -96,24 +96,28 @@ $(document).ready(function() {
       //blanks it out so async functions can run all together
       enemy[actionTypes[i]] = "";
     }
+    var promises;
     for (i = 0; i < actionTypes.length; i++){
-      $.get("/api/actions/availableByType/"+actionTypes[i]+"/"+enemy.curStats.strength_point+"/"+enemy.curStats.speed_point, function(data) {
+      promises[i] = $.get("/api/actions/availableByType/"+actionTypes[i]+"/"+enemy.curStats.strength_point+"/"+enemy.curStats.speed_point, function(data) {
         console.log("Possible enemy actions: "+ data);
         //if data exists
         if(data[0]){
           enemy[actionTypes[i]] = (data[Math.floor(Math.random()*data.length)]);
         }
-        if(actionTypes[i]="Movement"){
-          //figure out turn order
-          if(first === "player"){
-            //player goes first
-            chooseMove(player);
-          } else {
-            //enemy goes first
-            chooseMove(enemy);
-          }
-        }
+        // if(actionTypes[i]="Movement"){
+        //   //figure out turn order
+          
+        // }
       });
+    }
+    await Promise.all(promises);
+    console.log("Finished:"+enemy.Movement+enemy.Offensive+enemy.Defensive);
+    if(first === "player"){
+      //player goes first
+      chooseMove(player);
+    } else {
+      //enemy goes first
+      chooseMove(enemy);
     }
     
   }
