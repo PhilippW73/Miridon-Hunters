@@ -17,18 +17,15 @@ var db = require("../models");
 
 
 router.post("/login", passport.authenticate("local"), function(req, res) {
-  console.log(res);
   res.send("/profile");
 });
 
 // router.post("/login", passport.authenticate("local"), { successRedirect: "/profile",
 //   failureRedirect: "/" }));
 
-router.get("/profile", function(req, res) {
-  
-  console.log("This is the data: ");
-  res.render("profile");
-});
+// router.get("/profile", function(req, res) {
+//   res.render("profile");
+// });
 
 router.get("/", function(req, res) {
     res.render("login");
@@ -80,12 +77,16 @@ router.get("/loggedin", function(req, res) {
   }
 });
 
-router.get("/profile/:id", function(req, res) {
+router.get("/profile", function(req, res) {
   db.User.findOne({
     where: {
-      user_id: req.params.id
+      user_id: req.user.user_id
     }
   }).then(function(data) {
+    // console.log(JSON.stringify(data));
+    // var hbsObject = data.dataValues;
+    // console.log(hbsObject);
+    // res.render("profile", hbsObject);
     var hbsObject = data.dataValues;
     console.log(hbsObject);
     // console.log(hbsObject);
