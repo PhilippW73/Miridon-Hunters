@@ -38,60 +38,34 @@ function meleeAttack(who){
         }
         $("#comments p").append(who.fullStats.character_name+"'s attack dealt " + damage + " damage to "+window[who.opposition].fullStats.character_name+".");
     }
+    $(".dropdown-menu :contains('Melee Combo Attack')").removeClass("disabled");
 }
 
 function meleeCombo(who){
-    if(player.move === meleeAttack){
-        if(who === 0){
-            if(block){
-                enemy.hitPoint =  enemy.hitPoint - (Math.floor(Math.random()*6)+1) - 3
-                player.strength = player.strength - 1
-                player.speed = player.speed - 2
-                $("#comments p").text("Player's attacked dealt" + enemy.hitPoint - (Math.floor(Math.random()*6)+1) -3 + " damage due to enemy block");
-            }
-            if(dodge){
-                enemy.hitPoint =  enemy.hitPoint - ((Math.floor(Math.random()*6)+1) - (Math.floor(Math.random()*6)+1))
-                player.strength = player.strength - 1
-                player.speed = player.speed - 2
-                $("#comments p").text("Player's attacked dealt" + enemy.hitPoint - ((Math.floor(Math.random()*6)+1) - (Math.floor(Math.random()*6)+1)) + " damage due to enemy dodge");
-            }
-            if(charge){
-                enemy.hitPoint = enemy.hitPoint - ((Math.floor(Math.random()*6)+1) + (Math.floor(Math.random()*6)+1))
-                player.strength = player.strength - 2
-                player.speed = player.speed - 1 
-                $("#comments p").text("Player dealt" + enemy.hitPoint - ((Math.floor(Math.random()*6)+1) + (Math.floor(Math.random()*6)+1)) + " damage to enemy due to player charge attack");
-            }
-            enemy.hitPoint = enemy.hitPoint - Math.floor(Math.random()*6)+1
-            player.strength = player.strength - 1
-            player.speed = player.speed - 2
-            $("#comments p").text("Player's attacked dealt" + enemy.hitPoint - Math.floor(Math.random()*6)+1 + " damage");
+    who.curStats.strength_point = who.curStats.strength_point - 1;
+    who.curStats.speed_point = who.curStats.speed_point - 2;
+    if(window[who.opposition].Defensive = "Block"){
+        var damage = Math.min((who.fullStats.strength_point - window[who.opposition].fullStats.strength_point + Math.floor(Math.random()*6)+Math.floor(Math.random()*6)+2), 0);
+        if(who.Movement != "Charge") {
+            $("#comments p").append(who.fullStats.character_name + " charged.")
+            damage = damage + 2;
         }
-        if(who === 1){
-            if(block){
-                player.hitPoint =  player.hitPoint - (Math.floor(Math.random()*6)+1) - 3
-                enemy.strength = enemy.strength - 1
-                enemy.speed = enemy.speed - 2
-                $("#comments p").text("Player's attacked dealt" + enemy.hitPoint - (Math.floor(Math.random()*6)+1) - 3 + " damage due to player block");
-            }
-            if(dodge){
-                player.hitPoint =  player.hitPoint - ((Math.floor(Math.random()*6)+1) - (Math.floor(Math.random()*6)+1))
-                enemy.strength = enemy.strength - 1
-                enemy.speed = enemy.speed - 2
-                $("#comments p").text("Enemy's attacked dealt" + player.hitPoint - ((Math.floor(Math.random()*6)+1) - (Math.floor(Math.random()*6)+1)) + " damage due to player dodge");
-            }
-            if(charge){
-                player.hitPoint = player.hitPoint - ((Math.floor(Math.random()*6)+1) + (Math.floor(Math.random()*6)+1))
-                enemy.strength = player.strength - 2
-                enemy.speed = player.speed - 1 
-                $("#comments p").text("Enemy dealt" + player.hitPoint - ((Math.floor(Math.random()*6)+1) + (Math.floor(Math.random()*6)+1)) + " damage to player due to enemy charge attack");
-            }
-            player.hitPoint = player.hitPoint - Math.floor(Math.random()*6)+1
-            enemy.strength = enemy.strength - 1
-            enemy.speed = enemy.speed - 2
-            $("#comments p").text("Enemy's attacked dealt" + player.hitPoint - Math.floor(Math.random()*6)+1 + " damage");
+        window[who.opposition].hitPoint =  window[who.opposition].hitPoint - damage;
+        $("#comments p").append(window[who.opposition].fullStats.character_name + " blocked "+who.fullStats.character_name+"'s attack and got dealt " + damage + " damage.");
+    } else if(window[who.opposition].Defensive = "Dodge" && (window[who.opposition].fullStats.speed_point - who.fullStats.speed_point + Math.floor(Math.random()*6)+1 > 4)){
+        //opposition dodges
+        $("#comments p").append(who.fullStats.character_name + " missed due to "+window[who.opposition].fullStats.character_name+" dodging.");
+    } else {
+        //no defense
+        var damage = Math.min((who.fullStats.strength_point + Math.floor(Math.random()*6)+Math.floor(Math.random()*6)+2), 0);
+        window[who.opposition].hitPoint =  window[who.opposition].hitPoint - damage;
+        if(who.Movement != "Charge") {
+            $("#comments p").append(who.fullStats.character_name + " charged.")
+            damage = damage + 2;
         }
+        $("#comments p").append(who.fullStats.character_name+"'s attack dealt " + damage + " damage to "+window[who.opposition].fullStats.character_name+".");
     }
-
+    $(".dropdown-menu :contains('Melee Combo Attack')").removeClass("disabled");
 }
 
 function gunAttack(who){
