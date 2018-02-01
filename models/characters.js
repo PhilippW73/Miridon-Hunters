@@ -35,6 +35,10 @@ module.exports = function(sequelize, DataTypes) {
             type : DataTypes.INTEGER,
             allowNull: false
         },
+        hit_point : {
+            type : DataTypes.INTEGER,
+            allowNull: false
+        },
         skill_point : {
             type : DataTypes.INTEGER,
             allowNull: false

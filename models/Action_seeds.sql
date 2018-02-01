@@ -62,6 +62,6 @@ Act as [Gun Attack]
 ( "Restore Speed Points", "Movement", "basics", "Restore some [Current Speed Points]", 0, 0, null ),
 ( "Block", "Defensive", "basics", "-5 to damage received
 Ignore 5ft knock back", 2, 0, null ),
-( "Obstruct Movement", "Defensive", "basics", "Cancel a [Movement Action]", 1, 0, null ),
+( "Obstruct Movement", "Defensive", "movement", "Cancel a [Movement Action]", 1, 0, null ),
 ( "Dodge", "Defensive", "basics", "Reduce an attack's [To Hit] roll
 by the character's [Dodge Boost]", 0, 1, null );
