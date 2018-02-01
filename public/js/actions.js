@@ -1,4 +1,4 @@
-function restoreStrength(who, func){
+function restoreStrength(who){
 retoreValue <= player.strengthPoint
 retoreValue = (player.strengthPoint + 2) + Math.abs(player.fullStat.strengthPoint%5)
 if(player.movement === "Restore Speed Points"){
@@ -7,7 +7,7 @@ if(player.movement === "Restore Speed Points"){
 $("#comments p").text("Player restored" + player.strengthPoint + retoreValue + " Strength Points");
 }
 
-function restoreSpeed(who, func){
+function restoreSpeed(who){
     retoreValue <= player.speedPoint
     retoreValue = (player.speedPoint + 2) + Math.abs(player.fullStat.speedPoint%5)
     if(player.movement === "Restore Strength Points"){
@@ -16,7 +16,7 @@ function restoreSpeed(who, func){
     $("#comments p").text("Player restored" + player.speedPoint + retoreValue + " Speed Points");
     }
 
-function meleeAttack(who, func){
+function meleeAttack(who){
     
     if(who === 0){
         if(block){
@@ -69,7 +69,7 @@ function meleeAttack(who, func){
     }
 }
 
-function meleeCombo(who, func){
+function meleeCombo(who){
     if(player.move === meleeAttack){
         if(who === 0){
             if(block){
@@ -123,7 +123,7 @@ function meleeCombo(who, func){
 
 }
 
-function gunAttack(who, func){
+function gunAttack(who){
     if(who === 0){
         if(block){
             enemy.hitPoint =  enemy.hitPoint - (Math.floor(Math.random()*6)+1) - 3
@@ -158,7 +158,7 @@ function gunAttack(who, func){
     }
 }
 
-function aimedAttack(who, func){
+function aimedAttack(who){
     if(who === 0){
         if(block){
             enemy.hitPoint =  enemy.hitPoint - (Math.floor(Math.random()*6)+3) - 3
