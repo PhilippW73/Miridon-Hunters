@@ -19,5 +19,12 @@
     "database": "database_production",
     "host": "127.0.0.1",
     "dialect": "mysql"
+  },
+  "jaws": {
+    "username": "cl1nnx21rvz3zdi5",
+    "password": "zbjbc9bb0ow7xq9r",
+    "database": "Miridon_db",
+    "host": "fugfonv8odxxolj8.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+    "dialect": "mysql"
   }
 }
