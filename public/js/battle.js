@@ -2,12 +2,14 @@ $(document).ready(function() {
   //initialize
   var player = {
     name: "player",
+    opposition: "enemy",
     Movement,
     Offensive,
     Defensive
   }
   var enemy = {
     name: "enemy",
+    opposition: "player",
     Movement,
     Offensive,
     Defensive
