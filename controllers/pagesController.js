@@ -26,6 +26,7 @@ router.post("/login", passport.authenticate("local"), function(req, res) {
 
 router.get("/profile", function(req, res) {
   
+  console.log("This is the data: ");
   res.render("profile");
 });
 
@@ -82,15 +83,19 @@ router.get("/loggedin", function(req, res) {
 router.get("/profile/:id", function(req, res) {
   db.User.findOne({
     where: {
-      id: req.params.id
+      user_id: req.params.id
     }
-  }).then(function(hbsObject) {
+  }).then(function(data) {
+    var hbsObject = data.dataValues;
+    console.log(hbsObject);
+    // console.log(hbsObject);
+    // console.log(hbsObject.user_id);
     res.render("profile", hbsObject);
   });
 });
 
 //generates page based on which class is selected
-router.get("/generator/:id", function(req, res) {
+router.get("/generator/", function(req, res) {
   db.Class.findAll({
   }).then(function(data) {
     var hbsObject = {
@@ -102,6 +107,7 @@ router.get("/generator/:id", function(req, res) {
             {name: "Ghost HP",
             reference: "ghost_hp"}
         ]};
+
     console.log(hbsObject);
     res.render("character-generator", hbsObject);
   });
