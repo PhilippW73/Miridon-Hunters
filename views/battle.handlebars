@@ -1,10 +1,16 @@
+{{> layout/header}}
 <div class="row">
     <div class="col-md-offset-1 col-md-4">
-        {{> character-battle-block player}}
+        {{> characters/character-battle-block Player}}
     </div>
     <div class="col-md-offset-2 col-md-4">
-        {{> character-battle-block enemy}}
+        {{> characters/character-battle-block Enemy}}
     </div>
+        {{#each Stats}}
+            Test: {{../Player.character_name}}
+        {{!-- each stat, send in  --}}
+            
+        {{/each}}
 </div>
 <div class="row">
     <div class="col-md-12">

@@ -3,16 +3,16 @@ $(document).ready(function() {
   var player = {
     name: "player",
     opposition: "enemy",
-    Movement,
-    Offensive,
-    Defensive
+    Movement = "",
+    Offensive = "",
+    Defensive = ""
   }
   var enemy = {
     name: "enemy",
     opposition: "player",
-    Movement,
-    Offensive,
-    Defensive
+    Movement = "",
+    Offensive = "",
+    Defensive = ""
   }
   var stats = ["hit_points","strength_point", "speed_point","ghost_hp"];
   var actionTypes = ["Offensive","Defensive","Movement"];
@@ -30,7 +30,9 @@ $(document).ready(function() {
   function updateProgress() {
     for(i = 0; i < stats.length; i++){
       $("#"+ player.fullStats.character_id + stats[i]).attr("aria-valuenow",player.curStats[stats[i]]);
+      $("#"+ player.fullStats.character_id + stats[i]).css('width',player.curStats[stats[i]]/player.fullStats[stats[i]]);
       $("#"+ enemy.fullStats.character_id + stats[i]).attr("aria-valuenow", enemy.curStats[stats[i]]);
+      $("#"+ enemy.fullStats.character_id + stats[i]).css('width',enemy.curStats[stats[i]]/enemy.fullStats[stats[i]]);
     }
     
   }
@@ -184,7 +186,7 @@ $(document).ready(function() {
     }
   }
 
-
+  updateProgress();
   initialize();
 
   // ---------------------------------------------------
