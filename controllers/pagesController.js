@@ -136,13 +136,15 @@ router.get("/selection/:id", function(req, res) {
     hbsObject = {
       AllCharacters: data
     };
-    console.log(hbsObject);
+    console.log(JSON.stringify(hbsObject, null, 1));
       db.Character.findOne({
         where: {
-            id: req.params.id
+            character_id: req.params.id
         }
       }).then(function(data2) {
         hbsObject.character = data2;
+        console.log(".................................");
+        console.log(JSON.stringify(hbsObject, null, 1))
         res.render("character-selection", hbsObject);
       });
     
@@ -162,8 +164,8 @@ router.get("/battle/:id", function(req, res) {
     var hbsObject = {
       ActionTypes: typeData
       };
-      console.log("-----------------------------------------");
-    console.log("Action types: "+JSON.stringify(hbsObject));
+    // console.log("-----------------------------------------");
+    // console.log("Action types: "+JSON.stringify(hbsObject));
 
     //Actions
     db.Action.findAll({
@@ -173,17 +175,18 @@ router.get("/battle/:id", function(req, res) {
       }
     }).then(function(ActionsData) {
       hbsObject.Actions = ActionsData;
-      console.log("//////");
-      console.log(JSON.stringify(hbsObject, null, 2));
+      // console.log("//////");
+      // console.log(JSON.stringify(hbsObject, null, 2));
 
       //player
-      db.Action.findOne({
+      db.Character.findOne({
         where: {
-          id: req.params.id
+          character_id: req.params.id
         }
       }).then(function(PlayerData) {
         hbsObject.Player = PlayerData;
-        console.log(JSON.stringify(hbsObject, null, 2));
+        hbsObject.Player.position = "Player";
+        //console.log(JSON.stringify(hbsObject, null, 2));
         //Finds win/plays ratio of player, adds random number between -.1 and .1 to it
         var randEnemy = parseFloat(Math.random()*.2 - .1) + (parseFloat(PlayerData.wins) / (parseFloat(PlayerData.wins) + parseFloat(PlayerData.losses)));
         if(!randEnemy){
@@ -191,10 +194,10 @@ router.get("/battle/:id", function(req, res) {
         }
         console.log(randEnemy);
         //enemy
-        db.Action.findOne({
+        db.Character.findOne({
           where: {
             //not the player
-            id: {
+            character_id: {
               [Op.ne]: req.params.id
             }
           },
@@ -206,7 +209,28 @@ router.get("/battle/:id", function(req, res) {
           //[ABS( (parseFloat(wins) / (parseFloat(wins) + parseFloat(losses))) - randEnemy ) || 0, 'ASC']]
         }).then(function(EnemyData) {
           hbsObject.Enemy = EnemyData;
-          console.log(hbsObject);
+          hbsObject.Enemy.position = "Enemy";
+          hbsObject.Enemy.Stats = [
+            {name: "Hit Points",
+            reference: "hit_point",
+            progressClass: "bg-danger"},
+            {name: "Strength",
+            reference: "strength_point",
+            progressClass: "bg-warning"},
+            {name: "Speed",
+            reference: "speed_point",
+            progressClass: "bg-success"}
+            // {name: "Ghost HP",
+            // reference: "ghost_hp",
+            // progressClass: ""}
+          ];
+          hbsObject.Player.Stats = hbsObject.Enemy.Stats;
+          hbsObject.name = "this is a test";
+          // console.log("-----------------------------------------");
+          // console.log(hbsObject);
+          console.log("-----------------------------------------");
+          console.log(JSON.stringify(hbsObject, null, 2));
+          console.log("-----------------------------------------");
           res.render("battle", hbsObject);
         });
       });
