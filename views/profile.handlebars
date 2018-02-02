@@ -1,26 +1,33 @@
 {{> layout/header}}
-<div class="row">
-    <div class="col-md-12">
-        <div class="row">
+<div class="container">
+        <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="thumbnail">
-Data: {{username}}
+                      <h3>Hello {{username}}! </h3> 
                         <dl>
-                            <dt>
-                                {{email}}
+                            <dt> 
+                                <strong>Email:&nbsp;&nbsp;{{email}}</strong>
                             </dt>
-                            <dd>
-                                {{user_bio}}
-                            </dd>
                             <br>
-                            <dd>
-                                <strong>Wins: </strong>{{wins}}
+                             <dd>
+                                <div class="form-group row">
+                                    <div class="col-xs-4">
+                                        <label for="password">Update your Password:</label>
+                                        <input type="password" class="form-control clspasswordInput" placeholder="Password" value="{{password}}">
+                                    </div>
+                                </div>    
                             </dd>
                             <dd>
-                                <strong>Losses: </strong>{{losses}}
+                                <div class="form-group row">
+                                    <div class="col-xs-12">
+                                        <label for="userbio">Update your User Bio:</label>
+                                        <textarea class="form-control clsuserbioInput" rows="5" placeholder="User Bio">{{user_bio}}</textarea>
+                                    </div>
+                                </div>    
                             </dd>
+                            
                             <dd>
-                                <strong>Last Played Character: </strong>{{last_played}}
+                                <strong>Wins: </strong>{{wins}} <strong>&nbsp;&nbsp;&nbsp;&nbsp;Losses: </strong>{{losses}}<strong>&nbsp;&nbsp;&nbsp;&nbsp;Last Played Character: </strong>{{last_played}}
                             </dd>
                             
                         </dl> 
@@ -28,13 +35,26 @@ Data: {{username}}
             </div>
             <div class="col-md-4">
                 <div class="thumbnail">
-                    <img alt="Bootstrap Thumbnail Third" src="{{profile_image}}" />
+                    <img alt="Bootstrap Thumbnail Third" src="{{profile_image}}">
+                </div>
+                <div>
+                    <label for="profileimage">Update your Profile Image Link here:</label>
+                    <input class="form-control input-sm clsprofileimageInput" type="text" placeholder="Profile Image Link" value="{{profile_image}}">
                 </div>
             </div>
         </div>
-        <button type="button" class="btn btn-default">
-            Select & Battle!
-        </button>
-    </div>
+        <br>
+        <div class="row">
+            <div class="col-md-12  text-center">
+            <button type="button" class="btn btn-default clssaveprofile">
+                Save Profile
+            </button>
+            </div>
+        </div>
 </div>
 {{> layout/footer}}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+</script>
+<script type="text/javascript" src="js/profile.js">
+</script>
