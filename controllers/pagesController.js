@@ -8,6 +8,10 @@ var isAuthenticated = require("../config/middleware/isAuthenticated");
 
 var router = express.Router();
 
+//for Sequelize operations
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
+
 // Import the models to use their database functions.
 var db = require("../models");
 //--------------------------------
@@ -158,7 +162,8 @@ router.get("/battle/:id", function(req, res) {
     var hbsObject = {
       ActionTypes: typeData
       };
-    console.log(hbsObject);
+      console.log("-----------------------------------------");
+    console.log("Action types: "+JSON.stringify(hbsObject));
 
     //Actions
     db.Action.findAll({
@@ -168,7 +173,8 @@ router.get("/battle/:id", function(req, res) {
       }
     }).then(function(ActionsData) {
       hbsObject.Actions = ActionsData;
-      console.log(hbsObject);
+      console.log("//////");
+      console.log(JSON.stringify(hbsObject, null, 2));
 
       //player
       db.Action.findOne({
@@ -177,9 +183,13 @@ router.get("/battle/:id", function(req, res) {
         }
       }).then(function(PlayerData) {
         hbsObject.Player = PlayerData;
-        console.log(hbsObject);
+        console.log(JSON.stringify(hbsObject, null, 2));
         //Finds win/plays ratio of player, adds random number between -.1 and .1 to it
-        var randEnemy = (Math.random()*.2 - .1) + (parseFloat(PlayerData.wins) / (parseFloat(PlayerData.wins) + parseFloat(PlayerData.losses)));
+        var randEnemy = parseFloat(Math.random()*.2 - .1) + (parseFloat(PlayerData.wins) / (parseFloat(PlayerData.wins) + parseFloat(PlayerData.losses)));
+        if(!randEnemy){
+          randEnemy = 0;
+        }
+        console.log(randEnemy);
         //enemy
         db.Action.findOne({
           where: {
@@ -189,8 +199,11 @@ router.get("/battle/:id", function(req, res) {
             }
           },
           order: [
+            [Sequelize.fn('ABS', Sequelize.literal('case when "wins" is null then 0 else ("wins" / ("wins"+ "losses") - '+randEnemy+') end')), 'ASC']]
+            //((parseFloat("wins") / (parseFloat("wins") + parseFloat("losses"))) - randEnemy)
+
             //orders by how close enemy's win/play ratio is to players
-          [ABS( (parseFloat(wins) / (parseFloat(wins) + parseFloat(losses))) - randEnemy ), 'ASC']]
+          //[ABS( (parseFloat(wins) / (parseFloat(wins) + parseFloat(losses))) - randEnemy ) || 0, 'ASC']]
         }).then(function(EnemyData) {
           hbsObject.Enemy = EnemyData;
           console.log(hbsObject);
