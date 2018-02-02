@@ -6,3 +6,11 @@
     transition: width 2s;
    -webkit-transition: width 2s;
 }
+
+.bg {
+    background: url('../img/background_open-door_black.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;;
+}
