@@ -24,10 +24,10 @@
                 <div class="thumbnail">
                     <dl>
                         <dt>
-                            {{character_name}}
+                            {{character.character_name}}
                         </dt>
                         <dd>
-                            {{character_desc}}
+                            {{character.character_desc}}
                         </dd>
                         <br>
                     </dl>
@@ -35,29 +35,29 @@
                         <div class="col-md-6">
                             <dl>
                                 <dd>
-                                    <strong>Class: </strong>{{class_name}}
+                                    <strong>Class: </strong>{{character.class_name}}
                                 </dd>
                                 <dd>
-                                    <strong>Strength: </strong>{{strength_point}}
+                                    <strong>Strength: </strong>{{character.strength_point}}
                                 </dd>
                                 <dd>
-                                    <strong>Speed: </strong>{{speed_point}}
+                                    <strong>Speed: </strong>{{character.speed_point}}
                                 </dd>
                                 <dd>
-                                    <strong>Ghost HP: </strong>{{ghost_hp}}
+                                    <strong>Ghost HP: </strong>{{character.ghost_hp}}
                                 </dd>
                             </dl>
                         </div>
                         <div class="col-md-6">
                             <dl>
                                 <dd>
-                                    <strong>Skills: </strong>{{skills}}
+                                    <strong>Skills: </strong>{{character.skills}}
                                 </dd>
                                 <dd>
-                                    <strong>Skill points: </strong>{{skill_point}}
+                                    <strong>Skill points: </strong>{{character.skill_point}}
                                 </dd>
                                 <dd>
-                                    <strong>Author: </strong>{{character_author}}
+                                    <strong>Author: </strong>{{character.character_author}}
                                 </dd>
                             </dl> 
                         </div>
@@ -66,7 +66,7 @@
             </div>
             <div class="col-md-4">
                 <div class="thumbnail">
-                    <img alt="Bootstrap Thumbnail Third" src="{{character_image}}" />
+                    <img alt="Bootstrap Thumbnail Third" src="{{character.character_image}}" />
                 </div>
             </div>
         </div>
