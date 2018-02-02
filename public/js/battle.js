@@ -3,16 +3,16 @@ $(document).ready(function() {
   var player = {
     name: "player",
     opposition: "enemy",
-    Movement = "",
-    Offensive = "",
-    Defensive = ""
+    movement: "",
+    Offensive: "",
+    Defensive: ""
   }
   var enemy = {
     name: "enemy",
     opposition: "player",
-    Movement = "",
-    Offensive = "",
-    Defensive = ""
+    Movement: "",
+    Offensive: "",
+    Defensive: ""
   }
   var stats = ["hit_points","strength_point", "speed_point","ghost_hp"];
   var actionTypes = ["Offensive","Defensive","Movement"];
