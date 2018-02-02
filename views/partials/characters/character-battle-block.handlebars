@@ -1,10 +1,9 @@
 <div class="thumbnail">
-    <img alt="{{character_name}}" src="http://lorempixel.com/output/people-q-c-600-600-1.jpg" data-toggle="tooltip" data-placement="top" title="{{character_desc}}" id="#{{position}}" value="{{character_id}}"/>
+    <img alt="{{character_name}}" src="{{character_image}}" data-toggle="tooltip" data-placement="top" title="{{character_desc}}" id="#{{position}}" value="{{character_id}}"/>
     <div class="caption">
         <h3>
             {{character_name}}
         </h3>
-        Stats
         {{#each Stats}}
         {{!-- each stat, send in  --}}
             <div class="progress">

@@ -6,20 +6,38 @@
     <div class="col-md-offset-2 col-md-4">
         {{> characters/character-battle-block Enemy}}
     </div>
-        {{#each Stats}}
-            Test: {{../Player.character_name}}
-        {{!-- each stat, send in  --}}
-            
-        {{/each}}
 </div>
 <div class="row">
     <div class="col-md-12">
         <h3>Actions</h3>
-        {{> battle/action}}
+
+            <div class="btn-group">
+        {{#each ActionTypes}}
+            {{!-- cant have these as partials due to multiple parameters... --}}
+                <button class="btn btn-default" type="button">
+                    <i class="fa {{faIcon}}"></i> <span id="{{name}}Dropdown">{{name}}</span>
+                </button> 
+                <button data-toggle="dropdown" class="btn btn-default dropdown-toggle">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" value="{{name}}">
+                    {{#each ../Actions}}
+                        {{!-- {{#ifvalue ../name equals=type}} --}}
+                            <li>
+                                {{name}}
+                            </li>
+                        {{!-- {{/ifvalue}} --}}
+                    {{/each}}
+                </ul>
+        {{/each}}
+                <button class="btn btn-default" type="button" id="startTurn">Start Turn</span>
+                </button> 
+            </div>
         <div id="comments">
             <p>
-                Choose your actions for the round (one of each).
+                Choose your actions for the round (one of each), and then press 'Start Turn'.
             </p>
         </div>
     </div>
 </div>
+{{> layout/footer}}
