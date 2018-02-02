@@ -67,16 +67,16 @@ router.get("/profile", function(req, res) {
   });
 });
 
-router.get("/characterselect", function(req, res) {
-  db.Character.findOne({
-    where: {
-      character_id: req.user.last_played
-    }
-  }).then(function(data) {
-    var hbsObject = data.dataValues;
-    res.render("character-generator", hbsObject);
-  });
-});
+// router.get("/characterselect", function(req, res) {
+//   db.Character.findOne({
+//     where: {
+//       character_id: req.user.last_played
+//     }
+//   }).then(function(data) {
+//     var hbsObject = data.dataValues;
+//     res.render("character-generator", hbsObject);
+//   });
+// });
 
 //generates page based on which class is selected
 router.get("/generator/", function(req, res) {
@@ -97,7 +97,7 @@ router.get("/generator/", function(req, res) {
   });
 });
 
-router.get("/selection/:id", function(req, res) {
+router.get("/characterselect", function(req, res) {
   // With no choices input from other characters
   // db.Character.findOne({
   //     where: {
@@ -105,8 +105,6 @@ router.get("/selection/:id", function(req, res) {
   // }}).then(function(hbsObject) {
   //     res.render("character-selection", hbsObject);
   // });
-
-
   //we want to get all the names and id's from character, but only the full character of the one shown.
   var hbsObject;
   db.Character.findAll({
@@ -118,7 +116,7 @@ router.get("/selection/:id", function(req, res) {
     console.log(JSON.stringify(hbsObject, null, 1));
       db.Character.findOne({
         where: {
-            character_id: req.params.id
+            character_id: req.user.last_played
         }
       }).then(function(data2) {
         hbsObject.character = data2;
