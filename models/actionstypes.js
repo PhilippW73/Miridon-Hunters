@@ -14,10 +14,6 @@ module.exports = function(sequelize, DataTypes) {
         faIcon : {
             type: DataTypes.STRING,
             allowNull: false
-        },
-        onTurn : {
-            type: DataTypes.BOOLEAN,
-            defaultValue: 1
         }
     });
     return ActionTypes;
