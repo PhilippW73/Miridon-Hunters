@@ -67,6 +67,17 @@ router.get("/profile", function(req, res) {
   });
 });
 
+router.get("/characterselect", function(req, res) {
+  db.Character.findOne({
+    where: {
+      character_id: req.user.last_played
+    }
+  }).then(function(data) {
+    var hbsObject = data.dataValues;
+    res.render("character-generator", hbsObject);
+  });
+});
+
 //generates page based on which class is selected
 router.get("/generator/", function(req, res) {
   db.Class.findAll({
