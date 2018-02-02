@@ -203,6 +203,17 @@ router.get("/battle/:id", function(req, res) {
             // reference: "ghost_hp",
             // progressClass: ""}
           ];
+          hbsObject.helpers= {
+    
+            ifvalue: function(conditional, options) {
+                if (conditional.indexOf(options.hash.equals) >= 0) {
+                    return options.fn(this);
+                } else {
+                    return options.inverse(this);
+                }
+            }
+            
+          };
           hbsObject.Player.Stats = hbsObject.Enemy.Stats;
           hbsObject.name = "this is a test";
           // console.log("-----------------------------------------");
