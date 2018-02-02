@@ -31,10 +31,22 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 var exphbs = require("express-handlebars");
-
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
-
+// var helpers = require("./public/js/helperFunctions.js");
+// var hbs = exphbs.create({
+//   helpers: {
+    
+//         ifvalue: function(conditional, options) {
+//             if (conditional.indexOf(options.hash.equals) >= 0) {
+//                 return options.fn(this);
+//             } else {
+//                 return options.inverse(this);
+//             }
+//         }
+        
+//     }
+// });
 var routes = require("./controllers/pagesController.js");
 
 app.use(routes);
