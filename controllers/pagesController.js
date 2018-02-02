@@ -97,22 +97,30 @@ router.get("/selection/:id", function(req, res) {
 
 
   //we want to get all the names and id's from character, but only the full character of the one shown.
-  var hbsObject;
+  // var hbsObject;
   db.Character.findAll({
     attributes: ['character_id','character_name']
   }).then(function(data) {
-    hbsObject = {
+    console.log("************************** data")
+    console.log(data);
+    var hbsObject = {
       AllCharacters: data
     };
+    console.log('----------------------------------')
+    console.log(hbsObject);
     console.log(JSON.stringify(hbsObject, null, 1));
       db.Character.findOne({
         where: {
             character_id: req.params.id
         }
       }).then(function(data2) {
+        console.log("************************** data2")
+    console.log(data2);
+    // console.log("character name")
+    console.log(data2.character_name)
         hbsObject.character = data2;
-        console.log(".................................");
-        console.log(JSON.stringify(hbsObject, null, 1))
+        //console.log(".................................");
+        //console.log(JSON.stringify(hbsObject, null, 1))
         res.render("character-selection", hbsObject);
       });
     
