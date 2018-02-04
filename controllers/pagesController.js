@@ -92,7 +92,10 @@ router.get("/generator/", function(req, res) {
             reference: "ghost_hp"}
         ]};
 
-    console.log(hbsObject);
+        for( i = 0; i < hbsObject.Class; i++){
+          hbsObject.Class[i].class_image = "http://wide-wallpapers.net/wp-content/uploads/walls/thumbs/man-in-the-dark-hoodie-600x375.jpg";
+        }
+    console.log(JSON.stringify(hbsObject, null, 1));
     res.render("character-generator", hbsObject);
   });
 });
@@ -120,7 +123,7 @@ router.get("/characterselect", function(req, res) {
     console.log(JSON.stringify(hbsObject, null, 1));
       db.Character.findOne({
         where: {
-            character_id: req.user.last_played
+            character_id: 1
         }
       }).then(function(data2) {
         console.log("************************** data2")

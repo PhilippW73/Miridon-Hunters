@@ -35,7 +35,7 @@
             <div class="col-md-6">
                 {{#each stats}}
                     {{!-- {{> characters/statInput-block}} --}}
-                    {{name}}: {{../Class/(reference)}}
+                    {{name}}: {{lookup ../Class reference}}
                 {{/each}}
             </div>
             <div class="col-md-6">
@@ -55,14 +55,14 @@
     </div>
     <div class="col-md-4">
         <div class="thumbnail">
-            <img alt="Bootstrap Thumbnail First" src="{{imageUrl}}" />
+            <img src="{{Class/class_image}}" />
             <div class="caption form-group">
                 <label class="btn btn-primary btn-file">
                         Add New Image <input type="file" style="display: none;">
                 </label>
-                <label for="exampleInputFile">
-                        {{newImageName}}
-                </label>
+                <div class="form-group">
+                    <textarea class="form-control" rows="3" placeholder="Add an Image" id="description"></textarea>
+                </div>
                 <p class="help-block">
                     Please add an image 600px by 600px.
                 </p>
