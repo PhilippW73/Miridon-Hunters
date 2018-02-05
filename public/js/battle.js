@@ -208,7 +208,7 @@ $(document).ready(function() {
   
   //Enemy turn + defensive actions
   //Win/lose
-}
+});
 
 // Makes sure all stats are set to max at start of combat
 // Reads offensive action from buttons, applies it
