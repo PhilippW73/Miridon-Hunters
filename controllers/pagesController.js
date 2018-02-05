@@ -10,6 +10,8 @@ var router = express.Router();
 
 // Import the models to use their database functions.
 var db = require("../models");
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 //--------------------------------
 // FINISHED ROUTES
 //--------------------------------
@@ -25,7 +27,6 @@ router.post("/login", passport.authenticate("local"), function(req, res) {
 //   failureRedirect: "/" }));
 
 router.get("/profile", function(req, res) {
-  
   res.render("profile");
 });
 
@@ -196,28 +197,45 @@ router.get("/battle/:id", function(req, res) {
       console.log(hbsObject);
 
       //player
-      db.Action.findOne({
+      db.Character.findOne({
         where: {
-          id: req.params.id
+          character_id: req.params.id
         }
       }).then(function(PlayerData) {
         hbsObject.Player = PlayerData;
         console.log(hbsObject);
         //Finds win/plays ratio of player, adds random number between -.1 and .1 to it
+        if (!PlayerData.wins || PlayerData.wins == 0){
+          var randEnemy = (Math.random()*.1);
+        } else {
         var randEnemy = (Math.random()*.2 - .1) + (parseFloat(PlayerData.wins) / (parseFloat(PlayerData.wins) + parseFloat(PlayerData.losses)));
+        }
         //enemy
-        db.Action.findOne({
+        db.Character.findOne({
           where: {
             //not the player
-            id: {
+            character_id: {
               [Op.ne]: req.params.id
             }
           },
           order: [
+            [Sequelize.fn('ABS', Sequelize.literal('case when "wins" = null ||"wins" = 0 then 0 else ("wins" / ("wins"+ "losses") - '+randEnemy+') end')), 'ASC']]
+            //((parseFloat("wins") / (parseFloat("wins") + parseFloat("losses"))) - randEnemy)
+
             //orders by how close enemy's win/play ratio is to players
-          [ABS( (parseFloat(wins) / (parseFloat(wins) + parseFloat(losses))) - randEnemy ), 'ASC']]
+          //[ABS( (parseFloat(wins) / (parseFloat(wins) + parseFloat(losses))) - randEnemy ) || 0, 'ASC']]
         }).then(function(EnemyData) {
-          hbsObject.Enemy = EnemyData;
+          hbsObject.Enemy = EnemyData;          
+          hbsObject.helpers= {
+              ifvalue: function(conditional, options) {
+                if (conditional.indexOf(options.hash.equals) >= 0) {
+                  return options.fn(this);
+                } else {
+                  return options.inverse(this);
+                }
+              }
+            };
+          hbsObject.js = ["/js/battle.js"];
           console.log(hbsObject);
           res.render("battle", hbsObject);
         });
