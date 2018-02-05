@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <input type="text" placeholder="Name" class="form-control" id="name" />
+                        <input type="text" placeholder="Name" class="form-control" id="name"/>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -19,43 +19,36 @@
                         <ul class="dropdown-menu" id="classDropdown">
                             <li>
                                 {{#each Class}}
-                                    <a href="{{class_id}}">{{class_name}}</a>
+                                    <a href="#" value={{class_id}}>{{class_name}}</a>
                                 {{/each}}
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
+
             <div class="form-group">
                 <textarea class="form-control" rows="3" placeholder="Character Description" id="description"></textarea>
             </div>
-        </form>
-        {{!-- <p>Total Points Left: {{pointsLeft}}</p> --}}
-        <div class="row">
             <div class="col-md-6">
-                {{#each stats}}
-                    {{!-- {{> characters/statInput-block}} --}}
-                    {{name}}: {{lookup ../Class reference}}
-                {{/each}}
-            </div>
-            <div class="col-md-6">
-                {{!-- {{#each stats}}
-                    {{#if sleepy}}
-                        {{> characters/statInput-block}}
-                    {{/if}}
-                {{/each}} --}}
             </div>
         </div>
         <br>
         <br>
-
-        <button type="submit" class="btn btn-default">
+        <button type="submit" class="btn btn-default" id="submit">
             Submit Character
         </button>
     </div>
+</form>
+
     <div class="col-md-4">
         <div class="thumbnail">
-            <img src="{{Class/class_image}}" />
+            {{!-- <img id="avatar" alt="Bootstrap Thumbnail First" src="{{imageUrl}}"/> --}}
+
+            <img id="avatar" alt="Bootstrap Thumbnail First" src="https://vignette.wikia.nocookie.net/yandere-simulator-fanon/images/2/2b/HuskPortNew.png/revision/latest?cb=20160708141201
+https://vignette.wikia.nocookie.net/yandere-simulator-fanon/images/2/2b/HuskPortNew.png/revision/latest?cb=20160708141201">
+
+
             <div class="caption form-group">
                 <label class="btn btn-primary btn-file">
                         Add New Image <input type="file" style="display: none;">

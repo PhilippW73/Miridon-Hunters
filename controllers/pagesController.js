@@ -8,19 +8,35 @@ var isAuthenticated = require("../config/middleware/isAuthenticated");
 
 var router = express.Router();
 
-//for Sequelize operations
-const Sequelize = require('sequelize');
-const Op = Sequelize.Op;
-
+// Import the models to use their database functions.
 var db = require("../models");
+//--------------------------------
+// FINISHED ROUTES
+//--------------------------------
+// Create all our routes and set up logic within those routes where required.
+
 
 router.post("/login", passport.authenticate("local"), function(req, res) {
+  console.log(res);
   res.send("/profile");
+});
+
+// router.post("/login", passport.authenticate("local"), { successRedirect: "/profile",
+//   failureRedirect: "/" }));
+
+router.get("/profile", function(req, res) {
+  
+  res.render("profile");
 });
 
 router.get("/", function(req, res) {
     res.render("login");
 });
+
+// router.get("/members", function(req, res) {
+//   res.render("character-selection");
+// });
+
 
 router.post("/signup", function(req, res) {
   db.User.create(
@@ -32,75 +48,98 @@ router.post("/signup", function(req, res) {
       profile_image : req.body.profile_image
   })
   .then(function(dbUser) {
+    console.log(".then of signup post")
     res.redirect(307, "/login");
+    // res.send("/profile" + "/" + dbUser.user_id);
+    // res.render("login", dbUser);
   }).catch(function(err) {
     console.log(err);
     res.json(err);
+    // res.status(422).json(err.errors[0].message);
   });
 
 });
 
-router.post("/updateuser", function(req, res) {
-  db.User.update({
-    password: req.body.password,
-    user_bio: req.body.user_bio,
-    profile_image: req.body.profile_image
-  }, {
-    where: {
-      user_id: req.user.user_id
-    }
-  }).then(function(dbUser) {
-    console.log(dbUser);
-    res.status(200).end();
-  });
+// router.get("/member", isAuthenticated, function(req, res) {
+//   res.sendFile(path.join(__dirname, "../views/test_profile.html"));
+// });
+
+router.get("/loggedin", function(req, res) {
+  if (!req.user) {
+    // The user is not logged in, send back an empty object
+    res.json({});
+  }
+  else {
+    // Otherwise send back the user's email and id
+    // Sending back a password, even a hashed password, isn't a good idea
+    res.json({
+      email: req.user.email,
+      username: req.user.username
+    });
+  }
 });
-
-
-router.get("/profile", function(req, res) {
+router.get("/profile/:id", function(req, res) {
   db.User.findOne({
     where: {
-      user_id: req.user.user_id
+      user_id: req.params.id
     }
   }).then(function(data) {
     var hbsObject = data.dataValues;
+    // console.log(hbsObject);node
+    // console.log(hbsObject.user_id);
     res.render("profile", hbsObject);
   });
 });
 
-// router.get("/characterselect", function(req, res) {
-//   db.Character.findOne({
-//     where: {
-//       character_id: req.user.last_played
-//     }
-//   }).then(function(data) {
-//     var hbsObject = data.dataValues;
-//     res.render("character-generator", hbsObject);
-//   });
-// });
-
 //generates page based on which class is selected
-router.get("/generator/", function(req, res) {
-  db.Class.findAll({
-  }).then(function(data) {
+router.get("/create", function(req, res) {
+   db.Class.findAll({
+   }).then(function(data) {
     var hbsObject = {
-        Class: data,
-        Stats: [{name: "Strength",
-            reference: "strength_point"},
-            {name: "Speed",
-            reference: "speed_point"},
-            {name: "Ghost HP",
-            reference: "ghost_hp"}
-        ]};
+         Class: data
+    };
+      //   Stats: [{name: "Strength",
+      //       reference: "strength_point"},
+      //       {name: "Speed",
+      //       reference: "speed_point"},
+      //       {name: "Ghost HP",
+      //       reference: "ghost_hp"}
+      //   ]
+      // };
+         
+         console.log('--------------------------------');
+         console.log(JSON.stringify(hbsObject));
+   res.render("character-generator", hbsObject);
+   });
+ });
 
-        for( i = 0; i < hbsObject.Class; i++){
-          hbsObject.Class[i].class_image = "http://wide-wallpapers.net/wp-content/uploads/walls/thumbs/man-in-the-dark-hoodie-600x375.jpg";
-        }
-    console.log(JSON.stringify(hbsObject, null, 1));
-    res.render("character-generator", hbsObject);
+
+ router.post("/create", function(req, res) {
+
+  db.Character.create(
+    {
+      character_name: req.body.character_name,
+      character_author: req.body.character_author,
+      character_desc: req.body.character_desc,
+      class_name: req.body.class_name,
+      character_image: req.body.character_image,
+      strength_point: req.body.strength_point,
+      speed_point: req.body.speed_point,
+      hit_point:req.body.hit_point,
+      skill_point:req.body.skill_point,
+      ghost_hp:req.body.ghost_hp,
+      skills:req.body.skills,
+      wins:req.body.wins,
+      losses:req.body.losses
+    }).then( function(result) {
+    // res.json({ id: result.insertId });
+    res.redirect('/selections')
   });
 });
 
-router.get("/characterselect", function(req, res) {
+
+
+router.get("/selection/:id", function(req, res) {
   // With no choices input from other characters
   // db.Character.findOne({
   //     where: {
@@ -108,31 +147,23 @@ router.get("/characterselect", function(req, res) {
   // }}).then(function(hbsObject) {
   //     res.render("character-selection", hbsObject);
   // });
+
+
   //we want to get all the names and id's from character, but only the full character of the one shown.
-  // var hbsObject;
+  var hbsObject;
   db.Character.findAll({
     attributes: ['character_id','character_name']
   }).then(function(data) {
-    console.log("************************** data")
-    console.log(data);
-    var hbsObject = {
+    hbsObject = {
       AllCharacters: data
     };
-    console.log('----------------------------------')
     console.log(hbsObject);
-    console.log(JSON.stringify(hbsObject, null, 1));
       db.Character.findOne({
         where: {
-            character_id: 1
+            id: req.params.id
         }
       }).then(function(data2) {
-        console.log("************************** data2")
-    console.log(data2);
-    // console.log("character name")
-    console.log(data2.character_name)
         hbsObject.character = data2;
-        //console.log(".................................");
-        //console.log(JSON.stringify(hbsObject, null, 1))
         res.render("character-selection", hbsObject);
       });
     
@@ -152,8 +183,7 @@ router.get("/battle/:id", function(req, res) {
     var hbsObject = {
       ActionTypes: typeData
       };
-    // console.log("-----------------------------------------");
-    // console.log("Action types: "+JSON.stringify(hbsObject));
+    console.log(hbsObject);
 
     //Actions
     db.Action.findAll({
@@ -163,73 +193,32 @@ router.get("/battle/:id", function(req, res) {
       }
     }).then(function(ActionsData) {
       hbsObject.Actions = ActionsData;
-      // console.log("//////");
-      // console.log(JSON.stringify(hbsObject, null, 2));
+      console.log(hbsObject);
 
       //player
-      db.Character.findOne({
+      db.Action.findOne({
         where: {
-          character_id: req.params.id
+          id: req.params.id
         }
       }).then(function(PlayerData) {
         hbsObject.Player = PlayerData;
-        hbsObject.Player.position = "Player";
-        //console.log(JSON.stringify(hbsObject, null, 2));
+        console.log(hbsObject);
         //Finds win/plays ratio of player, adds random number between -.1 and .1 to it
-        var randEnemy = parseFloat(Math.random()*.2 - .1) + (parseFloat(PlayerData.wins) / (parseFloat(PlayerData.wins) + parseFloat(PlayerData.losses)));
-        if(!randEnemy){
-          randEnemy = 0;
-        }
-        console.log(randEnemy);
+        var randEnemy = (Math.random()*.2 - .1) + (parseFloat(PlayerData.wins) / (parseFloat(PlayerData.wins) + parseFloat(PlayerData.losses)));
         //enemy
-        db.Character.findOne({
+        db.Action.findOne({
           where: {
             //not the player
-            character_id: {
+            id: {
               [Op.ne]: req.params.id
             }
           },
           order: [
-            [Sequelize.fn('ABS', Sequelize.literal('case when "wins" is null then 0 else ("wins" / ("wins"+ "losses") - '+randEnemy+') end')), 'ASC']]
-            //((parseFloat("wins") / (parseFloat("wins") + parseFloat("losses"))) - randEnemy)
-
             //orders by how close enemy's win/play ratio is to players
-          //[ABS( (parseFloat(wins) / (parseFloat(wins) + parseFloat(losses))) - randEnemy ) || 0, 'ASC']]
+          [ABS( (parseFloat(wins) / (parseFloat(wins) + parseFloat(losses))) - randEnemy ), 'ASC']]
         }).then(function(EnemyData) {
           hbsObject.Enemy = EnemyData;
-          hbsObject.Enemy.position = "Enemy";
-          hbsObject.Enemy.Stats = [
-            {name: "Hit Points",
-            reference: "hit_point",
-            progressClass: "bg-danger"},
-            {name: "Strength",
-            reference: "strength_point",
-            progressClass: "bg-warning"},
-            {name: "Speed",
-            reference: "speed_point",
-            progressClass: "bg-success"}
-            // {name: "Ghost HP",
-            // reference: "ghost_hp",
-            // progressClass: ""}
-          ];
-          hbsObject.helpers= {
-    
-            ifvalue: function(conditional, options) {
-                if (conditional.indexOf(options.hash.equals) >= 0) {
-                    return options.fn(this);
-                } else {
-                    return options.inverse(this);
-                }
-            }
-            
-          };
-          hbsObject.Player.Stats = hbsObject.Enemy.Stats;
-          hbsObject.name = "this is a test";
-          // console.log("-----------------------------------------");
-          // console.log(hbsObject);
-          console.log("-----------------------------------------");
-          console.log(JSON.stringify(hbsObject, null, 2));
-          console.log("-----------------------------------------");
+          console.log(hbsObject);
           res.render("battle", hbsObject);
         });
       });
@@ -249,11 +238,11 @@ router.post("/api/User", function(req, res) {
 });
 
 //New character
-router.post("/api/Character", function(req, res) {
-  db.Character.create(req.body).then(function(dbUser) {
-  res.json({ id: dbUser.insertId });
-  });
-});
+// router.post("/api/Character", function(req, res) {
+//   db.Character.create(req.body).then(function(dbUser) {
+//   res.json({ id: dbUser.insertId });
+//   });
+// });
 
 
 //API routes to get json data
