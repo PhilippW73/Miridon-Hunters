@@ -14,13 +14,15 @@
             {{#each ActionTypes}}
                 <div class="btn-group" role="group">
                     <button id="{{name}}Dropdown" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa {{faIcon}}"></i> {{name}}
+                        <i class="fa {{faIcon}}"></i> <span id="{{name}}DropdownText">{{name}}</span>
                     </button>
-                    <div class="dropdown-menu" aria-labelledby="{{name}}Dropdown" value="{{name}}>
+                    <div class="dropdown-menu" aria-labelledby="{{name}}Dropdown" value="{{name}}">
                         <ul>
                             {{#each ../Actions}}
                                 {{#ifvalue actionType equals=../name}}
-                                    <li class="dropdown-item">{{name}}</li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">{{name}}</a>
+                                    </li>
                                 {{/ifvalue}}
                             {{/each}}
                         </ul>
