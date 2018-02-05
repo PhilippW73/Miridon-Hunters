@@ -1,14 +1,14 @@
 $(document).ready(function() {
   //initialize
   var player = {
-    name: "player",
+    position: "player",
     opposition: "enemy",
-    movement: "",
+    Movement: "",
     Offensive: "",
     Defensive: ""
   }
   var enemy = {
-    name: "enemy",
+    position: "enemy",
     opposition: "player",
     Movement: "",
     Offensive: "",
@@ -57,7 +57,8 @@ $(document).ready(function() {
   }
   //actions
   function chooseOffense (who) {
-    switch(who.Offensive) {
+    console.log(who+" is attacking");
+    switch(eval(who).Offensive) {
       case "Restore Strength Points":
         restoreStrength(who);
         break;
@@ -78,22 +79,23 @@ $(document).ready(function() {
       //   break;
       default:
         break;
+    }
         //no offensive action taken
 
-        //CHECK FOR SYNTAX - trying to get who's name and see if it matches first.
-        if(who.name === first) {
-          if (first === "enemy"){
-            enemyChoice();
-          } else {
-            chooseMove("player");
-          }
-        } else {
-          endTurn();
-        }
+    //CHECK FOR SYNTAX - trying to get who's name and see if it matches first.
+    console.log("Ready for next turn part.");
+    console.log("--------------------");
+    console.log(who);
+    console.log(first);
+    if(who === first) {
+      chooseMove(eval(who).opposition);
+    } else {
+      endTurn();
     }
   }
   function chooseDefense (who) {
-    switch(who.Movement) {
+    console.log(who+" is defending");
+    switch(eval(who).Defensive) {
       case "Dodge":
         dodge(who);
         break;
@@ -105,7 +107,8 @@ $(document).ready(function() {
     }
   }
   function chooseMove (who) {
-    switch(who.Movement) {
+    console.log(who+" is moving");
+    switch(eval(who).Movement) {
       case "Restore Speed Points":
         restoreSpeed(who);
         break;
@@ -115,18 +118,20 @@ $(document).ready(function() {
       default:
         break;
     }
-    chooseDefense(window[who]);
+    chooseDefense(eval(who).opposition);
     chooseOffense(who);
   }
   function enemyChoice () {
+    console.log(JSON.stringify(enemy.curStats, null, 2));
     for (i = 0; i < actionTypes.length; i++){
       //blanks it out so async functions can run all together
       enemy[actionTypes[i]] = "";
     }
-    var promises;
+    console.log(JSON.stringify(enemy));
+    var promises = [];
     for (i = 0; i < actionTypes.length; i++){
       promises[i] = $.get("/api/actions/availableByType/"+actionTypes[i]+"/"+enemy.curStats.strength_point+"/"+enemy.curStats.speed_point, function(data) {
-        console.log("Possible enemy actions: "+ data);
+        //console.log("Possible enemy actions: "+ JSON.stringify(data));
         //if data exists
         if(data[0]){
           enemy[actionTypes[i]] = (data[Math.floor(Math.random()*data.length)]);
@@ -149,10 +154,10 @@ $(document).ready(function() {
       console.log("Finished:"+enemy.Movement+enemy.Offensive+enemy.Defensive);
       if(first === "player"){
         //player goes first
-        chooseMove(player);
+        chooseMove(player.position);
       } else {
         //enemy goes first
-        chooseMove(enemy);
+        chooseMove(enemy.position);
       }
     });
     
@@ -163,22 +168,24 @@ $(document).ready(function() {
     if(!newValue){
       newValue = type;
     }
-    $("#"+type+"Dropdown").text(newValue);
+    $("#"+type+"DropdownText").text(newValue);
   }
   function updateAction (who, type, newValue) {
-    who[type.toLowerCase()] = newValue;
+    who[type] = newValue;
+    console.log(type + " set to "+newValue);
   }
   function startTurn () {
     //disable dropdowns
     $(".dropdown-toggle").addClass("disabled");
     //enemy selects
+    console.log("dropdowns disabled");
     $(".dropdown-menu :contains('Melee Combo Attack')").addClass("disabled");
     $("#comments p").text("");
     enemyChoice();
     
   }
   function endTurn () {
-
+    console.log("Turn end");
     //set buttons back to normal
     for (i = 0; i < actionTypes.length; i++){
       updateDropdownButton(actionTypes[i])
@@ -187,10 +194,10 @@ $(document).ready(function() {
     $(".dropdown-toggle").removeClass("disabled");
   }
   function checkDead (who, func) {
-    if(who.curStats.hit_points < 1) {
+    if(eval(who).curStats.hit_points < 1) {
       $(".dropdown-toggle").addClass("disabled");
       $("#startTurn").addClass("disabled");
-      if (who.name === "player") {
+      if (who === "player") {
         //lose
         $("#comments p").append(" You lost the battle.");
       } else {
@@ -217,11 +224,8 @@ $(document).ready(function() {
   $("body").on("click",".dropdown-menu li a", function(){
     event.preventDefault();
     console.log("Selection made");
-    $("#" + $(this).parent().parent().parent().attr("value") +"DropdownText").text($(this).text());
-    $("#" + $(this).parent().parent().parent().attr("value") +"DropdownText").val($(this).text());
-    // $(":parent .btn:first-child").text($(this).text());
-    // $(".btn:first-child").val($(this).text());
-
+    // change the button and action
+    updateDropdownButton($(this).parent().parent().parent().attr("value"), $(this).text());
  });
   $("body").on("click", "#startTurn", function() {
     event.preventDefault();

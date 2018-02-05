@@ -324,11 +324,11 @@ router.get("/api/actions/basics/", function(req, res) {
 });
 
 router.get("/api/actions/availableByType/:type/:Strength/:Speed", function(req, res) {
-  db.User.findAll({
+  db.Action.findAll({
     where: {
       category: 'basics',
-      strength_cost: {[Op.lte]: reg.params.Strength},
-      speed_cost: {[Op.lte]: reg.params.Speed},
+      strength_cost: {[Op.lte]: req.params.Strength},
+      speed_cost: {[Op.lte]: req.params.Speed},
       actionType: req.params.type
     }
   }).then(function(dbActions) {
