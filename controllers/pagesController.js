@@ -235,6 +235,10 @@ router.get("/battle/:id", function(req, res) {
                 }
               }
             };
+          hbsObject.Enemy.position = "enemy"; 
+          hbsObject.Player.position = "player";
+          hbsObject.Enemy.opposition = "player";
+          hbsObject.Player.opposition = "enemy";
           hbsObject.js = ["/js/battle.js"];
           console.log(hbsObject);
           res.render("battle", hbsObject);
@@ -279,11 +283,14 @@ router.get("/api/characters", function(req, res) {
 });
 
 router.get("/api/characters/:id", function(req, res) {
+  console.log("Finding "+req.params.id);
   db.Character.findOne({
     where: {
-      id: req.params.id
+      character_id: req.params.id
     }
   }).then(function(dbCharacter) {
+    console.log("Found "+dbCharacter.character_id);
+    console.log(JSON.stringify(dbCharacter));
     res.json(dbCharacter);
   });
 });

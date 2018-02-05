@@ -26,6 +26,17 @@ $(document).ready(function() {
     } else {
       first = "player";
     }
+    updateProgress();
+  }
+  function initializeCharacter(id, where, func) {
+    $.get("/api/characters/" + id, function(data) {
+      console.log(JSON.stringify(where) +": "+ JSON.stringify(data));
+      where.fullStats = data;
+      console.log(where.fullStats);
+      where.fullStats.hit_point = 5*(data.strength_point + data.speed_point);
+      where.curStats = where.fullStats;
+      func();
+    });
   }
   function updateProgress() {
     for(i = 0; i < stats.length; i++){
@@ -36,18 +47,13 @@ $(document).ready(function() {
     }
     
   }
-  function initializeCharacter(id, where) {
-    $.get("/api/characters/" + id, function(data) {
-      console.log(where +": "+ data);
-      where[fullStats] = data;
-      where[fullStats][hit_points] = 5*(data.strength_point + data.speed_point);
-      where[curStats] = where[fullStats];
-    });
-  }
   function initialize() {
-    initializeCharacter( $("#player").val(), player);
-    initializeCharacter( $("#enemy").val(), enemy);
-    turnOrder();
+    console.log("Initalizing "+ $("#player").attr('value') + " as player.");
+    initializeCharacter( $("#player").attr('value'), player, initialize2);
+  }
+  function initialize2() {
+    console.log("Initalizing "+$("#enemy").attr('value') + " as enemy.");
+    initializeCharacter( $("#enemy").attr('value'), enemy, turnOrder);
   }
   //actions
   function chooseOffense (who) {
@@ -131,15 +137,25 @@ $(document).ready(function() {
         // }
       });
     }
-    await Promise.all(promises);
-    console.log("Finished:"+enemy.Movement+enemy.Offensive+enemy.Defensive);
-    if(first === "player"){
-      //player goes first
-      chooseMove(player);
-    } else {
-      //enemy goes first
-      chooseMove(enemy);
-    }
+    // await Promise.all(promises);
+
+    // var promise1 = Promise.resolve(3);
+    // var promise2 = 42;
+    // var promise3 = new Promise(function(resolve, reject) {
+    //   setTimeout(resolve, 100, 'foo');
+    // });
+
+    Promise.all(promises).then(function(values) {
+      console.log("Finished:"+enemy.Movement+enemy.Offensive+enemy.Defensive);
+      if(first === "player"){
+        //player goes first
+        chooseMove(player);
+      } else {
+        //enemy goes first
+        chooseMove(enemy);
+      }
+    });
+    
     
   }
   function updateDropdownButton (type, newValue) {
@@ -186,7 +202,6 @@ $(document).ready(function() {
     }
   }
 
-  updateProgress();
   initialize();
 
   // ---------------------------------------------------
@@ -208,7 +223,7 @@ $(document).ready(function() {
   
   //Enemy turn + defensive actions
   //Win/lose
-}
+});
 
 // Makes sure all stats are set to max at start of combat
 // Reads offensive action from buttons, applies it
