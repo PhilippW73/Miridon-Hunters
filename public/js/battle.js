@@ -210,12 +210,22 @@ $(document).ready(function() {
 
 
   //update names after selecting from dropdown
-  $("body").on("click", ".dropdown-menu li", function(){
-    //updates the name
-    updateDropdownButton($(this).parent().val(), $(this).text());
-  });
-  
+  //  ".dropdown-menu li", function(){
+  //   //updates the name
+  //   updateDropdownButton($(this).parent().val(), $(this).text());
+  // });
+  $("body").on("click",".dropdown-menu li a", function(){
+    event.preventDefault();
+    console.log("Selection made");
+    $("#" + $(this).parent().parent().parent().attr("value") +"DropdownText").text($(this).text());
+    $("#" + $(this).parent().parent().parent().attr("value") +"DropdownText").val($(this).text());
+    // $(":parent .btn:first-child").text($(this).text());
+    // $(".btn:first-child").val($(this).text());
+
+ });
   $("body").on("click", "#startTurn", function() {
+    event.preventDefault();
+
     startTurn();
   });
 
