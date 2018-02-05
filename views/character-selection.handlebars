@@ -1,10 +1,10 @@
-
-{{character.character_name}}
+{{> layout/header}}
 <div class="row">
     <div class="col-md-12">
         <div class="btn-group">
             <button class="btn btn-default">
-                {{currentCharacter}}
+                
+                {{character.character_name}}
             </button> 
             <button data-toggle="dropdown" class="btn btn-default dropdown-toggle">
                 <span class="caret"></span>
@@ -75,3 +75,4 @@
         </button>
     </div>
 </div>
+{{> layout/footer}}
