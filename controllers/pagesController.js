@@ -171,6 +171,117 @@ router.get("/selection/:id", function(req, res) {
   });
 });
 
+router.get("/battle/", function(req, res) {
+  // Battle page needs:
+  //   -All actions that are listed as 'basic' ...later we can add more types
+  //   -actiontypes
+  //   -player's character with findOne
+  //   -enemy's character with findOne (generated based on player's win/loss ratio)
+  
+  //Find character id
+  db.User.findOne({
+    where: {
+      user_id: req.user.user_id
+    }
+  }).then(function(UserData) {
+    var id = UserData.last_played;
+    //Action Types
+    db.ActionTypes.findAll({
+    }).then(function(typeData) {
+      var hbsObject = {
+        ActionTypes: typeData
+        };
+      //console.log(hbsObject);
+      //player
+      db.Character.findOne({
+        where: {
+          character_id: id
+        }
+      }).then(function(PlayerData) {
+        hbsObject.Player = PlayerData;
+        //console.log("--------------------");
+        //console.log(JSON.stringify(hbsObject.Player, null, 2));
+      var rangedClasses = ["Ghost Hunter", "Vessel","Techie", "class1"];
+      if (rangedClasses.indexOf(hbsObject.Player.class_name) == -1){
+        var curWeapon = "melee";
+      } else {
+        var curWeapon = "ranged";
+      }
+      //console.log("WEAPON: "+ curWeapon);
+        //Actions
+        db.Action.findAll({
+          where: {
+            category: "basics",
+            weapon: {
+              [Op.or]: [curWeapon, "", null]
+            }
+          }
+        }).then(function(ActionsData) {
+          hbsObject.Actions = ActionsData;
+          //console.log("Actions: "+JSON.stringify(hbsObject, null, 2));
+
+          //Finds win/plays ratio of player, adds random number between -.1 and .1 to it
+          if (!hbsObject.Player.wins || hbsObject.Player.wins == 0){
+            var randEnemy = (Math.random()*.1);
+          } else {
+          var randEnemy = (Math.random()*.2 - .1) + (parseFloat(PlayerData.wins) / (parseFloat(PlayerData.wins) + parseFloat(PlayerData.losses)));
+          }
+          console.log("RANDOM ENEMY: "+randEnemy);
+          //enemy
+          db.Character.findOne({
+            where: {
+              //not the player
+              character_id: {
+                [Op.ne]: req.params.id
+              }
+            },
+            order: [
+              [Sequelize.fn('ABS', Sequelize.literal('case when wins = null || wins = 0 then '+randEnemy+' else ( wins / ( wins + losses )) - '+randEnemy+' end' )), 'ASC']]
+              //((parseFloat("wins") / (parseFloat("wins") + parseFloat("losses"))) - randEnemy)
+
+              //orders by how close enemy's win/play ratio is to players
+            //[ABS( (parseFloat(wins) / (parseFloat(wins) + parseFloat(losses))) - randEnemy ) || 0, 'ASC']]
+          }).then(function(EnemyData) {
+            hbsObject.Enemy = EnemyData;          
+            hbsObject.helpers= {
+                ifvalue: function(conditional, options) {
+                  if (conditional.indexOf(options.hash.equals) >= 0) {
+                    return options.fn(this);
+                  } else {
+                    return options.inverse(this);
+                  }
+                }
+              };
+            hbsObject.Enemy.position = "enemy"; 
+            hbsObject.Player.position = "player";
+            hbsObject.Enemy.opposition = "player";
+            hbsObject.Player.opposition = "enemy";
+            hbsObject.Enemy.Stats = [
+              {name: "Hit Points",
+              reference: "hit_point",
+              progressClass: "bg-danger"},
+              {name: "Strength",
+              reference: "strength_point",
+              progressClass: "bg-warning"},
+              {name: "Speed",
+              reference: "speed_point",
+              progressClass: "bg-success"}
+              // {name: "Ghost HP",
+              // reference: "ghost_hp",
+              // progressClass: ""}
+            ];
+            hbsObject.Player.Stats = hbsObject.Enemy.Stats;
+            hbsObject.js = ["/js/actions.js","/js/battle.js"];
+            //console.log("-----------------------------");
+            //console.log(hbsObject);
+            //console.log("-----------------------------");
+            res.render("battle", hbsObject);
+          });
+        });
+      });
+    });
+  });
+});
 router.get("/battle/:id", function(req, res) {
   // Battle page needs:
   //   -All actions that are listed as 'basic' ...later we can add more types
@@ -400,14 +511,34 @@ router.put("/api/users/:id", function(req, res) {
     res.json(dbUser);
   });
 });
-
 //update wins for user and character
-router.put("/won/:user/:character", function(req, res) {
+router.put("/lost/:character", function(req, res) {
   db.User.update({
     wins: sequelize.literal(wins + 1)
   }, {
     where: {
-      id: req.body.user
+      user_id: req.user.user_id
+    }
+  }).then(function(dbUser) {
+    res.json(dbUser);
+  });
+  db.Character.update({
+    losses: sequelize.literal(losses + 1)
+  }, {
+    where: {
+      character_id: req.body.character
+    }
+  }).then(function(dbCharacter) {
+    res.json(dbCharacter);
+  });
+});
+//update wins for user and character
+router.put("/won/:character", function(req, res) {
+  db.User.update({
+    wins: sequelize.literal(wins + 1)
+  }, {
+    where: {
+      user_id: req.user.user_id
     }
   }).then(function(dbUser) {
     res.json(dbUser);
@@ -416,34 +547,56 @@ router.put("/won/:user/:character", function(req, res) {
     wins: sequelize.literal(wins + 1)
   }, {
     where: {
-      id: req.body.character
+      character_id: req.body.character
     }
   }).then(function(dbCharacter) {
     res.json(dbCharacter);
   });
 });
 
-//update losses for user and character
-router.put("/lost/:user/:character", function(req, res) {
-  User.update({
-    losses: sequelize.literal(losses + 1)
-  }, {
-    where: {
-      id: req.body.id
-    }
-  }).then(function(dbUser) {
-    res.json(dbUser);
-  });
-  Character.update({
-    losses: sequelize.literal(losses + 1)
-  }, {
-    where: {
-      id: req.body.character
-    }
-  }).then(function(dbCharacter) {
-    res.json(dbCharacter);
-  });
-});
+// //update wins for user and character
+// router.put("/won/:user/:character", function(req, res) {
+//   db.User.update({
+//     wins: sequelize.literal(wins + 1)
+//   }, {
+//     where: {
+//       id: req.body.user
+//     }
+//   }).then(function(dbUser) {
+//     res.json(dbUser);
+//   });
+//   db.Character.update({
+//     wins: sequelize.literal(wins + 1)
+//   }, {
+//     where: {
+//       id: req.body.character
+//     }
+//   }).then(function(dbCharacter) {
+//     res.json(dbCharacter);
+//   });
+// });
+
+// //update losses for user and character
+// router.put("/lost/:user/:character", function(req, res) {
+//   User.update({
+//     losses: sequelize.literal(losses + 1)
+//   }, {
+//     where: {
+//       id: req.body.id
+//     }
+//   }).then(function(dbUser) {
+//     res.json(dbUser);
+//   });
+//   Character.update({
+//     losses: sequelize.literal(losses + 1)
+//   }, {
+//     where: {
+//       id: req.body.character
+//     }
+//   }).then(function(dbCharacter) {
+//     res.json(dbCharacter);
+//   });
+// });
 
 //Delete user
 router.delete("/api/users/:id", function(req, res) {
