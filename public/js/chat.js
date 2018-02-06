@@ -1,5 +1,5 @@
 
-$(document).ready(function() {
+$(function(){
     var FADE_TIME = 150; // ms
     var TYPING_TIMER_LENGTH = 400; // ms
     var COLORS = [
@@ -50,6 +50,7 @@ $(document).ready(function() {
 
             // Tell the server your username
             socket.emit('add user', username);
+            console.log(username);
         }
     }
 
@@ -57,6 +58,7 @@ $(document).ready(function() {
     function sendMessage() {
         var message = $inputMessage.val();
         // Prevent markup from being injected into the message
+        console.log(message);
         message = cleanInput(message);
         // if there is a non-empty message and a socket connection
         if (message && connected) {
@@ -216,22 +218,22 @@ $(document).ready(function() {
     // Click events
 
     // Focus input when clicking anywhere on login page
-    // $loginPage.click(function() {
+    $loginPage.click(function() {
+        $currentInput.focus();
+    });
+
+    // $("body").on("click", "loginPage", function (){
     //     $currentInput.focus();
     // });
 
-    $("body").on("click", "loginPage", function (){
-        $currentInput.focuts();
-    });
-
     // Focus input when clicking on the message input's border
-    // $inputMessage.click(function() {
-    //     $inputMessage.focus();
-    // });
-
-    $("body").on("click", "inputMessage", function (){
+    $inputMessage.click(function() {
         $inputMessage.focus();
     });
+
+    // $("body").on("click", "inputMessage", function (){
+    //     $inputMessage.focus();
+    // });
 
     // Socket events
 
