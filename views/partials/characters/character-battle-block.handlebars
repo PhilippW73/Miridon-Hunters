@@ -6,9 +6,12 @@
         </h3>
         {{#each Stats}}
         {{!-- each stat, send in  --}}
-            <div class="progress">
-                <div class="progress-bar {{progressClass}}" role="progressbar" aria-valuenow="{{lookup ../this reference}}" aria-valuemin="0" aria-valuemax="{{lookup ../this reference}}" id="{{../character_id}}{{name}}">
+            {{!-- <div class="progress">
+                <div class="progress-bar {{progressClass}}" role="progressbar" aria-valuenow="{{lookup ../this reference}}" aria-valuemin="{{lookup ../this reference}}" aria-valuemax="{{lookup ../this reference}}" id="{{../character_id}}{{reference}}" style="width: 100%;">
                 </div>
+            </div> --}}
+            <div class="progress">
+                <div class="progress-bar {{progressClass}}" role="progressbar" style="width: 100%" aria-valuenow="{{lookup ../this reference}}" aria-valuemin="0" aria-valuemax="{{lookup ../this reference}}" id="{{../character_id}}{{reference}}">{{name}}: <span id="{{../character_id}}{{reference}}Text">{{lookup ../this reference}}</span>/{{lookup ../this reference}} </div>
             </div>
             {{!-- aria-valuenow should change --}}
         {{/each}}

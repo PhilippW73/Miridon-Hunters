@@ -3,8 +3,8 @@
 }
 
 .progress-bar {
-    transition: width 2s;
-   -webkit-transition: width 2s;
+    -webkit-transition: width 0.6s ease;
+    transition: width 0.6s ease;
 }
 
 .bg {
@@ -13,4 +13,24 @@
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;;
+}
+
+.bg-danger {
+    background-color: #CC0000 !important;
+    background-image:none;
+}
+
+.bg-warning {
+    background-color: #FF8800 !important;
+    background-image:none;
+}
+
+.bg-success {
+    background-color: #77B300 !important;
+    background-image:none;
+}
+
+.bg-info {
+    background-color: #9933CC !important;
+    background-image:none;
 }

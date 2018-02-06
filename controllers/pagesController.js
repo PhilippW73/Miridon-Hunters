@@ -239,8 +239,25 @@ router.get("/battle/:id", function(req, res) {
           hbsObject.Player.position = "player";
           hbsObject.Enemy.opposition = "player";
           hbsObject.Player.opposition = "enemy";
+          hbsObject.Enemy.Stats = [
+            {name: "Hit Points",
+            reference: "hit_point",
+            progressClass: "bg-danger"},
+            {name: "Strength",
+            reference: "strength_point",
+            progressClass: "bg-warning"},
+            {name: "Speed",
+            reference: "speed_point",
+            progressClass: "bg-success"}
+            // {name: "Ghost HP",
+            // reference: "ghost_hp",
+            // progressClass: ""}
+          ];
+          hbsObject.Player.Stats = hbsObject.Enemy.Stats;
           hbsObject.js = ["/js/battle.js"];
+          console.log("-----------------------------");
           console.log(hbsObject);
+          console.log("-----------------------------");
           res.render("battle", hbsObject);
         });
       });
