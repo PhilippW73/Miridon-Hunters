@@ -5,6 +5,7 @@
 .progress-bar {
     -webkit-transition: width 0.6s ease;
     transition: width 0.6s ease;
+    color: black;
 }
 
 .bg {
@@ -12,7 +13,7 @@
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
-    background-size: cover;;
+    background-size: cover;
 }
 
 .bg-danger {
@@ -37,4 +38,15 @@
 
 .footer-copyright {
     text-align: center;
+}
+
+#comments {
+    min-height: 40px;
+}
+
+.progress-bar[aria-valuenow="0"] {
+  color: $text-color;
+  min-width: 3%;
+  background: transparent;
+  box-shadow: none;
 }
