@@ -1,4 +1,4 @@
-/* Fix user-agent */
+/*/* Fix user-agent */
 
 * {
   box-sizing: border-box;
@@ -33,6 +33,10 @@ ul {
 
 /* Pages */
 
+h2 {
+  text-align: center;
+}
+
 .pages {
   height: 100%;
   margin: 0;
@@ -56,9 +60,9 @@ ul {
   height: 100px;
   margin-top: -100px;
   position: absolute;
-
+  top: 80px;
   text-align: center;
-  top: 50%;
+  /*top: 50%;*/
   width: 100%;
 }
 
@@ -118,9 +122,10 @@ ul {
 
 .messages {
   height: 100%;
-  margin: 0;
+  /*margin: 0;*/
+  margin-top: 20px;
   overflow-y: scroll;
-  padding: 10px 20px 10px 20px;
+  padding: 220px 20px 10px 20px;
 }
 
 .message.typing .messageBody {
@@ -144,6 +149,13 @@ ul {
   outline: none;
   padding-left: 10px;
   position: absolute;
+  top: 250px;
   right: 0;
   width: 100%;
 }
+
+
+
+
+
+*/
