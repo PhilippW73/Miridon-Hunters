@@ -25,6 +25,7 @@ $(document).ready(function() {
             restoreValue = Math.min((eval(who).curStats.strength_point+3)+ Math.floor(eval(who).fullStats.strength_point / 5)*2, (eval(who).fullStats.strength_point - eval(who).curStats.strength_point)); 
         }
         $("#comments p").append(eval(who).fullStats.character_name + " restored" + restoreValue + " Strength Points. ");
+        eval(who).curStats.strength_point += restoreValue;
     }
 
     function restoreSpeed(who){
@@ -33,6 +34,7 @@ $(document).ready(function() {
             restoreValue = Math.min((eval(who).fullStats.speed_point+3)+ Math.floor(eval(who).fullStats.speed_point / 5)*2, (eval(who).fullStats.speed_point - eval(who).curStats.speed_point)); 
         }
         $("#comments p").append(eval(who).fullStats.character_name + " restored " + restoreValue + " Speed Points. ");
+        eval(who).curStats.speed_point += restoreValue;
     }
 
     function meleeAttack(who){
@@ -207,8 +209,10 @@ $(document).ready(function() {
         // console.log("--------------");
         $("#"+ player.fullStats.character_id + stats[i]).attr("aria-valuenow",player.curStats[stats[i]]);
         $("#"+ player.fullStats.character_id + stats[i]).css('width',100*parseFloat(player.curStats[stats[i]])/parseFloat(player.fullStats[stats[i]])+"%");
+        $("#"+ player.fullStats.character_id + stats[i]+ "Text").text(player.curStats[stats[i]]);
         $("#"+ enemy.fullStats.character_id + stats[i]).attr("aria-valuenow", enemy.curStats[stats[i]]);
         $("#"+ enemy.fullStats.character_id + stats[i]).css('width',100*parseFloat(enemy.curStats[stats[i]])/parseFloat(enemy.fullStats[stats[i]])+"%");
+        $("#"+ enemy.fullStats.character_id + stats[i]+ "Text").text(enemy.curStats[stats[i]]);
       }
       
     }
