@@ -254,7 +254,7 @@ router.get("/battle/:id", function(req, res) {
             // progressClass: ""}
           ];
           hbsObject.Player.Stats = hbsObject.Enemy.Stats;
-          hbsObject.js = ["/js/battle.js"];
+          hbsObject.js = ["/js/actions.js","/js/battle.js"];
           console.log("-----------------------------");
           console.log(hbsObject);
           console.log("-----------------------------");

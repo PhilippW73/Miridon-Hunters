@@ -1,5 +1,7 @@
-//this is for copying directly into battle.js.
-function restoreStrength(who){
+//This is for using modules.export, but did not seem to work...
+var ActionFunc = {};
+
+ActionFunc.restoreStrength = function(who){
     restoreValue = Math.min((eval(who).curStats.strength_point + 2) + Math.floor(eval(who).fullStats.strength_point / 5), (eval(who).fullStats.strength_point - eval(who).curStats.strength_point));
     if(eval(who).Movement === "Restore Speed Points"){
         restoreValue = Math.min((eval(who).curStats.strength_point+3)+ Math.floor(eval(who).fullStats.strength_point / 5)*2, (eval(who).fullStats.strength_point - eval(who).curStats.strength_point)); 
@@ -7,7 +9,7 @@ function restoreStrength(who){
     $("#comments p").text(eval(who).fullStats.character_name + " restored" + restoreValue + " Strength Points. ");
 }
 
-function restoreSpeed(who){
+ActionFunc.restoreSpeed = function(who){
     restoreValue = Math.min((eval(who).curStats.speed_point + 2) + Math.floor(eval(who).fullStats.speed_point / 5), (eval(who).fullStats.speed_point - eval(who).curStats.speed_point));
     if(eval(who).Movement === "Restore Speed Points"){
         restoreValue = Math.min((eval(who).fullStats.speed_point+3)+ Math.floor(eval(who).fullStats.speed_point / 5)*2, (eval(who).fullStats.speed_point - eval(who).curStats.speed_point)); 
@@ -15,7 +17,7 @@ function restoreSpeed(who){
     $("#comments p").text(eval(who).fullStats.character_name + " restored " + restoreValue + " Speed Points. ");
 }
 
-function meleeAttack(who){
+ActionFunc.meleeAttack = function(who){
     if(eval(who).curStats.strength_point < 2 || eval(who).curStats.speed_point < 1) {
         $("#comments p").append(eval(who).fullStats.character_name+" did not have enough energy to attack. They attempt to gather strength. ");
         restoreStrength(who);
@@ -45,7 +47,7 @@ function meleeAttack(who){
     }
 }
 
-function meleeCombo(who){
+ActionFunc.meleeCombo = function(who){
     if(eval(who).curStats.strength_point < 1 || eval(who).curStats.speed_point < 2) {
         $("#comments p").append(eval(who).fullStats.character_name+" did not have enough energy to attack. They attempt to gather strength. ");
         restoreStrength(who);
@@ -75,7 +77,7 @@ function meleeCombo(who){
     }
 }
 
-function gunAttack(who){
+ActionFunc.gunAttack = function(who){
     eval(who).curStats.speed_point = eval(who).curStats.speed_point - 1;
     if(window[eval(who).opposition].Defensive = "Block"){
         var damage = Math.max((eval(who).fullStats.strength_point - window[eval(who).opposition].fullStats.strength_point + Math.floor(Math.random()*6)+Math.floor(Math.random()*6)+2), 0);
@@ -100,7 +102,7 @@ function gunAttack(who){
     }
 }
 
-function aimedAttack(who){
+ActionFunc.aimedAttack = function(who){
     eval(who).curStats.speed_point = eval(who).curStats.speed_point - 3;
     if(window[eval(who).opposition].Defensive = "Block"){
         var damage = Math.max((eval(who).fullStats.strength_point - window[eval(who).opposition].fullStats.strength_point + Math.floor(Math.random()*6)+Math.floor(Math.random()*6)+2)+3, 0);
@@ -128,7 +130,7 @@ function aimedAttack(who){
 //function reload(who, func){
 
 //}
-function charge(who) {
+ActionFunc.charge = function(who) {
     if(eval(who).curStats.speed_point > 0 ) {
         eval(who).curStats.speed_point--;
         $("#comments p").append(eval(who).fullStats.character_name + " charged. ");
@@ -138,7 +140,7 @@ function charge(who) {
     }
 }
 
-function block(who) {
+ActionFunc.block = function(who) {
     if(eval(who).curStats.strength_point > 1 ) {
         eval(who).curStats.strength_point = eval(who).curStats.strength_point - 2;
         $("#comments p").append(eval(who).fullStats.character_name + " blocked. ");
@@ -147,7 +149,7 @@ function block(who) {
     }
 }
 
-function dodge(who) {
+ActionFunc.dodge = function(who) {
     if(eval(who).curStats.speed_point > 0 ) {
         eval(who).curStats.speed_point--;
         $("#comments p").append(eval(who).fullStats.character_name + " attempted to dodge. ");
@@ -155,3 +157,5 @@ function dodge(who) {
         $("#comments p").append(eval(who).fullStats.character_name+" did not have enough speed to dodge. ");
     }
 }
+
+module.exports = ActionFunc;
