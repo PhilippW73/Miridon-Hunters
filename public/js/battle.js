@@ -401,9 +401,25 @@ $(document).ready(function() {
         if (who === "player") {
           //lose
           $("#comments p").append(" You lost the battle.");
+          $.ajax({
+            method: "PUT",
+            url: "/api/lost/"+player.fullStats.character_id
+          });
+          $.ajax({
+            method: "PUT",
+            url: "/api/won/"+enemy.fullStats.character_id
+          });
         } else {
           //win
           $("#comments p").append(" You won the battle!");
+          $.ajax({
+            method: "PUT",
+            url: "/api/won/"+player.fullStats.character_id
+          });
+          $.ajax({
+            method: "PUT",
+            url: "/api/lost/"+enemy.fullStats.character_id
+          });
         }
       } else {
         func(who);
@@ -426,14 +442,19 @@ $(document).ready(function() {
 
     $("body").on("click",".dropdown-menu li a", function(){
       event.preventDefault();
-      console.log("Selection made");
+      
       // change the button and action
-      updateDropdownButton($(this).parent().parent().parent().attr("value"), $(this).text());
+      if (!$("#startTurn").hasClass("disabled")) {
+        console.log("Selection made");
+        updateDropdownButton($(this).parent().parent().parent().attr("value"), $(this).text());
+      }
+      
     });
     $("body").on("click", "#startTurn", function() {
       event.preventDefault();
-
-      startTurn();
+      if (!$("#startTurn").hasClass("disabled")) {
+        startTurn();
+      }
     });
 
 });
