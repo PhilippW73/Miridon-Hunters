@@ -19,6 +19,10 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING,
             defaultValue: "basics"
         },
+        weapon : {
+            type: DataTypes.STRING,
+            defaultValue: ""
+        },
         function : {
             type : DataTypes.TEXT
         },
@@ -34,6 +38,9 @@ module.exports = function(sequelize, DataTypes) {
             type : DataTypes.INTEGER,
             allowNull: true
         }        
+    }, {
+        underscored: false,
+        timestamps: false
     });
     return Action;
 };
