@@ -257,9 +257,9 @@ $(document).ready(function() {
       console.log(who);
       console.log(first);
       if(who === first) {
-        chooseMove(eval(who).opposition);
+        checkDead(eval(who).opposition, chooseMove);
       } else {
-        endTurn();
+        checkDead(eval(who).opposition, endTurn);
       }
     }
     function chooseDefense (who) {
@@ -406,7 +406,7 @@ $(document).ready(function() {
           $("#comments p").append(" You won the battle!");
         }
       } else {
-        func();
+        func(who);
       }
     }
     function toggleCombo(hide) {
