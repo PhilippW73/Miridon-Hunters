@@ -93,7 +93,7 @@ router.get("/profile/:id", function(req, res) {
 });
 
 //generates page based on which class is selected
-router.get("/create", function(req, res) {
+router.get("/generator", function(req, res) {
    db.Class.findAll({
    }).then(function(data) {
     var hbsObject = {
@@ -115,7 +115,7 @@ router.get("/create", function(req, res) {
  });
 
 
- router.post("/create", function(req, res) {
+ router.post("/generator", function(req, res) {
 
   db.Character.create(
     {
