@@ -6,7 +6,8 @@ $(document).ready(function() {
   });
 });
 
-
+//---------------------------//
+// failing to use sequelize to grab USER INPUT DATA from (/generate page)) + pulling stats from CLASS TABLE to add to CLASS TABLE as a NEW CHARACTER user can select; tried to manually grab them 
 var class;
 
 
@@ -50,3 +51,4 @@ $.ajax({
  location.reload();
  }); 
 })
+//------------------//
