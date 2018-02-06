@@ -8,36 +8,19 @@ var isAuthenticated = require("../config/middleware/isAuthenticated");
 
 var router = express.Router();
 
-// Import the models to use their database functions.
-var db = require("../models");
+//for Sequelize operations
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
-//--------------------------------
-// FINISHED ROUTES
-//--------------------------------
-// Create all our routes and set up logic within those routes where required.
 
+var db = require("../models");
 
 router.post("/login", passport.authenticate("local"), function(req, res) {
-  console.log(res);
   res.send("/profile");
-});
-
-// router.post("/login", passport.authenticate("local"), { successRedirect: "/profile",
-//   failureRedirect: "/" }));
-
-router.get("/profile", function(req, res) {
-  res.render("profile");
 });
 
 router.get("/", function(req, res) {
     res.render("login");
 });
-
-// router.get("/members", function(req, res) {
-//   res.render("character-selection");
-// });
-
 
 router.post("/signup", function(req, res) {
   db.User.create(
@@ -49,48 +32,41 @@ router.post("/signup", function(req, res) {
       profile_image : req.body.profile_image
   })
   .then(function(dbUser) {
-    console.log(".then of signup post")
     res.redirect(307, "/login");
-    // res.send("/profile" + "/" + dbUser.user_id);
-    // res.render("login", dbUser);
   }).catch(function(err) {
     console.log(err);
     res.json(err);
-    // res.status(422).json(err.errors[0].message);
   });
 
 });
 
-// router.get("/member", isAuthenticated, function(req, res) {
-//   res.sendFile(path.join(__dirname, "../views/test_profile.html"));
-// });
-
-router.get("/loggedin", function(req, res) {
-  if (!req.user) {
-    // The user is not logged in, send back an empty object
-    res.json({});
-  }
-  else {
-    // Otherwise send back the user's email and id
-    // Sending back a password, even a hashed password, isn't a good idea
-    res.json({
-      email: req.user.email,
-      username: req.user.username
-    });
-  }
+router.post("/updateuser", function(req, res) {
+  db.User.update({
+    password: req.body.password,
+    user_bio: req.body.user_bio,
+    profile_image: req.body.profile_image
+  }, {
+    where: {
+      user_id: req.user.user_id
+    }
+  }).then(function(dbUser) {
+    console.log(dbUser);
+    res.status(200).end();
+  });
 });
-router.get("/profile/:id", function(req, res) {
+
+
+router.get("/profile", function(req, res) {
   db.User.findOne({
     where: {
-      user_id: req.params.id
+      user_id: req.user.user_id
     }
   }).then(function(data) {
     var hbsObject = data.dataValues;
-    // console.log(hbsObject);node
-    // console.log(hbsObject.user_id);
     res.render("profile", hbsObject);
   });
 });
+
 
 //generates page based on which class is selected
 router.get("/generator", function(req, res) {
