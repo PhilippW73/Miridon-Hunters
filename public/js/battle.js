@@ -25,6 +25,7 @@ $(document).ready(function() {
             restoreValue = Math.min((eval(who).curStats.strength_point+3)+ Math.floor(eval(who).fullStats.strength_point / 5)*2, (eval(who).fullStats.strength_point - eval(who).curStats.strength_point)); 
         }
         $("#comments p").append(eval(who).fullStats.character_name + " restored" + restoreValue + " Strength Points. ");
+        eval(who).curStats.strength_point += restoreValue;
     }
 
     function restoreSpeed(who){
@@ -33,6 +34,7 @@ $(document).ready(function() {
             restoreValue = Math.min((eval(who).fullStats.speed_point+3)+ Math.floor(eval(who).fullStats.speed_point / 5)*2, (eval(who).fullStats.speed_point - eval(who).curStats.speed_point)); 
         }
         $("#comments p").append(eval(who).fullStats.character_name + " restored " + restoreValue + " Speed Points. ");
+        eval(who).curStats.speed_point += restoreValue;
     }
 
     function meleeAttack(who){
@@ -62,7 +64,7 @@ $(document).ready(function() {
                 }
                 $("#comments p").append(eval(who).fullStats.character_name+"'s attack dealt " + damage + " damage to "+eval(eval(who).opposition).fullStats.character_name+". ");
             }
-            $(".dropdown-menu :contains('Melee Combo Attack')").removeClass("disabled");
+            toggleCombo(false);
         }
     }
 
@@ -92,7 +94,7 @@ $(document).ready(function() {
                 }
                 $("#comments p").append(eval(who).fullStats.character_name+"'s attack dealt " + damage + " damage to "+eval(eval(who).opposition).fullStats.character_name+". ");
             }
-            $(".dropdown-menu :contains('Melee Combo Attack')").removeClass("disabled");
+            toggleCombo(false);
         }
     }
 
@@ -207,8 +209,10 @@ $(document).ready(function() {
         // console.log("--------------");
         $("#"+ player.fullStats.character_id + stats[i]).attr("aria-valuenow",player.curStats[stats[i]]);
         $("#"+ player.fullStats.character_id + stats[i]).css('width',100*parseFloat(player.curStats[stats[i]])/parseFloat(player.fullStats[stats[i]])+"%");
+        $("#"+ player.fullStats.character_id + stats[i]+ "Text").text(player.curStats[stats[i]]);
         $("#"+ enemy.fullStats.character_id + stats[i]).attr("aria-valuenow", enemy.curStats[stats[i]]);
         $("#"+ enemy.fullStats.character_id + stats[i]).css('width',100*parseFloat(enemy.curStats[stats[i]])/parseFloat(enemy.fullStats[stats[i]])+"%");
+        $("#"+ enemy.fullStats.character_id + stats[i]+ "Text").text(enemy.curStats[stats[i]]);
       }
       
     }
@@ -253,9 +257,9 @@ $(document).ready(function() {
       console.log(who);
       console.log(first);
       if(who === first) {
-        chooseMove(eval(who).opposition);
+        checkDead(eval(who).opposition, chooseMove);
       } else {
-        endTurn();
+        checkDead(eval(who).opposition, endTurn);
       }
     }
     function chooseDefense (who) {
@@ -374,7 +378,7 @@ $(document).ready(function() {
       $(".dropdown-toggle").addClass("disabled");
       //enemy selects
       console.log("dropdowns disabled");
-      $(".dropdown-menu :contains('Melee Combo Attack')").addClass("disabled");
+      toggleCombo(true);
       $("#comments p").text("");
       updateProgress();
       enemyChoice();
@@ -402,11 +406,19 @@ $(document).ready(function() {
           $("#comments p").append(" You won the battle!");
         }
       } else {
-        func();
+        func(who);
       }
     }
+    function toggleCombo(hide) {
+      //if ($(":contains('Melee Combo Attack')").hasClass("hidden")){
+      if(hide) {
+        $("a:contains('Melee Combo Attack')").addClass("hidden");
+      } else {
+        $("a:contains('Melee Combo Attack')").removeClass("hidden");
+      } 
+    }
 
-  
+    toggleCombo(true);
   //Start!
     initialize();
 

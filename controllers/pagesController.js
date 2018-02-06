@@ -184,32 +184,42 @@ router.get("/battle/:id", function(req, res) {
     var hbsObject = {
       ActionTypes: typeData
       };
-    console.log(hbsObject);
-
-    //Actions
-    db.Action.findAll({
+    //console.log(hbsObject);
+    //player
+    db.Character.findOne({
       where: {
-        //List only basics for now
-        category: 'basics'
+        character_id: req.params.id
       }
-    }).then(function(ActionsData) {
-      hbsObject.Actions = ActionsData;
-      console.log(hbsObject);
-
-      //player
-      db.Character.findOne({
+    }).then(function(PlayerData) {
+      hbsObject.Player = PlayerData;
+      //console.log("--------------------");
+      //console.log(JSON.stringify(hbsObject.Player, null, 2));
+    var rangedClasses = ["Ghost Hunter", "Vessel","Techie", "class1"];
+    if (rangedClasses.indexOf(hbsObject.Player.class_name) == -1){
+      var curWeapon = "melee";
+    } else {
+      var curWeapon = "ranged";
+    }
+    //console.log("WEAPON: "+ curWeapon);
+      //Actions
+      db.Action.findAll({
         where: {
-          character_id: req.params.id
+          category: "basics",
+          weapon: {
+            [Op.or]: [curWeapon, "", null]
+          }
         }
-      }).then(function(PlayerData) {
-        hbsObject.Player = PlayerData;
-        console.log(hbsObject);
+      }).then(function(ActionsData) {
+        hbsObject.Actions = ActionsData;
+        //console.log("Actions: "+JSON.stringify(hbsObject, null, 2));
+
         //Finds win/plays ratio of player, adds random number between -.1 and .1 to it
-        if (!PlayerData.wins || PlayerData.wins == 0){
+        if (!hbsObject.Player.wins || hbsObject.Player.wins == 0){
           var randEnemy = (Math.random()*.1);
         } else {
         var randEnemy = (Math.random()*.2 - .1) + (parseFloat(PlayerData.wins) / (parseFloat(PlayerData.wins) + parseFloat(PlayerData.losses)));
         }
+        console.log("RANDOM ENEMY: "+randEnemy);
         //enemy
         db.Character.findOne({
           where: {
@@ -219,7 +229,7 @@ router.get("/battle/:id", function(req, res) {
             }
           },
           order: [
-            [Sequelize.fn('ABS', Sequelize.literal('case when "wins" = null ||"wins" = 0 then 0 else ("wins" / ("wins"+ "losses") - '+randEnemy+') end')), 'ASC']]
+            [Sequelize.fn('ABS', Sequelize.literal('case when wins = null || wins = 0 then '+randEnemy+' else ( wins / ( wins + losses )) - '+randEnemy+' end' )), 'ASC']]
             //((parseFloat("wins") / (parseFloat("wins") + parseFloat("losses"))) - randEnemy)
 
             //orders by how close enemy's win/play ratio is to players
@@ -255,9 +265,9 @@ router.get("/battle/:id", function(req, res) {
           ];
           hbsObject.Player.Stats = hbsObject.Enemy.Stats;
           hbsObject.js = ["/js/actions.js","/js/battle.js"];
-          console.log("-----------------------------");
-          console.log(hbsObject);
-          console.log("-----------------------------");
+          //console.log("-----------------------------");
+          //console.log(hbsObject);
+          //console.log("-----------------------------");
           res.render("battle", hbsObject);
         });
       });
