@@ -38,3 +38,7 @@
 .footer-copyright {
     text-align: center;
 }
+
+.container-fluid {
+    min-height: calc(100vh - 89px);
+}

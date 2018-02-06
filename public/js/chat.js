@@ -1,5 +1,6 @@
 
 $(function(){
+
     var FADE_TIME = 150; // ms
     var TYPING_TIMER_LENGTH = 400; // ms
     var COLORS = [
@@ -196,9 +197,10 @@ $(function(){
 
     $window.keydown(function(event) {
         // Auto-focus the current input when a key is typed
-        if (!(event.ctrlKey || event.metaKey || event.altKey)) {
-            $currentInput.focus();
-        }
+
+        // if (!(event.ctrlKey || event.metaKey || event.altKey)) {
+        //     $currentInput.focus();
+        // }
         // When the client hits ENTER on their keyboard
         if (event.which === 13) {
             if (username) {
@@ -218,22 +220,18 @@ $(function(){
     // Click events
 
     // Focus input when clicking anywhere on login page
-    $loginPage.click(function() {
-        $currentInput.focus();
-    });
-
-    // $("body").on("click", "loginPage", function (){
+    // $loginPage.click(function() {
     //     $currentInput.focus();
     // });
 
-    // Focus input when clicking on the message input's border
-    $inputMessage.click(function() {
-        $inputMessage.focus();
-    });
+    
 
-    // $("body").on("click", "inputMessage", function (){
+    // Focus input when clicking on the message input's border
+    // $inputMessage.click(function() {
     //     $inputMessage.focus();
     // });
+
+    
 
     // Socket events
 
