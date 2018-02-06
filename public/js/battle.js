@@ -64,7 +64,7 @@ $(document).ready(function() {
                 }
                 $("#comments p").append(eval(who).fullStats.character_name+"'s attack dealt " + damage + " damage to "+eval(eval(who).opposition).fullStats.character_name+". ");
             }
-            $(".dropdown-menu :contains('Melee Combo Attack')").removeClass("disabled");
+            toggleCombo(false);
         }
     }
 
@@ -94,7 +94,7 @@ $(document).ready(function() {
                 }
                 $("#comments p").append(eval(who).fullStats.character_name+"'s attack dealt " + damage + " damage to "+eval(eval(who).opposition).fullStats.character_name+". ");
             }
-            $(".dropdown-menu :contains('Melee Combo Attack')").removeClass("disabled");
+            toggleCombo(false);
         }
     }
 
@@ -378,7 +378,7 @@ $(document).ready(function() {
       $(".dropdown-toggle").addClass("disabled");
       //enemy selects
       console.log("dropdowns disabled");
-      $(".dropdown-menu :contains('Melee Combo Attack')").addClass("disabled");
+      toggleCombo(true);
       $("#comments p").text("");
       updateProgress();
       enemyChoice();
@@ -409,8 +409,16 @@ $(document).ready(function() {
         func();
       }
     }
+    function toggleCombo(hide) {
+      //if ($(":contains('Melee Combo Attack')").hasClass("hidden")){
+      if(hide) {
+        $("a:contains('Melee Combo Attack')").addClass("hidden");
+      } else {
+        $("a:contains('Melee Combo Attack')").removeClass("hidden");
+      } 
+    }
 
-  
+    toggleCombo(true);
   //Start!
     initialize();
 
