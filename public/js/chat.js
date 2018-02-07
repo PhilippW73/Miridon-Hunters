@@ -1,5 +1,4 @@
-
-$(function(){
+$(document).ready(function() {
 
     var FADE_TIME = 150; // ms
     var TYPING_TIMER_LENGTH = 400; // ms
@@ -220,6 +219,7 @@ $(function(){
     // Click events
 
     // Focus input when clicking anywhere on login page
+
     // $loginPage.click(function() {
     //     $currentInput.focus();
     // });
@@ -227,6 +227,7 @@ $(function(){
     
 
     // Focus input when clicking on the message input's border
+    
     // $inputMessage.click(function() {
     //     $inputMessage.focus();
     // });
