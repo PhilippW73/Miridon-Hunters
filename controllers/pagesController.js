@@ -149,6 +149,45 @@ router.get("/characterselect", function(req, res) {
   });
 });
 
+router.get("/characterselect/:id", function(req, res) {
+  // With no choices input from other characters
+  // db.Character.findOne({
+  //     where: {
+  //     id: req.params.id
+  // }}).then(function(hbsObject) {
+  //     res.render("character-selection", hbsObject);
+  // });
+  //we want to get all the names and id's from character, but only the full character of the one shown.
+  var hbsObject;
+  db.Character.findAll({
+    attributes: ['character_id','character_name']
+  }).then(function(data) {
+    hbsObject = {
+      AllCharacters: data
+    };
+    db.Character.findOne({
+      where: {
+          character_id: req.params.id
+      }
+    }).then(function(data2) {
+      hbsObject.character = data2;
+      console.log(".................................");
+      console.log(JSON.stringify(hbsObject, null, 1))
+      res.render("character-selection", hbsObject);
+    });
+  });
+//Update User's last_played
+  if(req.user){
+    db.User.update({
+      last_played: req.params.id,
+    }, {
+      where: {
+        id: req.user.id
+      }
+    });
+  }
+});
+
 function battleRoutes(id, req, res){
   //Action Types
   db.ActionTypes.findAll({
@@ -293,10 +332,10 @@ router.get("/battle/:id", function(req, res) {
       }
     }).then(function(PlayerData) {
       hbsObject.Player = PlayerData;
-      //console.log("--------------------");
-      //console.log(JSON.stringify(hbsObject.Player, null, 2));
+      console.log("--------------------");
+      console.log(JSON.stringify(hbsObject.Player, null, 2));
     var rangedClasses = ["Ghost Hunter", "Vessel","Techie", "class1"];
-    if (rangedClasses.indexOf(hbsObject.Player.class_name) == -1){
+    if (rangedClasses.indexOf(hbsObject.Player.class_name) < 0){
       var curWeapon = "melee";
     } else {
       var curWeapon = "ranged";
