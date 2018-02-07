@@ -113,10 +113,7 @@ router.get("/generator", function(req, res) {
     res.redirect('/selections')
   });
 });
-
-
-
-router.get("/selection/:id", function(req, res) {
+router.get("/characterselect", function(req, res) {
   // With no choices input from other characters
   // db.Character.findOne({
   //     where: {
@@ -124,8 +121,6 @@ router.get("/selection/:id", function(req, res) {
   // }}).then(function(hbsObject) {
   //     res.render("character-selection", hbsObject);
   // });
-
-
   //we want to get all the names and id's from character, but only the full character of the one shown.
   var hbsObject;
   db.Character.findAll({
@@ -134,18 +129,26 @@ router.get("/selection/:id", function(req, res) {
     hbsObject = {
       AllCharacters: data
     };
-    console.log(hbsObject);
+    if(req.user){
+      var id = req.user.last_played;
+    } else {
+      var id = 1;
+    }
+    console.log(JSON.stringify(hbsObject, null, 1));
       db.Character.findOne({
         where: {
-            id: req.params.id
+            character_id: id
         }
       }).then(function(data2) {
         hbsObject.character = data2;
+        console.log(".................................");
+        console.log(JSON.stringify(hbsObject, null, 1))
         res.render("character-selection", hbsObject);
       });
     
   });
 });
+
 function battleRoutes(id, req, res){
   //Action Types
   db.ActionTypes.findAll({
@@ -164,7 +167,8 @@ function battleRoutes(id, req, res){
       //console.log("--------------------");
       //console.log(JSON.stringify(hbsObject.Player, null, 2));
     var rangedClasses = ["Ghost Hunter", "Vessel","Techie", "class1"];
-    if (rangedClasses.indexOf(hbsObject.Player.class_name) == -1){
+    console.log(hbsObject.Player);
+    if (rangedClasses.indexOf(hbsObject.Player.class_name) == -1 || !hbsObject.Player.class_name){
       var curWeapon = "melee";
     } else {
       var curWeapon = "ranged";
@@ -257,7 +261,11 @@ router.get("/battle/", function(req, res) {
         user_id: req.user.user_id
       }
     }).then(function(UserData) {
-      battleRoutes(UserData.last_played, req, res);
+      if(UserData.last_played){
+        battleRoutes(UserData.last_played, req, res);
+      } else {
+        battleRoutes(1, req, res);
+      }
     });
   } else {
     battleRoutes(1, req, res);
