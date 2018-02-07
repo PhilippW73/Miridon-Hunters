@@ -53,17 +53,21 @@
         </div>
 </div>
 
-
+<div class="row">
+    <div class="col-md-12">
 {{> layout/footer}}
-<br>
-<h2 id="chat_title"> Chat Room </h2>
-<br>
-
-
-{{> layout/chat}}
+    </div>
+</div>
 
 <br>
-<br>
+
+<footer class="footer-chat">
+    <div class="container-chat">
+        <h3 id="chat_title"> Chat Room </h3>
+    </div>
+        <br>
+          {{> layout/chat}}
+</footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
 </script>
