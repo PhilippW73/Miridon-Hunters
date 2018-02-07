@@ -10,14 +10,13 @@
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" id="characterDropdown">
+                {{#each AllCharacters}}
                 <li>
-                    <a href="#">Characters</a>
+                    <a href="/characterselect/{{character_id}}">{{character_name}}</a>
                 </li>
+                {{/each}}
             </ul>
-                
-            <button class="btn btn-default" type="button">
-                <em class="glyphicon glyphicon-play"></em> Select & Battle!
-            </button> 
+            <a class="btn btn-default" href="/battle/{{character.character_id}}" role="button"><em class="glyphicon glyphicon-play"></em> Select & Battle!</a>
         </div>
         <div class="row">
             <div class="col-md-8">
@@ -70,9 +69,7 @@
                 </div>
             </div>
         </div>
-        <button type="button" class="btn btn-default">
-            Select & Battle!
-        </button>
+        <a class="btn btn-default" href="/battle/{{character.character_id}}" role="button"><em class="glyphicon glyphicon-play"></em> Select & Battle!</a>
     </div>
 </div>
 {{> layout/footer}}
