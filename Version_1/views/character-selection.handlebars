@@ -1,0 +1,90 @@
+{{> layout/header}}
+<div class="row">
+    <div class="col-md-12">
+        <div class="btn-group">
+            <button class="btn btn-default">
+                
+                {{character.character_name}}
+            </button> 
+            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle">
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" id="characterDropdown">
+                {{#each AllCharacters}}
+                <li>
+                    <a href="/characterselect/{{character_id}}">{{character_name}}</a>
+                </li>
+                {{/each}}
+            </ul>
+            <a class="btn btn-default" href="/battle/{{character.character_id}}" role="button"><em class="glyphicon glyphicon-play"></em> Select & Battle!</a>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="thumbnail">
+                    <dl>
+                        <dt>
+                            {{character.character_name}}
+                        </dt>
+                        <dd>
+                            {{character.character_desc}}
+                        </dd>
+                        <br>
+                    </dl>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <dl>
+                                <dd>
+                                    <strong>Class: </strong>{{character.class_name}}
+                                </dd>
+                                <dd>
+                                    <strong>Strength: </strong>{{character.strength_point}}
+                                </dd>
+                                <dd>
+                                    <strong>Speed: </strong>{{character.speed_point}}
+                                </dd>
+                                <dd>
+                                    <strong>Ghost HP: </strong>{{character.ghost_hp}}
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-md-6">
+                            <dl>
+                                <dd>
+                                    <strong>Skills: </strong>{{character.skills}}
+                                </dd>
+                                <dd>
+                                    <strong>Skill points: </strong>{{character.skill_point}}
+                                </dd>
+                                <dd>
+                                    <strong>Author: </strong>{{character.character_author}}
+                                </dd>
+                            </dl> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="thumbnail">
+                    <img alt="Bootstrap Thumbnail Third" src="{{character.character_image}}" />
+                </div>
+            </div>
+        </div>
+        <a class="btn btn-default" href="/battle/{{character.character_id}}" role="button"><em class="glyphicon glyphicon-play"></em> Select & Battle!</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+{{> layout/footer}}
+    </div>
+</div>
+
+<br>
+
+<footer class="footer-chat">
+    <div class="container-chat">
+        <h3 id="chat_title"> Chat Room </h3>
+    </div>
+        <br>
+          {{> layout/chat}}
+</footer>
