@@ -1,9 +1,11 @@
-//       function charge(who) {
-//           if(eval(who).curStats.speed_point > 0 ) {
-//               eval(who).curStats.speed_point--;
-//               $("#comments p").append(eval(who).fullStats.character_name + " charged. ");
-//           } else {
-//               $("#comments p").append(eval(who).fullStats.character_name+" did not have enough strength to charge. They attempt to gather speed. ");
-//               restoreSpeed(who);
-//           }
-//       }
+import React from "react";
+
+export default {
+  charge: function(who){
+    who.curStats.speed_point--;
+    return {
+      result: who,
+      comment: who.fullStats.character_name + " charged. "
+    };
+  }
+};
