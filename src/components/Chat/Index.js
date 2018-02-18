@@ -1,1 +1,1 @@
-// make a change
+export { default } from "./Chat";
