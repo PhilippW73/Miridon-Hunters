@@ -7,6 +7,8 @@ import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Upgrade_and_Shop from "./pages/Upgrade_and_Shop";
 
+import Greeting from "./components/Greeting";
+import Wins_Losses from "./components/Wins_Losses";
 import Chat from "./components/Chat";
 import Column from "./components/Column";
 import Footer from "./components/Footer";
