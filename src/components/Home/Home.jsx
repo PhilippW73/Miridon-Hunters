@@ -1,7 +1,7 @@
-import React from "react";
-import "./Greeting.css";
+import React from 'react'
+// TODO - add proptypes
 
-const Greeting = props => {
+const Home = props => {
 	if (props.user) {
 		return (
 			<div className="Home">
@@ -23,4 +23,4 @@ const Greeting = props => {
 	}
 }
 
-export default Greeting
+export default Home
