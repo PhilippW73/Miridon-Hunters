@@ -6,7 +6,7 @@ import Chat from "../components/Chat";
 import Navbar from "../components/Navbar";
 import Input from "../components/Input";
 import Row from "../components/Row";
-import col from "../components/col";
+import Col from "../components/col";
 import Greeting from "../components/Greeting";
 import Wins_Losses from "../components/Wins_Losses";
 
@@ -134,6 +134,16 @@ class Battle extends Component {
       .catch(err => console.log(err));
   }
 
+  initiative = () => {
+    if (this.state.player.fullStats.speed_point > this.state.enemy.fullStats.speed_point) {
+      this.setState({first: "player"});
+    } else if (this.state.player.fullStats.speed_point < this.state.enemy.fullStats.speed_point || Math.random()<.5 ) {
+      this.setState({first: "enemy"});
+    } else {
+      this.setState({first: "player"});
+    }
+  }
+
   //Handles choice of actions
   handleActionChange = (event) => {
     let player = this.state.player;
@@ -149,17 +159,17 @@ class Battle extends Component {
   render() {
     return (
       <Container>
-        <header />
-        <row>
-          <col size="md-offset-1 md-4">
+        <Header />
+        <Row>
+          <Col size="md-offset-1 md-4">
             <BattleChar {...this.state.player} stats={stats} />
-          </col>
-          <col size="md-offset-1 md-4">
+          </Col>
+          <Col size="md-offset-1 md-4">
             <BattleChar {...this.state.enemy} stats={stats} />
-          </col>
-        </row>
-        <row>
-          <col size="md-12">
+          </Col>
+        </Row>
+        <Row>
+          <Col size="md-12">
             <h3>Actions</h3>
             <div className="btn-group" role="group">
               {props.actionTypes.map(actionType => <ButtonDropdown actionType actions strength={this.state.player.curStats.strength_point} speed={this.state.player.curStats.speed_point} weapon={this.state.player.fullStats.weapon}/>
@@ -170,9 +180,9 @@ class Battle extends Component {
             <div>{this.state.comments}
             </div>
             <a class="btn btn-default" href="http://miridon.reuniontechnologies.com/page/battlerules-actions" role="button" target="_blank">See All Actions</a>
-          </col>
-        </row>
-        <footer />
+          </Col>
+        </Row>
+        <Footer />
       </Container>
     );
   }
