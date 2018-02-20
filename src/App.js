@@ -31,7 +31,8 @@ class App extends Component {
     super()
     this.state = {
       loggedIn: false,
-      user: null
+      user: null,
+      messageList: []
     }
     this._logout = this._logout.bind(this)
     this._login = this._login.bind(this)
@@ -87,6 +88,24 @@ class App extends Component {
       })
   }
 
+  _onMessageWasSent = (message) => {
+    this.setState({
+      messageList: [...this.state.messageList, message]
+    })
+  }
+ 
+  _sendMessage(text) {
+    if (text.length > 0) {
+      this.setState({
+        messageList: [...this.state.messageList, {
+          author: 'them',
+          type: 'text',
+          data: { text }
+        }]
+      })
+    }
+  }
+
 
   render () {
     return (
@@ -103,7 +122,10 @@ class App extends Component {
               <Route exact path="/Profile" component={Profile} />
               <Route exact path="/Upgrade_and_Shop" component={Upgrade_and_Shop} />
               <Route exact path="/signup" component={SignupForm} />
-              <Route exact path="/" render={() => <Home user={this.state.user} />} />
+              <Route exact path="/" render={() => <Home 
+                                                    user={this.state.user} 
+                                                    _onMessageWasSent={this._onMessageWasSent}
+                                                    messageList={this.state.messageList} />} />
               <Route
                 exact
                 path="/login"
