@@ -118,7 +118,7 @@ class Battle extends Component {
       .catch(err => console.log(err));
   }
 
-  getActions(who) {
+  getActions(who, callback) {
     //sends id based on who
     const id = this.state.eval(who).fullStats.character_id;
     const strength = this.state.eval(who).curStats.strength_point;
@@ -128,10 +128,15 @@ class Battle extends Component {
         let temp = this.state.eval(who);
         temp.actions = res.data.message;
         this.setState({
-          [who]: temp
+          [who].actions.Offensive: temp.Offensive,
+          [who].actions.Movement: temp.Movement,
+          [who].actions.Defensive: temp.Defensive
         })
       })
       .catch(err => console.log(err));
+    if(callback){
+      callback();
+    }
   }
 
   initiative = () => {
@@ -232,8 +237,25 @@ class Battle extends Component {
       chooseDefense(who.opposition);
       chooseOffense(input);
     }
+  //Enemy Choice
+    function enemyChoice(){
+      this.getActions("enemy", () =>{
+        this.setState({
+          enemy.Offensive: (this.state.enemy.actions.Offensive[Math.floor(Math.random()*this.state.enemy.actions.Offensive.length + 1 )]),
+          enemy.Movement: (this.state.enemy.actions.Movement[Math.floor(Math.random()*this.state.enemy.actions.Movement.length + 1 )]),
+          enemy.Defensive: (this.state.enemy.actions.Defensive[Math.floor(Math.random()*this.state.enemy.actions.Defensive.length + 1 )])
+        });
+        console.log("Enemy choices:"+this.state.enemy.Movement+this.state.enemy.Offensive+this.state.enemy.Defensive);
+        if(this.state.first === "player"){
+          //player goes first
+          this.state.chooseMove("player");
+        } else {
+          //enemy goes first
+          this.state.chooseMove("enemy");
+        }
+      });
+    }
 
-    
   //Handles choice of actions
   handleActionChange = (event) => {
     let player = this.state.player;
@@ -281,80 +303,6 @@ class Battle extends Component {
 export default Battle;
 
 
-
-
-//       function enemySingleChoice (i){
-//         $.get("/api/actions/availableByType/"+actionTypes[i]+"/"+enemy.curStats.strength_point+"/"+enemy.curStats.speed_point, function(data) {
-//           //console.log("Possible enemy actions: "+ JSON.stringify(data));
-//           //if data exists
-//           if(data[0]){
-//             enemy[actionTypes[i]] = (data[Math.floor(Math.random()*data.length)].name);
-//           }
-//           if(i >= actionTypes.length - 1) {
-//             enemyChoiceEnd();
-//           } else {
-//             enemySingleChoice(i+1);
-//           }
-//         });
-//       }
-//       function enemyChoiceEnd() {
-//         console.log("Enemy choices: "+JSON.stringify(enemy, null, 2));
-//         console.log("Finished:"+enemy.Movement+enemy.Offensive+enemy.Defensive);
-//         if(first === "player"){
-//           //player goes first
-//           chooseMove(player.position);
-//         } else {
-//           //enemy goes first
-//           chooseMove(enemy.position);
-//         }
-//       }
-//       function enemyChoice () {
-//         //console.log(JSON.stringify(enemy.curStats, null, 2));
-//         var fullFunction
-//         for (i = 0; i < actionTypes.length; i++){
-//           //blanks it out so async functions can run all together
-//           enemy[actionTypes[i]] = "";
-//         }
-//         enemySingleChoice(0);
-
-//         //IF PROMISES (Not working yet so commented out)
-//           // var promises = [];
-//           // for (i = 0; i < actionTypes.length; i++){
-//           //   promises[i] = $.get("/api/actions/availableByType/"+actionTypes[i]+"/"+enemy.curStats.strength_point+"/"+enemy.curStats.speed_point, function(data) {
-//           //     //console.log("Possible enemy actions: "+ JSON.stringify(data));
-//           //     //if data exists
-//           //     if(data[0]){
-//           //       enemy[actionTypes[i]] = (data[Math.floor(Math.random()*data.length)]);
-//           //     }
-//           //     // if(actionTypes[i]="Movement"){
-//           //     //   //figure out turn order
-
-//           //     // }
-//           //   });
-//           // }
-
-//           // // await Promise.all(promises);
-
-//           // // var promise1 = Promise.resolve(3);
-//           // // var promise2 = 42;
-//           // // var promise3 = new Promise(function(resolve, reject) {
-//           // //   setTimeout(resolve, 100, 'foo');
-//           // // });
-
-//           // Promise.all(promises).then(function(values) {
-//           //   console.log("Enemy choices: "+JSON.stringify(enemy, null, 2));
-//           //   console.log("Finished:"+enemy.Movement+enemy.Offensive+enemy.Defensive);
-//           //   if(first === "player"){
-//           //     //player goes first
-//           //     chooseMove(player.position);
-//           //   } else {
-//           //     //enemy goes first
-//           //     chooseMove(enemy.position);
-//           //   }
-//           // });
-
-
-//       }
 //       function updateDropdownButton (type, newValue) {
 //         updateAction(player, type, newValue)
 //         if(!newValue){
