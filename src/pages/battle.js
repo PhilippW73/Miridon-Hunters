@@ -151,7 +151,7 @@ class Battle extends Component {
       let who = this.state.eval(input);
       let target = this.state.eval(this.state.eval(input).opposition);
       let results = {};
-      switch(this.state.eval(who).Offensive) {
+      switch(who.Offensive) {
         case "Restore Strength Points":
           results = restoreStrength(who);
           break;
@@ -175,7 +175,7 @@ class Battle extends Component {
       }
       this.setState({
         [input]: results.who,
-        [this.state.eval(input).opposition]: results.target,
+        [who.opposition]: results.target,
         comments: this.state.comments + results.comment
       });
       //CHECK FOR SYNTAX - trying to get who's name and see if it matches first.
@@ -184,13 +184,56 @@ class Battle extends Component {
       console.log(input);
       console.log(first);
       if(input === first) {
-        this.checkDead(this.state.eval(who).opposition, this.chooseMove);
+        this.checkDead(who.opposition, this.chooseMove);
       } else {
-        this.checkDead(this.state.eval(who).opposition, this.endTurn);
+        this.checkDead(who.opposition, this.endTurn);
       }
     }
 
+    function chooseDefense (input) {
+      console.log(input+" is defending");
+      let who = this.state.eval(input);
+      let target = this.state.eval(this.state.eval(input).opposition);
+      let results = {};
+      switch(who.Defensive) {
+        case "Dodge":
+          results = dodge(who);
+          break;
+        case "Block":
+          results = block(who);
+          break;
+        default:
+          break;
+      }
+      this.setState({
+        [input]: results.who,
+        comments: this.state.comments + results.comment
+      });
+    }
+    function chooseMove (input) {
+      console.log(input+" is moving");
+      let who = this.state.eval(input);
+      let target = this.state.eval(this.state.eval(input).opposition);
+      let results = {};
+      switch(who.Movement) {
+        case "Restore Speed Points":
+          results = restoreSpeed(who);
+          break;
+        case "Charge":
+          results = charge(who);
+          break;
+        default:
+          break;
+      }
+      this.setState({
+        [input]: results.who,
+        comments: this.state.comments + results.comment
+      });
+      chooseDefense(who.opposition);
+      chooseOffense(input);
+    }
 
+    
   //Handles choice of actions
   handleActionChange = (event) => {
     let player = this.state.player;
@@ -239,34 +282,7 @@ export default Battle;
 
 
 
-//       function chooseDefense (who) {
-//         console.log(who+" is defending");
-//         switch(eval(who).Defensive) {
-//           case "Dodge":
-//             dodge(who);
-//             break;
-//           case "Block":
-//             block(who);
-//             break;
-//           default:
-//             break;
-//         }
-//       }
-//       function chooseMove (who) {
-//         console.log(who+" is moving");
-//         switch(eval(who).Movement) {
-//           case "Restore Speed Points":
-//             restoreSpeed(who);
-//             break;
-//           case "Charge":
-//             charge(who);
-//             break;
-//           default:
-//             break;
-//         }
-//         chooseDefense(eval(who).opposition);
-//         chooseOffense(who);
-//       }
+
 //       function enemySingleChoice (i){
 //         $.get("/api/actions/availableByType/"+actionTypes[i]+"/"+enemy.curStats.strength_point+"/"+enemy.curStats.speed_point, function(data) {
 //           //console.log("Possible enemy actions: "+ JSON.stringify(data));

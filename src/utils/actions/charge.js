@@ -4,7 +4,7 @@ export default {
   charge: function(who){
     who.curStats.speed_point--;
     return {
-      result: who,
+      who: who,
       comment: who.fullStats.character_name + " charged. "
     };
   }

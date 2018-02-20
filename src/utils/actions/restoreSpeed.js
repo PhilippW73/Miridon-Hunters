@@ -7,7 +7,7 @@ export default {
         restoreValue = Math.min((who.fullStats.speed_point + 3)+ Math.floor(who.fullStats.speed_point / 5)*2, (who.fullStats.speed_point - who.curStats.speed_point)); 
     }
     return {
-      result: who,
+      who: who,
       comment: who.fullStats.character_name + " restored " + restoreValue + " Speed Points. "
     };
   }

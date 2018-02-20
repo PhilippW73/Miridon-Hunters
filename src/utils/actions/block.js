@@ -4,7 +4,7 @@ export default {
   block: function(who){
     who.curStats.strength_point = who.curStats.strength_point - 2;
     return {
-      result: who,
+      who: who,
       comment: who.fullStats.character_name + " blocked. "
     };
   }

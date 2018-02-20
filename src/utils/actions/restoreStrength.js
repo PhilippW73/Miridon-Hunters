@@ -7,7 +7,7 @@ export default {
         restoreValue = Math.min((who.fullStats.strength_point+3)+ Math.floor(who.fullStats.strength_point / 5)*2, (who.fullStats.strength_point - who.curStats.strength_point)); 
     }
     return {
-      result: who,
+      who: who,
       comment: who.fullStats.character_name + " restored " + restoreValue + " Strength Points. "
     };
   }
