@@ -7,14 +7,14 @@ const DisplayLinks = props => {
 			<nav className="navbar">
 				<ul className="nav">
 					<li className="nav-item">
-						<Link to="/" className="nav-link">
+						<a href="/" className="nav-link">
 							Home
-						</Link>
+						</a>
 					</li>
 					<li>
-						<Link to="#" className="nav-link" onClick={props._logout}>
+						<a href="#" className="nav-link" onClick={props._logout}>
 							Logout
-						</Link>
+						</a>
 					</li>
 				</ul>
 			</nav>
@@ -24,19 +24,19 @@ const DisplayLinks = props => {
 			<nav className="navbar">
 				<ul className="nav">
 					<li className="nav-item">
-						<Link to="/" className="nav-link">
+						<a href="/" className="nav-link">
 							Home
-						</Link>
+						</a>
 					</li>
 					<li className="nav-item">
-						<Link to="/login" className="nav-link">
+						<a href="/login" className="nav-link">
 							login
-						</Link>
+						</a>
 					</li>
 					<li className="nav-item">
-						<Link to="/signup" className="nav-link">
+						<a href="/signup" className="nav-link">
 							sign up
-						</Link>
+						</a>
 					</li>
 				</ul>
 			</nav>
