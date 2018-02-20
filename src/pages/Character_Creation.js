@@ -6,12 +6,12 @@ import Chat from "../components/Chat";
 import Navbar from "../components/Navbar";
 import Input from "../components/Input";
 import Row from "../components/Row";
-import Column from "../components/Colmun";
+//import Column from "../components/Colmun";
 
 
 
 
-render() {
+{/*render() {
   return ( 
   <Container>
       <header />
@@ -19,10 +19,10 @@ render() {
           <input />
       <footer />
   </Container>
-  );
-}		
+  )
+}		*/}
   		
   
 
-  export default Profile;
+  {/*export default Profile;*/}
 

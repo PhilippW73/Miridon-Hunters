@@ -1,7 +1,6 @@
 import React from 'react'
-// TODO - add proptypes
 
-const Home = props => {
+const HomeComp = props => {
 	if (props.user) {
 		return (
 			<div className="Home">
@@ -23,4 +22,4 @@ const Home = props => {
 	}
 }
 
-export default Home
+export default HomeComp

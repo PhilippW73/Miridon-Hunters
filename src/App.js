@@ -2,16 +2,15 @@ import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
-import Battle from "./pages/Battle";
+//import Battle from "./pages/battle";
 import Character_Creation from "./pages/Character_Creation";
 import Character_Selection from "./pages/Character_Selection";
 import Profile from "./pages/Profile";
 import Upgrade_and_Shop from "./pages/Upgrade_and_Shop";
 import SignupForm from "./pages/SignupForm";
-
-import Footer from "./components/Footer";
-import LoginForm from "./components/LoginForm";
-import Navbar from "./components/Navbar";
+// import Footer from "./components/Footer";
+import LoginForm from "./components/LoginForm"; 
+//import Navbar from "./components/Navbar";
 import Wrapper from "./components/Wrapper";
 
 // import Greeting from "./components/Greeting";
@@ -30,11 +29,11 @@ import Wrapper from "./components/Wrapper";
 const App = () =>
   <Router>
     <div>
-      <Navbar/>
+      {/*<Navbar/> */}
       <Wrapper>
         <Route exact path="/" component={Home} />
         <Route exact path="/Home" component={Home} />
-        <Route exact path="/Battle" component={Battle} />
+        {/*<Route exact path="/Battle" component={Battle} />*/}
         <Route exact path="/Character_Creation" component={Character_Creation} />
         <Route exact path="/Character_Selection" component={Character_Selection} />
         <Route exact path="/Character_Creation" component={Character_Creation} />
@@ -48,11 +47,10 @@ const App = () =>
           render={() =>
             <LoginForm
               _login={this._login}
-              _googleSignin={this._googleSignin}
             />}
         />
       </Wrapper>
-      <Footer />
+      
     </div>
   </Router>;
 
