@@ -1,5 +1,5 @@
 import React from 'react'
-import './HomeComp.css'
+import "./HomeComp.css";
 
 const HomeComp = props => {
 	if (props.user) {
