@@ -1,307 +1,197 @@
-import React, {
-    Component
-} from "react";
-import API from "../utils/API";
-import Container from "../components/Container";
-// import SearchForm from "../components/SearchForm";
-// import SearchResults from "../components/SearchResults";
-// import Alert from "../components/Alert";
+import React from "react";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import Image from "../components/Image";
+import Chat from "../components/Chat";
+import Navbar from "../components/Navbar";
+import Input from "../components/Input";
+import Row from "../components/Row";
+import Col from "../components/col";
+import Greeting from "../components/Greeting";
+import Wins_Losses from "../components/Wins_Losses";
 
-//Things needed: mongo, header, footer, player area...
-import header from "../components/header";
-import footer from "../components/footer";
+//import API from "../utils/API";
+//import mongo from "../utils/mongo";
+//import Container from "../components/Container";
+import {
+  aimedAttack,
+  block,
+  charge,
+  dodge,
+  gunAttack,
+  meleeAttack,
+  meleeCombo,
+  reload,
+  restoreSpeed,
+  restoreStrength
+} from "../utils/actions";
+
+const stats = [
+  {name: "Hit Points",
+  reference: "hit_point",
+  progressClass: "bg-danger"},
+  {name: "Strength",
+  reference: "strength_point",
+  progressClass: "bg-warning"},
+  {name: "Speed",
+  reference: "speed_point",
+  progressClass: "bg-success"},
+  {name: "Ghost Hit Points",
+  reference: "ghost_hp",
+  progressClass: ""}];
+
 
 class Battle extends Component {
-    state = {
-        error: "",
-        player: {
-            position: "player",
-            opposition: "enemy",
-            Movement: "",
-            Offensive: "",
-            Defensive: "",
-            actions: {}
-        },
-        enemy: {
-            position: "enemy",
-            opposition: "player",
-            Movement: "",
-            Offensive: "",
-            Defensive: "",
-            actions: {}
-        },
-        actionTypes: {},
-        stats: ["hit_point","strength_point", "speed_point","ghost_hp"],
-        first: "",
-        comments: ""
-    };
-
-//       var stats = ["hit_point","strength_point", "speed_point","ghost_hp"];
-//       var actionTypes = ["Offensive","Defensive","Movement"];
-//       var first;
-    // When the component mounts, get a list of all available base breeds and update this.state.breeds
-    componentDidMount() {
-        //how are we getting the id?
-        //First time: get character, action types, actions
-        this.getCharacter();
-    }
-
-    getCharacter() {
-        mongo.getCharacter({
-                id
-            })
-            .then(res => {
-                let player = this.state.player;
-                player.fullStats = res.data.message;
-                this.setState({
-                    player: player
-                })
-                this.getEnemy();
-            })
-            .catch(err => console.log(err));
-    }
-
-    getEnemy() {
-        if (this.state.player.fullStats.wins != 0) {
-            const randEnemy = (Math.random() * .2 - .1) + (parseFloat(this.state.player.fullStats.wins) / (parseFloat(this.state.player.fullStats.wins) + parseFloat(this.state.player.fullStats.losses)));
-        } else {
-            const randEnemy = (Math.random() * .1);
-        }
-        mongo.getCharacterByWins(randEnemy)
-            .then(res => {
-                let enemy = this.state.enemy;
-                enemy.fullStats = res.data.message;
-                this.setState({
-                    enemy: enemy
-                })
-                this.getActions();
-            })
-            .catch(err => console.log(err));
-    }
-
-    getActionTypes() {
-        mongo.getActionTypes()
-            .then(res => {
-                //Send action type info 
-                this.setState({
-                    actionTypes: res.data.message
-                })
-            })
-            .catch(err => console.log(err));
-    }
-
-    getActions(who) {
-        //sends id based on who
-        const id = this.state.eval(who).fullStats.character_id;
-        const strength = this.state.eval(who).curStats.strength_point;
-        const speed = this.state.eval(who).curStats.speed_point;
-        mongo.getActions(id, strength, speed)
-            .then(res => {
-                let temp = this.state.eval(who);
-                temp.actions = res.data.message;
-                this.setState({
-                    [who]: temp
-                })
-            })
-            .catch(err => console.log(err));
-    }
+  state = {
+    error: "",
+    player: {
+      position: "player",
+      opposition: "enemy",
+      Movement: "",
+      Offensive: "",
+      Defensive: "",
+      actions: {}
+    },
+    enemy: {
+      position: "enemy",
+      opposition: "player",
+      Movement: "",
+      Offensive: "",
+      Defensive: "",
+      actions: {}
+    },
+    actionTypes: {},
+    first: "",
+    comments: "Choose your actions for the round (one of each), and then press 'Start Turn'."
+  };
 
 
-    handleInputChange = event => {
+  componentDidMount() {
+    //how are we getting the id?
+    //First time: get character, action types, actions
+    this.getCharacter();
+  }
+
+  getCharacter() {
+    mongo.getCharacter({
+      //TODO: pass in id somehow
+        id
+      })
+      .then(res => {
+        let player = this.state.player;
+        
+        player.fullStats = res.data.message;
         this.setState({
-            search: event.target.value
-        });
-    };
+          player: player
+        })
+        this.getEnemy();
+      })
+      .catch(err => console.log(err));
+  }
 
-    handleFormSubmit = event => {
-        event.preventDefault();
-        API.getDogsOfBreed(this.state.search)
-            .then(res => {
-                if (res.data.status === "error") {
-                    throw new Error(res.data.message);
-                }
-                this.setState({
-                    results: res.data.message,
-                    error: ""
-                });
-            })
-            .catch(err => this.setState({
-                error: err.message
-            }));
-    };
-
-    render() {
-        return ( 
-        <Container>
-            <header />
-            <footer />
-        </Container>
-        );
+  getEnemy() {
+    if (this.state.player.fullStats.wins != 0) {
+      const randEnemy = (Math.random() * .2 - .1) + (parseFloat(this.state.player.fullStats.wins) / (parseFloat(this.state.player.fullStats.wins) + parseFloat(this.state.player.fullStats.losses)));
+    } else {
+      const randEnemy = (Math.random() * .1);
     }
+    mongo.getCharacterByRatio(randEnemy)
+      .then(res => {
+        let enemy = this.state.enemy;
+        enemy.fullStats = res.data.message;
+        this.setState({
+          enemy: enemy
+        })
+        this.getActions();
+      })
+      .catch(err => console.log(err));
+  }
+
+  getActionTypes() {
+    mongo.getActionTypes()
+      .then(res => {
+        //Send action type info 
+        this.setState({
+          actionTypes: res.data.message
+        })
+      })
+      .catch(err => console.log(err));
+  }
+
+  getActions(who) {
+    //sends id based on who
+    const id = this.state.eval(who).fullStats.character_id;
+    const strength = this.state.eval(who).curStats.strength_point;
+    const speed = this.state.eval(who).curStats.speed_point;
+    mongo.getActions(id, strength, speed)
+      .then(res => {
+        let temp = this.state.eval(who);
+        temp.actions = res.data.message;
+        this.setState({
+          [who]: temp
+        })
+      })
+      .catch(err => console.log(err));
+  }
+
+  initiative = () => {
+    if (this.state.player.fullStats.speed_point > this.state.enemy.fullStats.speed_point) {
+      this.setState({first: "player"});
+    } else if (this.state.player.fullStats.speed_point < this.state.enemy.fullStats.speed_point || Math.random()<.5 ) {
+      this.setState({first: "enemy"});
+    } else {
+      this.setState({first: "player"});
+    }
+  }
+
+  //Handles choice of actions
+  handleActionChange = (event) => {
+    let player = this.state.player;
+    player[event.target.name] = event.target.value;
+    this.setState({ player: player});
+  }
+
+  handleFormSubmit = event => {
+    event.preventDefault();
+    //On submit... 1. Make enemy actions up 2. Figure out who goes first 3. Run through actions
+  };
+
+  render() {
+    return (
+      <Container>
+        <Header />
+        <Row>
+          <Col size="md-offset-1 md-4">
+            <BattleChar {...this.state.player} stats={stats} />
+          </Col>
+          <Col size="md-offset-1 md-4">
+            <BattleChar {...this.state.enemy} stats={stats} />
+          </Col>
+        </Row>
+        <Row>
+          <Col size="md-12">
+            <h3>Actions</h3>
+            <div className="btn-group" role="group">
+              {props.actionTypes.map(actionType => <ButtonDropdown actionType actions strength={this.state.player.curStats.strength_point} speed={this.state.player.curStats.speed_point} weapon={this.state.player.fullStats.weapon}/>
+                )}
+              <button class="btn btn-default" type="button" id="startTurn">Start Turn
+              </button> 
+            </div>
+            <div>{this.state.comments}
+            </div>
+            <a class="btn btn-default" href="http://miridon.reuniontechnologies.com/page/battlerules-actions" role="button" target="_blank">See All Actions</a>
+          </Col>
+        </Row>
+        <Footer />
+      </Container>
+    );
+  }
 }
 
 export default Battle;
 
 
-//       function restoreStrength(who){
-//           restoreValue = Math.min((eval(who).curStats.strength_point + 2) + Math.floor(eval(who).fullStats.strength_point / 5), (eval(who).fullStats.strength_point - eval(who).curStats.strength_point));
-//           if(eval(who).Movement === "Restore Speed Points"){
-//               restoreValue = Math.min((eval(who).curStats.strength_point+3)+ Math.floor(eval(who).fullStats.strength_point / 5)*2, (eval(who).fullStats.strength_point - eval(who).curStats.strength_point)); 
-//           }
-//           $("#comments p").append(eval(who).fullStats.character_name + " restored" + restoreValue + " Strength Points. ");
-//           eval(who).curStats.strength_point += restoreValue;
-//       }
 
-//       function restoreSpeed(who){
-//           restoreValue = Math.min((eval(who).curStats.speed_point + 2) + Math.floor(eval(who).fullStats.speed_point / 5), (eval(who).fullStats.speed_point - eval(who).curStats.speed_point));
-//           if(eval(who).Movement === "Restore Speed Points"){
-//               restoreValue = Math.min((eval(who).fullStats.speed_point+3)+ Math.floor(eval(who).fullStats.speed_point / 5)*2, (eval(who).fullStats.speed_point - eval(who).curStats.speed_point)); 
-//           }
-//           $("#comments p").append(eval(who).fullStats.character_name + " restored " + restoreValue + " Speed Points. ");
-//           eval(who).curStats.speed_point += restoreValue;
-//       }
-
-//       function meleeAttack(who){
-//         console.log("Melee attack by "+who);
-//           if(eval(who).curStats.strength_point < 2 || eval(who).curStats.speed_point < 1) {
-//               $("#comments p").append(eval(who).fullStats.character_name+" did not have enough energy to attack. They attempt to gather strength. ");
-//               restoreStrength(who);
-//           } else {
-//               eval(who).curStats.strength_point = eval(who).curStats.strength_point - 2;
-//               eval(who).curStats.speed_point = eval(who).curStats.speed_point - 1;
-//               if(eval(eval(who).opposition).Defensive = "Block"){
-//                   var damage = Math.max((eval(who).fullStats.strength_point - eval(eval(who).opposition).fullStats.strength_point + Math.floor(Math.random()*6)+Math.floor(Math.random()*6)+2), 0);
-//                   if(eval(who).Movement != "Charge") {
-//                       damage = damage + 2;
-//                   }
-//                   eval(eval(who).opposition).curStats.hit_point =  eval(eval(who).opposition).curStats.hit_point - damage;
-//                   $("#comments p").append(eval(eval(who).opposition).fullStats.character_name + " blocked "+eval(who).fullStats.character_name+"'s attack and got dealt " + damage + " damage. ");
-//               } else if(eval(eval(who).opposition).Defensive = "Dodge" && (eval(eval(who).opposition).fullStats.speed_point - eval(who).fullStats.speed_point + Math.floor(Math.random()*6)+1 > 4)){
-//                   //opposition dodges
-//                   $("#comments p").append(eval(who).fullStats.character_name + " missed due to "+eval(eval(who).opposition).fullStats.character_name+" dodging. ");
-//               } else {
-//                   //no defense
-//                   var damage = Math.max((eval(who).fullStats.strength_point + Math.floor(Math.random()*6)+Math.floor(Math.random()*6)+2), 0);
-//                   eval(eval(who).opposition).curStats.hit_point =  eval(eval(who).opposition).curStats.hit_point - damage;
-//                   if(eval(who).Movement != "Charge") {
-//                       damage = damage + 2;
-//                   }
-//                   $("#comments p").append(eval(who).fullStats.character_name+"'s attack dealt " + damage + " damage to "+eval(eval(who).opposition).fullStats.character_name+". ");
-//               }
-//               toggleCombo(false);
-//           }
-//       }
-
-//       function meleeCombo(who){
-//           if(eval(who).curStats.strength_point < 1 || eval(who).curStats.speed_point < 2) {
-//               $("#comments p").append(eval(who).fullStats.character_name+" did not have enough energy to attack. They attempt to gather strength. ");
-//               restoreStrength(who);
-//           } else {
-//               eval(who).curStats.strength_point = eval(who).curStats.strength_point - 1;
-//               eval(who).curStats.speed_point = eval(who).curStats.speed_point - 2;
-//               if(eval(eval(who).opposition).Defensive = "Block"){
-//                   var damage = Math.max((eval(who).fullStats.strength_point - eval(eval(who).opposition).fullStats.strength_point + Math.floor(Math.random()*6)+Math.floor(Math.random()*6)+2), 0);
-//                   if(eval(who).Movement != "Charge") {
-//                       damage = damage + 2;
-//                   }
-//                   eval(eval(who).opposition).curStats.hit_point =  eval(eval(who).opposition).curStats.hit_point - damage;
-//                   $("#comments p").append(eval(eval(who).opposition).fullStats.character_name + " blocked "+eval(who).fullStats.character_name+"'s attack and got dealt " + damage + " damage. ");
-//               } else if(eval(eval(who).opposition).Defensive = "Dodge" && (eval(eval(who).opposition).fullStats.speed_point - eval(who).fullStats.speed_point + Math.floor(Math.random()*6)+1 > 4)){
-//                   //opposition dodges
-//                   $("#comments p").append(eval(who).fullStats.character_name + " missed due to "+eval(eval(who).opposition).fullStats.character_name+" dodging. ");
-//               } else {
-//                   //no defense
-//                   var damage = Math.max((eval(who).fullStats.strength_point + Math.floor(Math.random()*6)+Math.floor(Math.random()*6)+2), 0);
-//                   eval(eval(who).opposition).curStats.hit_point =  eval(eval(who).opposition).curStats.hit_point - damage;
-//                   if(eval(who).Movement != "Charge") {
-//                       damage = damage + 2;
-//                   }
-//                   $("#comments p").append(eval(who).fullStats.character_name+"'s attack dealt " + damage + " damage to "+eval(eval(who).opposition).fullStats.character_name+". ");
-//               }
-//               toggleCombo(false);
-//           }
-//       }
-
-//       function gunAttack(who){
-//           eval(who).curStats.speed_point = eval(who).curStats.speed_point - 1;
-//           if(eval(eval(who).opposition).Defensive = "Block"){
-//               var damage = Math.max((eval(who).fullStats.strength_point - eval(eval(who).opposition).fullStats.strength_point + Math.floor(Math.random()*6)+Math.floor(Math.random()*6)+2), 0);
-//               if(eval(who).Movement != "Charge") {
-//                   $("#comments p").append(eval(who).fullStats.character_name + " charged.")
-//                   damage = damage + 2;
-//               }
-//               eval(eval(who).opposition).curStats.hit_point =  eval(eval(who).opposition).curStats.hit_point - damage;
-//               $("#comments p").append(eval(eval(who).opposition).fullStats.character_name + " blocked "+eval(who).fullStats.character_name+"'s attack and got dealt " + damage + " damage.");
-//           } else if(eval(eval(who).opposition).Defensive = "Dodge" && (eval(eval(who).opposition).fullStats.speed_point - eval(who).fullStats.speed_point + Math.floor(Math.random()*6)+1 > 4)){
-//               //opposition dodges
-//               $("#comments p").append(eval(who).fullStats.character_name + " missed due to "+eval(eval(who).opposition).fullStats.character_name+" dodging.");
-//           } else {
-//               //no defense
-//               var damage = Math.max((eval(who).fullStats.strength_point + Math.floor(Math.random()*6)+Math.floor(Math.random()*6)+2), 0);
-//               eval(eval(who).opposition).curStats.hit_point =  eval(eval(who).opposition).curStats.hit_point - damage;
-//               if(eval(who).Movement != "Charge") {
-//                   $("#comments p").append(eval(who).fullStats.character_name + " charged.")
-//                   damage = damage + 2;
-//               }
-//               $("#comments p").append(eval(who).fullStats.character_name+"'s attack dealt " + damage + " damage to "+eval(eval(who).opposition).fullStats.character_name+".");
-//           }
-//       }
-
-//       function aimedAttack(who){
-//           eval(who).curStats.speed_point = eval(who).curStats.speed_point - 3;
-//           if(eval(eval(who).opposition).Defensive = "Block"){
-//               var damage = Math.max((eval(who).fullStats.strength_point - eval(eval(who).opposition).fullStats.strength_point + Math.floor(Math.random()*6)+Math.floor(Math.random()*6)+2)+3, 0);
-//               if(eval(who).Movement != "Charge") {
-//                   $("#comments p").append(eval(who).fullStats.character_name + " charged.")
-//                   damage = damage + 2;
-//               }
-//               eval(eval(who).opposition).curStats.hit_point =  eval(eval(who).opposition).curStats.hit_point - damage;
-//               $("#comments p").append(eval(eval(who).opposition).fullStats.character_name + " blocked "+eval(who).fullStats.character_name+"'s attack and got dealt " + damage + " damage.");
-//           } else if(eval(eval(who).opposition).Defensive = "Dodge" && (eval(eval(who).opposition).fullStats.speed_point - eval(who).fullStats.speed_point + Math.floor(Math.random()*6)+1 > 4)){
-//               //opposition dodges
-//               $("#comments p").append(eval(who).fullStats.character_name + " missed due to "+eval(eval(who).opposition).fullStats.character_name+" dodging.");
-//           } else {
-//               //no defense
-//               var damage = Math.max((eval(who).fullStats.strength_point + Math.floor(Math.random()*6)+Math.floor(Math.random()*6)+2)+3, 0);
-//               eval(eval(who).opposition).curStats.hit_point =  eval(eval(who).opposition).curStats.hit_point - damage;
-//               if(eval(who).Movement != "Charge") {
-//                   $("#comments p").append(eval(who).fullStats.character_name + " charged.")
-//                   damage = damage + 2;
-//               }
-//               $("#comments p").append(eval(who).fullStats.character_name+"'s attack dealt " + damage + " damage to "+eval(eval(who).opposition).fullStats.character_name+".");
-//           }
-//       }    
-
-//       //function reload(who, func){
-
-//       //}
-//       function charge(who) {
-//           if(eval(who).curStats.speed_point > 0 ) {
-//               eval(who).curStats.speed_point--;
-//               $("#comments p").append(eval(who).fullStats.character_name + " charged. ");
-//           } else {
-//               $("#comments p").append(eval(who).fullStats.character_name+" did not have enough strength to charge. They attempt to gather speed. ");
-//               restoreSpeed(who);
-//           }
-//       }
-
-//       function block(who) {
-//           if(eval(who).curStats.strength_point > 1 ) {
-//               eval(who).curStats.strength_point = eval(who).curStats.strength_point - 2;
-//               $("#comments p").append(eval(who).fullStats.character_name + " blocked. ");
-//           } else {
-//               $("#comments p").append(eval(who).fullStats.character_name+" did not have enough strength to block. ");
-//           }
-//       }
-
-//       function dodge(who) {
-//           if(eval(who).curStats.speed_point > 0 ) {
-//               eval(who).curStats.speed_point--;
-//               $("#comments p").append(eval(who).fullStats.character_name + " attempted to dodge. ");
-//           } else {
-//               $("#comments p").append(eval(who).fullStats.character_name+" did not have enough speed to dodge. ");
-//           }
-//       }
 //     //battle order functions
 //       function turnOrder() {
 //         if (player.fullStats.speed_point > enemy.fullStats.speed_point) {
