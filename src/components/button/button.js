@@ -1,11 +1,11 @@
 import React from "react";
-import "./button.css";
+import "./Button.css";
 
-const button = props =>
+const Button = props =>
 <button
 	onClick={props.onClick}
 	className={`card-btn ${props["data-value"]}`}
 	{...props}
 />;
 
-export default button
+export default Button

@@ -1,1 +1,1 @@
-export { default } from "./col";
+export { default } from "./Col";
