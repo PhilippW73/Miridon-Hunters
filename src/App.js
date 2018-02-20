@@ -1,6 +1,6 @@
-import React from "react";
+import React, { Component } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-
+import axios from 'axios';
 import Home from "./pages/Home";
 //import Battle from "./pages/battle";
 import Character_Creation from "./pages/Character_Creation";
@@ -26,32 +26,99 @@ import Wrapper from "./components/Wrapper";
 // import DisplayLinks from "./components/DisplayLinks";
 
 
-const App = () =>
-  <Router>
-    <div>
-      {/*<Navbar/> */}
-      <Wrapper>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/Home" component={Home} />
-        {/*<Route exact path="/Battle" component={Battle} />*/}
-        <Route exact path="/Character_Creation" component={Character_Creation} />
-        <Route exact path="/Character_Selection" component={Character_Selection} />
-        <Route exact path="/Character_Creation" component={Character_Creation} />
-        <Route exact path="/Profile" component={Profile} />
-        <Route exact path="/Upgrade_and_Shop" component={Upgrade_and_Shop} />
-        <Route exact path="/signup" component={SignupForm} />
-        <Route exact path="/" render={() => <Home user={this.state.user} />} />
-        <Route
-          exact
-          path="/login"
-          render={() =>
-            <LoginForm
-              _login={this._login}
-            />}
-        />
-      </Wrapper>
-      
-    </div>
-  </Router>;
+class App extends Component {
+  constructor() {
+    super()
+    this.state = {
+      loggedIn: false,
+      user: null
+    }
+    this._logout = this._logout.bind(this)
+    this._login = this._login.bind(this)
+  }
+  componentDidMount() {
+    console.log('component mounted!');
+    axios.get('/auth/user').then(response => {
+      console.log(response.data)
+      if (response.data.user) {
+        console.log('THERE IS A USER: ', response);
+        this.setState({
+          loggedIn: true,
+          user: response.data.user
+        })
+      } else {
+        this.setState({
+          loggedIn: false,
+          user: null
+        })
+      }
+    }).catch(err => console.log('Error: ', err))
+  }
+
+  _logout(event) {
+    event.preventDefault()
+    console.log('logging out')
+    axios.post('/auth/logout').then(response => {
+      console.log(response.data)
+      if (response.status === 200) {
+        this.setState({
+          loggedIn: false,
+          user: null
+        })
+      }
+    })
+  }
+
+  _login(username, password) {
+    axios
+      .post('/auth/login', {
+        username,
+        password
+      })
+      .then(response => {
+        console.log(response)
+        if (response.status === 200) {
+          // update the state
+          this.setState({
+            loggedIn: true,
+            user: response.data.user
+          })
+        }
+      })
+  }
+
+
+  render () {
+    return (
+      <Router>
+          <div>
+            {/*<Navbar/> */}
+            <Wrapper>
+              <Route exact path="/" component={Home} />
+              <Route exact path="/Home" component={Home} />
+              {/*<Route exact path="/Battle" component={Battle} />*/}
+              <Route exact path="/Character_Creation" component={Character_Creation} />
+              <Route exact path="/Character_Selection" component={Character_Selection} />
+              <Route exact path="/Character_Creation" component={Character_Creation} />
+              <Route exact path="/Profile" component={Profile} />
+              <Route exact path="/Upgrade_and_Shop" component={Upgrade_and_Shop} />
+              <Route exact path="/signup" component={SignupForm} />
+              <Route exact path="/" render={() => <Home user={this.state.user} />} />
+              <Route
+                exact
+                path="/login"
+                render={() =>
+                  <LoginForm
+                    _login={this._login}
+                  />}
+              />
+            </Wrapper>
+            
+          </div>
+        </Router>
+      );
+  }
+  
+}
 
 export default App;

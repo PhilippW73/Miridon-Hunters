@@ -7,11 +7,11 @@ const passport = require('../passport')
 // this route is just used to get the user basic info
 router.get('/user', (req, res, next) => {
 	console.log('===== user!!======')
-	console.log(req.user)
+	console.log(req);
 	if (req.user) {
 		return res.json({ user: req.user })
 	} else {
-		return res.json({ user: null })
+		return res.send({ user: null })
 	}
 })
 
