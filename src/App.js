@@ -1,26 +1,30 @@
 import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
+
+import Home from "./pages/Home";
 import Battle from "./pages/Battle";
 import Character_Creation from "./pages/Character_Creation";
 import Character_Selection from "./pages/Character_Selection";
-import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Upgrade_and_Shop from "./pages/Upgrade_and_Shop";
-import Greeting from "./components/Greeting";
-import Wins_Losses from "./components/Wins_Losses";
-import Chat from "./components/Chat";
-import Column from "./components/Column";
+import SignupForm from "./pages/SignupForm";
+
 import Footer from "./components/Footer";
-import Header from "./components/Header";
-import Image from "./components/Image";
-import Input from "./components/Input";
-import Login from "./components/Login";
-import Navbar from "./components/Navbar";
-import Profile_Main from "./components/Profile_Main";
-import Row from "./components/Row";
-import Store_Exchange from "./components/Store_Exchange";
 import LoginForm from "./components/LoginForm";
-import DisplayLinks from "./components/DisplayLinks";
+import Navbar from "./components/Navbar";
+import Wrapper from "./components/Wrapper";
+
+// import Greeting from "./components/Greeting";
+// import Wins_Losses from "./components/Wins_Losses";
+// import Chat from "./components/Chat";
+// import Column from "./components/Column";
+// import Header from "./components/Header";
+// import Image from "./components/Image";
+// import Input from "./components/Input";
+// import Profile_Main from "./components/Profile_Main";
+// import Row from "./components/Row";
+// import Store_Exchange from "./components/Store_Exchange";
+// import DisplayLinks from "./components/DisplayLinks";
 
 
 const App = () =>
