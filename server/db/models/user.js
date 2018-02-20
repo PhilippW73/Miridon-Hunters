@@ -11,7 +11,7 @@ const userSchema = new Schema({
 		username: { type: String, unique: false, required: false },
 		password: { type: String, unique: false, required: false }
 	},
-	
+	bio: { type: String, unique: false },
 	photos: []
 	
 })

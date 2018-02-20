@@ -14,18 +14,18 @@ const Profile = () =>
   <div>
   	
   	<Header/>
-  		{/*image*/}
+  	{/*image*/}
   		
-  			<Chat/>
+  	<Chat/>
   				
-  				<Greeting/>
+  	<Greeting/>
   				
-  					<Input/>
-  						{/*image*/}
+  	<Input/>
+  	{/*image*/}
   								
-  						<Wins_Losses/>
+  	<Wins_Losses/>
   								
-  							<Footer/>
+  	<Footer/>
   									
   		
   </div>;
