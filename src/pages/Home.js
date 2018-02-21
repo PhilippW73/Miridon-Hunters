@@ -11,7 +11,7 @@ import {Launcher} from '../components/Chat2';
 const Home = props => (
 	<div className="App">	
 		<Header user={props.user} />
-		<DisplayLinks />
+		<DisplayLinks _logout={props._logout} loggedIn={props.loggedIn} />
 		<HomeComp />
 		<Launcher
 			agentProfile={{
