@@ -60,8 +60,10 @@ class Battle extends Component {
       Defensive: "",
       actions: {}
     },
-    actionTypes: {},
+    actionTypes: [],
     first: "",
+    meleeCombo: false,
+    actionsDisabled: false;
     comments: "Choose your actions for the round (one of each), and then press 'Start Turn'."
   };
 
@@ -84,7 +86,19 @@ class Battle extends Component {
         this.setState({
           player: player
         })
-        this.getEnemy();
+        this.getActionTypes();
+      })
+      .catch(err => console.log(err));
+  }
+
+  getActionTypes() {
+    mongo.getActionTypes()
+      .then(res => {
+        //Send action type info 
+        this.setState({
+          actionTypes: res.data.message
+        })
+        this.getActions("player", this.getEnemy);
       })
       .catch(err => console.log(err));
   }
@@ -102,18 +116,8 @@ class Battle extends Component {
         this.setState({
           enemy: enemy
         })
-        this.getActions();
-      })
-      .catch(err => console.log(err));
-  }
-
-  getActionTypes() {
-    mongo.getActionTypes()
-      .then(res => {
-        //Send action type info 
-        this.setState({
-          actionTypes: res.data.message
-        })
+        this.initiative();
+        this.getActions("enemy", );
       })
       .catch(err => console.log(err));
   }
@@ -134,7 +138,7 @@ class Battle extends Component {
         })
       })
       .catch(err => console.log(err));
-    if(callback){
+    if(callback && typeof callback === "function"){
       callback();
     }
   }
@@ -162,9 +166,15 @@ class Battle extends Component {
           break;
         case "Melee Attack":
           results = meleeAttack(who, target);
+          if (input === "player"){
+            this.setState({meleeCombo: true});
+          }
           break;
         case "Melee Combo Attack":
           results = meleeCombo(who, target);
+          if (input === "player"){
+            this.setState({meleeCombo: true});
+          }
           break;
         case "Gun Attack":
           results = gunAttack(who, target);
@@ -248,13 +258,43 @@ class Battle extends Component {
         console.log("Enemy choices:"+this.state.enemy.Movement+this.state.enemy.Offensive+this.state.enemy.Defensive);
         if(this.state.first === "player"){
           //player goes first
-          this.state.chooseMove("player");
+          this.chooseMove("player");
         } else {
           //enemy goes first
-          this.state.chooseMove("enemy");
+          this.chooseMove("enemy");
         }
       });
     }
+
+  function checkDead (who, func) {
+    if(this.state.eval(who).curStats.hit_point < 1) {
+      $(".dropdown-toggle").addClass("disabled");
+      $("#startTurn").addClass("disabled");
+      if (who === "player") {
+        //lose
+        this.setState({comments: this.state.comments + " You lost the battle."});
+        mongo.charLose(this.state.player.character_id);
+        mongo.charWin(this.state.enemy.character_id);
+        mongo.playerLose(id);
+      } else {
+        //win
+        this.setState({comments: this.state.comments + " You won the battle!"});
+        mongo.charWin(this.state.player.character_id);
+        mongo.charLose(this.state.enemy.character_id);
+        mongo.playerWin(id);
+      }
+    } else {
+      func(who);
+    }
+  }
+
+  function endTurn () {
+    console.log("Turn end");
+    //set buttons back to normal
+    this.setState({
+      actionsDisabled: false
+    });
+  }
 
   //Handles choice of actions
   handleActionChange = (event) => {
@@ -265,7 +305,12 @@ class Battle extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
-    //On submit... 1. Make enemy actions up 2. Figure out who goes first 3. Run through actions
+    this.setState({
+      meleeCombo: false,
+      actionsDisabled: true,
+      comments: ""
+    });
+    this.enemyChoice();
   };
 
   render() {
@@ -284,9 +329,9 @@ class Battle extends Component {
           <Col size="md-12">
             <h3>Actions</h3>
             <div className="btn-group" role="group">
-              {props.actionTypes.map(actionType => <ButtonDropdown actionType actions strength={this.state.player.curStats.strength_point} speed={this.state.player.curStats.speed_point} weapon={this.state.player.fullStats.weapon}/>
+              {props.actionTypes.map(actionType => <ButtonDropdown actionType actions strength={this.state.player.curStats.strength_point} speed={this.state.player.curStats.speed_point} weapon={this.state.player.fullStats.weapon} current={this.state.player[actionType.name]} meleeCombo actionsDisabled/>
                 )}
-              <button class="btn btn-default" type="button" id="startTurn">Start Turn
+              <button class="btn btn-default" type="button" id="startTurn" onClick={this.handleActionChange} { this.state.actionsDisabled ? "disabled" : "" }>Start Turn
               </button> 
             </div>
             <div>{this.state.comments}
@@ -302,100 +347,3 @@ class Battle extends Component {
 
 export default Battle;
 
-
-//       function updateDropdownButton (type, newValue) {
-//         updateAction(player, type, newValue)
-//         if(!newValue){
-//           newValue = type;
-//         }
-//         $("#"+type+"DropdownText").text(newValue);
-//       }
-//       function updateAction (who, type, newValue) {
-//         who[type] = newValue;
-//         console.log(type + " set to "+newValue);
-//       }
-//       function startTurn () {
-//         //disable dropdowns
-//         $(".dropdown-toggle").addClass("disabled");
-//         //enemy selects
-//         console.log("dropdowns disabled");
-//         toggleCombo(true);
-//         $("#comments p").text("");
-//         updateProgress();
-//         enemyChoice();
-
-//       }
-//       function endTurn () {
-//         console.log("Turn end");
-//         //set buttons back to normal
-//         for (i = 0; i < actionTypes.length; i++){
-//           updateDropdownButton(actionTypes[i])
-//         }
-//         updateProgress();
-//         //enable dropdowns
-//         $(".dropdown-toggle").removeClass("disabled");
-//       }
-//       function checkDead (who, func) {
-//         if(eval(who).curStats.hit_point < 1) {
-//           $(".dropdown-toggle").addClass("disabled");
-//           $("#startTurn").addClass("disabled");
-//           if (who === "player") {
-//             //lose
-//             $("#comments p").append(" You lost the battle.");
-//             $.ajax({
-//               method: "PUT",
-//               url: "/api/lost/"+player.fullStats.character_id
-//             });
-//             $.ajax({
-//               method: "PUT",
-//               url: "/api/won/"+enemy.fullStats.character_id
-//             });
-//           } else {
-//             //win
-//             $("#comments p").append(" You won the battle!");
-//             $.ajax({
-//               method: "PUT",
-//               url: "/api/won/"+player.fullStats.character_id
-//             });
-//             $.ajax({
-//               method: "PUT",
-//               url: "/api/lost/"+enemy.fullStats.character_id
-//             });
-//           }
-//         } else {
-//           func(who);
-//         }
-//       }
-//       function toggleCombo(hide) {
-//         //if ($(":contains('Melee Combo Attack')").hasClass("hidden")){
-//         if(hide) {
-//           $("a:contains('Melee Combo Attack')").addClass("hidden");
-//         } else {
-//           $("a:contains('Melee Combo Attack')").removeClass("hidden");
-//         } 
-//       }
-
-//       toggleCombo(true);
-//     //Start!
-//       initialize();
-
-//     //Buttons
-
-//       $("body").on("click",".dropdown-menu li a", function(){
-//         event.preventDefault();
-
-//         // change the button and action
-//         if (!$("#startTurn").hasClass("disabled")) {
-//           console.log("Selection made");
-//           updateDropdownButton($(this).parent().parent().parent().attr("value"), $(this).text());
-//         }
-
-//       });
-//       $("body").on("click", "#startTurn", function() {
-//         event.preventDefault();
-//         if (!$("#startTurn").hasClass("disabled")) {
-//           startTurn();
-//         }
-//       });
-
-//   });
