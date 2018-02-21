@@ -5,8 +5,11 @@ const DisplayLinks = props => {
 	if (props.loggedIn) {
 		return (
 			<nav className="navbar">
+			
 				<ul className="nav">
+				
 					<li className="nav-item">
+					
 						<a href="/" className="nav-link">
 							Home
 						</a>
