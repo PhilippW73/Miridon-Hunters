@@ -2,6 +2,7 @@ import React from "react";
 import "./Greeting.css";
 
 const Greeting = props => {
+	console.log('props in greeting component: ', props);
 	if (props.user) {
 		return (
 			<div className="Home">
