@@ -12,6 +12,9 @@ const DisplayLinks = props => {
 						</a>
 					</li>
 					<li>
+
+					{/* this.props.user ? <Logout /> : <Login /> */}
+					
 						<a href="#" className="nav-link" onClick={props._logout}>
 							Logout
 						</a>

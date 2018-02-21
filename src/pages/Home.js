@@ -10,7 +10,7 @@ import DisplayLinks from '../components/DisplayLinks'
 const Home = props => (
 	<div className="App">	
 		<Header user={props.user} />
-		<DisplayLinks />
+		<DisplayLinks _logout={props._logout} loggedIn={props.loggedIn} />
 		<HomeComp />
 		{/* LINKS to our different 'pages' */}
 		{/*<DisplayLinks _logout={this._logout} loggedIn={this.state.loggedIn} />

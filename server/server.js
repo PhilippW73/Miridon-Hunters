@@ -61,7 +61,7 @@ app.use(passport.session()) // will call the deserializeUser
 // ==== if its production environment!
 if (process.env.NODE_ENV === 'production') {
 	const path = require('path')
-	console.log('YOU ARE IN THE PRODUCTION ENV')
+	// console.log('YOU ARE IN THE PRODUCTION ENV')
 	app.use('/static', express.static(path.join(__dirname, '../build/static')))
 	app.get('/', (req, res) => {
 		res.sendFile(path.join(__dirname, '../build/'))
@@ -73,8 +73,8 @@ app.use('/auth', require('./auth'))
 
 // ====== Error handler ====
 app.use(function(err, req, res, next) {
-	console.log('====== ERROR =======')
-	console.error(err.stack)
+	// console.log('====== ERROR =======')
+	// console.error(err.stack)
 	res.status(500)
 })
 
