@@ -9,12 +9,14 @@ const userSchema = new Schema({
 	lastName: { type: String, unique: false },
 	local: {
 		username: { type: String, unique: false, required: false },
-		password: { type: String, unique: false, required: false }
+		password: { type: String, unique: false, required: false },
+		email: { type: String, unique: true, required: true}
 	},
 	bio: { type: String, unique: false },
-	photos: []
+	img: { data: Buffer, contentType: String }
 	
 })
+
 
 // Define schema methods
 userSchema.methods = {
@@ -29,7 +31,7 @@ userSchema.methods = {
 // Define hooks for pre-saving
 userSchema.pre('save', function(next) {
 	if (!this.local.password) {
-		console.log('=======NO PASSWORD PROVIDED=======')
+		// console.log('=======NO PASSWORD PROVIDED=======')
 		next()
 	} else {
 		this.local.password = this.hashPassword(this.local.password)
@@ -42,3 +44,5 @@ userSchema.pre('save', function(next) {
 // Create reference to User & export
 const User = mongoose.model('User', userSchema)
 module.exports = User
+
+

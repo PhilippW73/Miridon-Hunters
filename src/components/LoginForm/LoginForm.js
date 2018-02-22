@@ -7,6 +7,7 @@ class LoginForm extends Component {
 		super()
 		this.state = {
 			username: '',
+			email: '',
 			password: '',
 			redirectTo: null
 		}
@@ -24,9 +25,9 @@ class LoginForm extends Component {
 	handleSubmit(event) {
 		event.preventDefault()
 		console.log('handleSubmit')
-		this.props._login(this.state.username, this.state.password)
+		this.props._login(this.state.username, this.state.password, this.state.email)
 		this.setState({
-			redirectTo: '/'
+			redirectTo: '/Profile'
 		})
 	}
 
@@ -37,22 +38,32 @@ class LoginForm extends Component {
 			return (
 				<div className="LoginForm">
 					<h1>Login form</h1>
-					<form>
-						<label htmlFor="username">Username: </label>
-						<input
-							type="text"
-							name="username"
-							value={this.state.username}
-							onChange={this.handleChange}
-						/>
-						<label htmlFor="password">Password: </label>
-						<input
-							type="password"
-							name="password"
-							value={this.state.password}
-							onChange={this.handleChange}
-						/>
-						<button onClick={this.handleSubmit}>Login</button>
+					<form onSubmit={this.handleSubmit}>
+						<label htmlFor="username">Email: </label>
+							<input
+								type="text"
+								name="email"
+								value={this.state.email}
+								onChange={this.handleChange}
+								required
+							/>
+							<label htmlFor="username">Username: </label>
+							<input
+								type="text"
+								name="username"
+								value={this.state.username}
+								onChange={this.handleChange}
+								required
+							/>
+							<label htmlFor="password">Password: </label>
+							<input
+								type="password"
+								name="password"
+								required
+								value={this.state.password}
+								onChange={this.handleChange}
+							/>
+							<input type="submit" value="Login" />
 					</form>
 					
 				</div>
