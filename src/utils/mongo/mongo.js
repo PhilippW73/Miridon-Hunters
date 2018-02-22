@@ -12,6 +12,49 @@ export default {
       return res.json(err);
     });
   },
+  getCharacters: function() {
+    db.Characters.find()
+    .then(function(dbCharacters) {
+      return res.json(dbCharacters);
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      return res.json(err);
+    });
+  },
+  getClasses: function() {
+    db.Classes.find()
+    .then(function(dbClasses) {
+      return res.json(dbClasses);
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      return res.json(err);
+    });
+  },
+  getClassNames: function() {
+    db.Classes.find()
+    .select({ name: 1 })
+    .then(function(dbClasses) {
+      return res.json(dbClasses);
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      return res.json(err);
+    });
+  },
+  getClassByName: function(name) {
+    db.Classes.findOne({
+      name: name
+    })
+    .then(function(dbClass) {
+      return res.json(dbClass);
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      return res.json(err);
+    });
+  },
   getUser: function(id) {
     db.Users.findOne({ user_id: id })
     .then(function(dbUser) {
@@ -141,6 +184,34 @@ export default {
         });
       });
   },
+  getStoreItemsPurchasable: function(material, maxcost) {
+    if (!maxcost) {
+      maxcost = 99999;
+    }
+    db.Store.find({
+      cost: { $lte: maxcost },
+      material: material
+    })
+    .then(function(dbItems) {
+      return res.json(dbItems);
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      return res.json(err);
+    });
+  },
+  getStoreItemsAll: function(material) {
+    db.Store.find({
+      material: material
+    })
+    .then(function(dbItems) {
+      return res.json(dbItems);
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      return res.json(err);
+    });
+  },
   createUser: function() {
     db.User.create(
       {
@@ -228,7 +299,26 @@ export default {
         console.log(err);
         return res.json(err);
       });
+  },
+  deleteChar: function(id) {
+    db.Characters.deleteOne({ character_id: id })
+    .then(function(dbCharacter) {
+      return res.json(dbCharacter);
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      return res.json(err);
+    });
+  },
+  deleteUser: function(id) {
+    db.Users.deleteOne({ user_id: id })
+    .then(function(dbCharacter) {
+      return res.json(dbCharacter);
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      return res.json(err);
+    });
   }
 };
-
 
