@@ -10,10 +10,39 @@ const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
-const dbConnection = require('./db') // loads our connection to the mongo database
+const dbConnection = require('./db') // loads our c
+const mongoose = require('mongoose')
+const path = require ('path')
 const passport = require('./passport')
+//const mutilpart = require('connect-fileuploader')
 const app = express()
 const PORT = process.env.PORT || 9000
+
+// Configure body parser for AJAX requests
+app.use(bodyParser.urlencoded({ extended: false }));
+// Serve up static assets
+app.use(express.static("client/build"));
+// Add routes, both API and view
+app.use(routes);
+
+
+// === Upload Picture === 
+
+// const multer = require('multer');
+// const Schema = mongoose.Schema;
+
+// app.use(multer({ dest: './uploads/',
+//  rename: function (fieldname, filename) {
+//    return filename;
+//  },
+// }));
+
+// app.post('/api/photo',function(req,res){
+//  var newUser = new User();
+//  newUser.img.data = fs.readFileSync(req.files.userPhoto.path)
+//  newUser.img.contentType = 'image/png';
+//  newUser.save();
+// });
 
 // ===== Middleware ====
 app.use(morgan('dev'))
@@ -31,6 +60,8 @@ app.use(
 		saveUninitialized: false
 	})
 )
+
+
 
 // ===== Passport ====
 app.use(passport.initialize())
@@ -77,6 +108,9 @@ app.use(function(err, req, res, next) {
 	// console.error(err.stack)
 	res.status(500)
 })
+
+
+
 
 // ==== Starting Server =====
 app.listen(PORT, () => {
