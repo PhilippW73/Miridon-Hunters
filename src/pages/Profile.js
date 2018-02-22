@@ -1,4 +1,5 @@
-import React from "react";
+import React, { Component } from 'react';
+import { Route, Link } from 'react-router-dom';
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Image from "../components/Image";
@@ -8,15 +9,14 @@ import Input from "../components/Input";
 import Greeting from "../components/Greeting";
 import Wins_Losses from "../components/Wins_Losses";
 
-const Profile = () =>
+const Profile = props => (
   <div>
-  	
-  	<Header/>
+  	<Header user={props.user.user} />
   	{/*image*/}
-  		
+  
   	<Chat/>
   				
-  	<Greeting/>
+  	<Greeting {...props}/>
   				
   	<Input/>
   	{/*image*/}
@@ -25,7 +25,8 @@ const Profile = () =>
   								
   	<Footer/>
   									
-  		
-  </div>;
+  </div>
+
+  );
 
   export default Profile;
