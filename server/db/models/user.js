@@ -13,9 +13,10 @@ const userSchema = new Schema({
 		email: { type: String, unique: true, required: true}
 	},
 	bio: { type: String, unique: false },
-	image: { data: Buffer, contentType: String }
+	img: { data: Buffer, contentType: String }
 	
 })
+
 
 // Define schema methods
 userSchema.methods = {
@@ -43,3 +44,5 @@ userSchema.pre('save', function(next) {
 // Create reference to User & export
 const User = mongoose.model('User', userSchema)
 module.exports = User
+
+
