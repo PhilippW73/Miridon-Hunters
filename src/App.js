@@ -37,23 +37,22 @@ class App extends Component {
     this._logout = this._logout.bind(this)
     this._login = this._login.bind(this)
   }
+  
   componentDidMount() {
-    console.log('component mounted!');
-    axios.get('/auth/user').then(response => {
-      console.log(response.data)
-      if (response.data.user) {
-        console.log('THERE IS A USER: ', response);
+    console.log('component mounted');
+    axios.get("/auth/user").then( res =>{
+      if(res.data.user){
         this.setState({
           loggedIn: true,
-          user: response.data.user
-        })
-      } else {
+          user: res.data.user
+        });
+      }else{
         this.setState({
           loggedIn: false,
           user: null
-        })
+        });
       }
-    }).catch(err => console.log('Error: ', err))
+    })
   }
 
   _logout(event) {
@@ -70,22 +69,39 @@ class App extends Component {
     })
   }
 
-  _login(username, password) {
-    axios
-      .post('/auth/login', {
-        username,
-        password
-      })
+  _login(username, password, email) {
+    // axios
+    //   .post('/auth/login', {
+    //     username,
+    //     password,
+    //     email
+    //   })
+    //   .then(response => {
+    //     console.log(response)
+    //     if (response.status === 200) {
+    //       // update the state
+    //       this.setState({
+    //         loggedIn: true,
+    //         user: response.data.user
+    //       })
+    //     }
+    //   })
+    axios.get('/auth/user')
       .then(response => {
-        console.log(response)
-        if (response.status === 200) {
-          // update the state
+        if (response.data.user) {
+          console.log('THERE IS A USER: ', response);
           this.setState({
             loggedIn: true,
             user: response.data.user
-          })
+          }, () => console.log('User Logged In: ', this.state));
+        } else {
+          this.setState({
+            loggedIn: false,
+            user: null
+          }, () => console.log('User Not Logged In: ', this.state));
         }
       })
+      .catch(err => console.log('Error: ', err));
   }
 
   _onMessageWasSent = (message) => {
@@ -113,13 +129,13 @@ class App extends Component {
           <div>
             {/*<Navbar/> */}
             <Wrapper>
-              <Route exact path="/" component={Home} />
+              {/* <Route exact path="/" component={Home} /> */}
               <Route exact path="/Home" component={Home} />
               {/*<Route exact path="/Battle" component={Battle} />*/}
               <Route exact path="/Character_Creation" component={Character_Creation} />
               <Route exact path="/Character_Selection" component={Character_Selection} />
               <Route exact path="/Character_Creation" component={Character_Creation} />
-              <Route exact path="/Profile" component={Profile} />
+              <Route exact path="/Profile" render={(props) => <Profile user={this.state} /> } />
               <Route exact path="/Upgrade_and_Shop" component={Upgrade_and_Shop} />
               <Route exact path="/signup" component={SignupForm} />
               <Route exact path="/" render={() => <Home 
