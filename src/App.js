@@ -129,7 +129,7 @@ class App extends Component {
           <div>
             {/*<Navbar/> */}
             <Wrapper>
-              <Route exact path="/" component={Home} />
+              {/* <Route exact path="/" component={Home} /> */}
               <Route exact path="/Home" component={Home} />
               {/*<Route exact path="/Battle" component={Battle} />*/}
               <Route exact path="/Character_Creation" component={Character_Creation} />

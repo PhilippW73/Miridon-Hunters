@@ -63,7 +63,7 @@ class Battle extends Component {
     actionTypes: [],
     first: "",
     meleeCombo: false,
-    actionsDisabled: false;
+    actionsDisabled: false,
     comments: "Choose your actions for the round (one of each), and then press 'Start Turn'."
   };
 
@@ -132,9 +132,7 @@ class Battle extends Component {
         let temp = this.state.eval(who);
         temp.actions = res.data.message;
         this.setState({
-          [who].actions.Offensive: temp.Offensive,
-          [who].actions.Movement: temp.Movement,
-          [who].actions.Defensive: temp.Defensive
+          [who]: temp
         })
       })
       .catch(err => console.log(err));
@@ -155,7 +153,7 @@ class Battle extends Component {
 
   //battle order functions
     //actions
-    function chooseOffense (input) {
+    chooseOffense = (input) => {
       console.log(input+" is attacking");
       let who = this.state.eval(input);
       let target = this.state.eval(this.state.eval(input).opposition);
@@ -205,7 +203,7 @@ class Battle extends Component {
       }
     }
 
-    function chooseDefense (input) {
+    chooseDefense = (input) => {
       console.log(input+" is defending");
       let who = this.state.eval(input);
       let target = this.state.eval(this.state.eval(input).opposition);
@@ -225,7 +223,7 @@ class Battle extends Component {
         comments: this.state.comments + results.comment
       });
     }
-    function chooseMove (input) {
+    chooseMove = (input) => {
       console.log(input+" is moving");
       let who = this.state.eval(input);
       let target = this.state.eval(this.state.eval(input).opposition);
@@ -248,12 +246,14 @@ class Battle extends Component {
       chooseOffense(input);
     }
   //Enemy Choice
-    function enemyChoice(){
+    enemyChoice = () => {
       this.getActions("enemy", () =>{
+        let enemy = this.state.enemy
+        enemy.Offensive = (this.state.enemy.actions.Offensive[Math.floor(Math.random()*this.state.enemy.actions.Offensive.length + 1 )]);
+        enemy.Movement = (this.state.enemy.actions.Movement[Math.floor(Math.random()*this.state.enemy.actions.Movement.length + 1 )]);
+        enemy.Defensive = (this.state.enemy.actions.Defensive[Math.floor(Math.random()*this.state.enemy.actions.Defensive.length + 1 )]);
         this.setState({
-          enemy.Offensive: (this.state.enemy.actions.Offensive[Math.floor(Math.random()*this.state.enemy.actions.Offensive.length + 1 )]),
-          enemy.Movement: (this.state.enemy.actions.Movement[Math.floor(Math.random()*this.state.enemy.actions.Movement.length + 1 )]),
-          enemy.Defensive: (this.state.enemy.actions.Defensive[Math.floor(Math.random()*this.state.enemy.actions.Defensive.length + 1 )])
+          enemy: enemy
         });
         console.log("Enemy choices:"+this.state.enemy.Movement+this.state.enemy.Offensive+this.state.enemy.Defensive);
         if(this.state.first === "player"){
@@ -266,19 +266,21 @@ class Battle extends Component {
       });
     }
 
-  function checkDead (who, func) {
+  checkDead = (who, func) => {
     if(this.state.eval(who).curStats.hit_point < 1) {
       $(".dropdown-toggle").addClass("disabled");
       $("#startTurn").addClass("disabled");
       if (who === "player") {
         //lose
-        this.setState({comments: this.state.comments + " You lost the battle."});
+        let comments = this.state.comments + " You lost the battle.";
+        this.setState({comments: comments});
         mongo.charLose(this.state.player.character_id);
         mongo.charWin(this.state.enemy.character_id);
         mongo.playerLose(id);
       } else {
         //win
-        this.setState({comments: this.state.comments + " You won the battle!"});
+        let comments = this.state.comments + " You won the battle!";
+        this.setState({comments: comments});
         mongo.charWin(this.state.player.character_id);
         mongo.charLose(this.state.enemy.character_id);
         mongo.playerWin(id);
@@ -288,7 +290,7 @@ class Battle extends Component {
     }
   }
 
-  function endTurn () {
+  endTurn = () => {
     console.log("Turn end");
     //set buttons back to normal
     this.setState({
@@ -331,7 +333,7 @@ class Battle extends Component {
             <div className="btn-group" role="group">
               {props.actionTypes.map(actionType => <ButtonDropdown actionType actions strength={this.state.player.curStats.strength_point} speed={this.state.player.curStats.speed_point} weapon={this.state.player.fullStats.weapon} current={this.state.player[actionType.name]} meleeCombo actionsDisabled/>
                 )}
-              <button class="btn btn-default" type="button" id="startTurn" onClick={this.handleActionChange} { this.state.actionsDisabled ? "disabled" : "" }>Start Turn
+              <button class="btn btn-default" type="button" id="startTurn" onClick={this.handleActionChange} disabled={ this.state.actionsDisabled ? "disabled" : "" }>Start Turn
               </button> 
             </div>
             <div>{this.state.comments}
@@ -346,4 +348,3 @@ class Battle extends Component {
 }
 
 export default Battle;
-
