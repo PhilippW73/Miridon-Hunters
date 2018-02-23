@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const storeSchema = new Schema({
+const weaponSchema = new Schema({
     name:{
         type: String,
         required: true
@@ -35,9 +35,6 @@ const storeSchema = new Schema({
         type: Number,
         default: 5
     },
-    tohit: {
-        type: Number
-    },
     special: {
         type: String
     },
@@ -48,6 +45,6 @@ const storeSchema = new Schema({
 
 
 
-const Store = mongoose.model("Store", storeSchema);
+const Weapon = mongoose.model("Weapon", weaponSchema);
 
-module.exports = Store;
+module.exports = Weapon;
