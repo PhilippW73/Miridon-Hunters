@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import axios from 'axios';
+import API from './utils/user/API';
 import Home from "./pages/Home";
 //import Battle from "./pages/battle";
 import Character_Creation from "./pages/Character_Creation";
@@ -40,7 +41,7 @@ class App extends Component {
   
   componentDidMount() {
     console.log('component mounted');
-    axios.get("/auth/user").then( res =>{
+    API.getUser().then( res =>{
       if(res.data.user){
         this.setState({
           loggedIn: true,
@@ -58,7 +59,7 @@ class App extends Component {
   _logout(event) {
     event.preventDefault()
     console.log('logging out')
-    axios.post('/auth/logout').then(response => {
+    API.logout().then(response => {
       console.log(response.data)
       if (response.status === 200) {
         this.setState({
@@ -86,10 +87,12 @@ class App extends Component {
     //       })
     //     }
     //   })
-    axios.get('/auth/user')
-      .then(response => {
+    
+      API.login({username, password, email}).then(response => {
         if (response.data.user) {
+         console.log("******************************")
           console.log('THERE IS A USER: ', response);
+          console.log("******************************")
           this.setState({
             loggedIn: true,
             user: response.data.user

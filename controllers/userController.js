@@ -1,8 +1,8 @@
-const db = require("./server/db/models");
+const db = require("../server/db");
 
 // Defining methods for the userController
 module.exports = {
-  findAll: function(req, res) {
+  findOne: function(req, res) {
     db.User
       .find(req.query)
       .sort({ date: -1 })

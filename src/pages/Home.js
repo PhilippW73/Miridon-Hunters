@@ -13,6 +13,8 @@ import Menu  from '../components/Navbar/menus/pushRotate';
 
 const Home = props => (
 	<div>
+
+=======
 		<div className="App" id="outer-container">	
 			<Menu outerContainerId={"outer-container"} pageWrapId={"page-wrap"}>
 			<a id="home" className="menu-item" href="/">Home</a>
@@ -23,7 +25,7 @@ const Home = props => (
 			<div id="page-wrap">
 				{/* <Header user={props.user} /> */}
 				<DisplayLinks />
-				<HomeComp />
+				<HomeComp user={props.user} />
 				</div>
 				<Launcher
 					agentProfile={{
@@ -34,6 +36,7 @@ const Home = props => (
 					messageList={props.messageList}
 					showEmoji
 				/>
+
 			</div>
 			
 		<div className="App">	
@@ -55,5 +58,6 @@ const Home = props => (
 		</div>
 	</div>
 );
+
 
 export default Home

@@ -9,12 +9,15 @@ class SignupForm extends Component {
 			username: '',
 			password: '',
 			email: '',
+			bio: '',
 			confirmPassword: '',
 			redirectTo: null
 		}
 		this.handleSubmit = this.handleSubmit.bind(this)
 		this.handleChange = this.handleChange.bind(this)
 	}
+	
+
 	handleChange(event) {
 		this.setState({
 			[event.target.name]: event.target.value
@@ -22,12 +25,13 @@ class SignupForm extends Component {
 	}
 	handleSubmit(event) {
 		event.preventDefault()
+		console.log('button clicked')
 		// TODO - validate!
-		axios
-			.post('/auth/signup', {
+		axios.post('/auth/signup', {
 				username: this.state.username,
 				email: this.state.email,
-				password: this.state.password
+				password: this.state.password,
+				bio: this.state.bio
 			})
 			.then(response => {
 				console.log(response)
@@ -62,6 +66,14 @@ class SignupForm extends Component {
 					type="text"
 					name="username"
 					value={this.state.username}
+					onChange={this.handleChange}
+				/>
+
+				<label htmlFor="bio">Bio: </label>
+				<input
+					type="text"
+					name="bio"
+					value={this.state.bio}
 					onChange={this.handleChange}
 				/>
 
