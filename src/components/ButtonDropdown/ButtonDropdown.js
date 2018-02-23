@@ -3,16 +3,16 @@ import "./ButtonDropdown.css";
 
 const ButtonDropdown = props =>
 <div className="btn-group" role="group">
-	<button id={`${props.actionType.name}Dropdown`} type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" { props.actionsDisabled ? "disabled" : "" }>
-		<i className={`fa ${props.actionType.faIcon}`}></i> <span id={`${props.actionType.name}DropdownText`} { props.actionsDisabled ? "disabled" : "" }>{props.current ? props.current : props.actionType.name}</span>
+	<button id={`${props.name}Dropdown`} type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" { props.disabled ? "disabled" : "" }>
+		<i className={`fa ${props.faIcon}`}></i> <span id={`${props.name}DropdownText`} { props.disabled ? "disabled" : "" }>{props.current ? props.current : props.name}</span>
 	</button>
-	<div className="dropdown-menu" aria-labelledby={`${props.actionType.name}Dropdown`} value={props.actionType.name}>
+	<div className="dropdown-menu" aria-labelledby={`${props.name}Dropdown`} value={props.name}>
 		<ul className="list-group">
-			{props.actions.filter(action => {action.actionType === props.actionType.name && (action.actionType !== "meleeCombo" || meleeCombo === true)})
-			.map(action => {
+			{props.list
+			.map(item => {
 				return (
-					<li key={action.name} className="list-group-item">
-						<a className="dropdown-item" href="#">{action.name}</a>
+					<li key={item.name} className="list-group-item">
+						<a className="dropdown-item" href="#">{item.name}</a>
 					</li>
 				);
 			})}

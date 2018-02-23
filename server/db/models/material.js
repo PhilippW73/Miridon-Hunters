@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const exchangeSchema = new Schema({
+const materialSchema = new Schema({
     material:{
       type: String,
       required: true
@@ -11,11 +11,14 @@ const exchangeSchema = new Schema({
     },
     available:{
       type: Boolean
+    },
+    description:{
+      type: String
     }
 });
 
 
 
-const Exchange = mongoose.model("Exchange", exchangeSchema);
+const Material = mongoose.model("Exchange", materialSchema);
 
-module.exports = Exchange;
+module.exports = Material;
