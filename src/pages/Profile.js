@@ -28,8 +28,9 @@ class Profile extends Component {
       API.getUser()
         .then(res =>
           this.setState({bio: res.data})
+
         )
-        //console.log(response)
+        //console.log(res)
         .catch(err => console.log(err));
   };
 

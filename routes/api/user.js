@@ -1,11 +1,12 @@
-// const router = require("express").Router();
-// const userController = require("../../controllers/userController");
+const router = require("express").Router({mergeParams: true});
+const userController = require("../../controllers/userController");
 
 
 //Matches with "/api/user"
 router.route("/")
   .get(userController.findOne)
-  .post(userController.create);
+  .post(userController.create)
+  .put(userController.update);
 
 //Matches with "/api/user/:id"
 router.route("/:id")
@@ -15,4 +16,4 @@ router.route("/:id")
 
 
 
-// module.exports = router;
+module.exports = router;
