@@ -1,16 +1,16 @@
 import React from "react"
 
 const style = {
-  width: "900px",
+  width: "250px",
   marginLeft: "auto",
   marginRight: "auto",
   display: "block"
 
 }
 
-const Image = props =>
+const Imagetwo = props =>
   <div>
     <img style={style} src="miridonhunterslogo.png" />
   </div>;
 
-export default Image;
+export default Imagetwo;
