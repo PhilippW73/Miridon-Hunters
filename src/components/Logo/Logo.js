@@ -8,9 +8,9 @@ const style = {
 
 }
 
-const Image = props =>
+const Logo = props =>
   <div>
     <img style={style} src="miridonhunterslogo.png" />
   </div>;
 
-export default Image;
+export default Logo;
