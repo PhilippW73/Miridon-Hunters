@@ -6,15 +6,19 @@ import Chat from "../components/Chat";
 import Navbar from "../components/Navbar";
 import Input from "../components/Input";
 import Row from "../components/Row";
-import Col from "../components/col";
+import Col from "../components/Col";
+import Container from "../components/Container";
 import ButtonDropdown from "../components/ButtonDropdown";
+import Button from "../components/Button";
+import ButtonLinkInfo from "../components/ButtonLinkInfo";
 
 class Upgrade_and_Shop extends Component {
   state = {
     error: "",
     player: {},
     materials: [],
-    weapons: [],
+    currentMaterial: {},
+    steelweapons: [],
     comments: "Select a material to exchange it for others or use it."
   };
 
@@ -80,16 +84,21 @@ class Upgrade_and_Shop extends Component {
             {/* Exchange for x material dropdown */}
             {/* Item list with scroll bar OR current stat list + cost to add more*/}
             {/* make purchase button */}
-            <ButtonDropdown name="Material" faIcon="" />
+            <ButtonDropdown name="Material" faIcon="fa-cubes" list={this.state.materials}/>
+            <ButtonDropdown name="Exchange" faIcon="fa-exchange" list={this.state.materials}/>
+            {this.state.currentMaterial === "steel" ? <ButtonDropdown name="Weapon" faIcon="fa-crosshairs" list={this.state.steelweapons}/> : ""}
+            <Button onClick={this.handleFormSubmit} data-value="Buy">
+              Buy
+            </Button>
           </Col>
         </Row>
         <Row>
           <Col size="md-12">
             <div>{this.state.comments}
             </div>
-            <a class="btn btn-default" href="http://miridon.reuniontechnologies.com/page/exchangerates" role="button" target="_blank">See Exchange Rates</a>
-            <a class="btn btn-default" href="http://miridon.reuniontechnologies.com/page/weapons" role="button" target="_blank">See Weapons</a>
-            <a class="btn btn-default" href="http://miridon.reuniontechnologies.com/page/leveling-exp" role="button" target="_blank">See Stat Boost Rates</a>
+            <ButtonLinkInfo link="exchangerates" text="See Exchange Rates"/>
+            <ButtonLinkInfo link="weapons" text="See Weapons"/>
+            <ButtonLinkInfo link="leveling-exp" text="See Stat Boost Rates"/>
           </Col>
         </Row>
         <Footer />
