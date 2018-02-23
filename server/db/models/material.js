@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const materialSchema = new Schema({
-    material:{
+    name:{
       type: String,
       required: true
     },

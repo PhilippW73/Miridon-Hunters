@@ -3,8 +3,8 @@ import "./BattleButtonDropdown.css";
 
 const BattleButtonDropdown = props =>
 <div className="btn-group" role="group">
-	<button id={`${props.actionType.name}Dropdown`} type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" { props.actionsDisabled ? "disabled" : "" }>
-		<i className={`fa ${props.actionType.faIcon}`}></i> <span id={`${props.actionType.name}DropdownText`} { props.actionsDisabled ? "disabled" : "" }>{props.current ? props.current : props.actionType.name}</span>
+	<button id={`${props.actionType.name}Dropdown`} type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled={props.actionsDisabled}>
+		<i className={`fa ${props.actionType.faIcon}`}></i> <span id={`${props.actionType.name}DropdownText`} disabled={props.actionsDisabled}>{props.current ? props.current : props.actionType.name}</span>
 	</button>
 	<div className="dropdown-menu" aria-labelledby={`${props.actionType.name}Dropdown`} value={props.actionType.name}>
 		<ul className="list-group">
