@@ -3,12 +3,20 @@ import axios from "axios";
 export default {
   // Gets the user
   getUser: function() {
-    return axios.get("/api/user");
+    return axios.get("/auth/user");
   },
   
   // Gets the user with the given id
-  getUser: function(id) {
-    return axios.get("/api/user/" + id);
+  // getUser: function(id) {
+  //   return axios.get("/api/user/" + id);
+  // },
+
+  login: function(userCreds) {
+    return axios.post('/auth/login', userCreds);
+  },
+
+  logout: function(){
+    return axios.post('/auth/logout');
   },
 
   // Deletes the user with the given id

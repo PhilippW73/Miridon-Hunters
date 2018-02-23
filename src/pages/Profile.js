@@ -15,11 +15,9 @@ class Profile extends Component {
   state = {
     local: {
       username: "",
-      password: "",
       email: ""
     },
-    bio: "",
-    img:""
+    bio: ""
   };
 
   componentDidMount() {
@@ -29,8 +27,9 @@ class Profile extends Component {
   loadUser = () => {
       API.getUser()
         .then(res =>
-          this.setState({ bio: res.data})
+          this.setState({bio: res.data})
         )
+        //console.log(response)
         .catch(err => console.log(err));
   };
 
@@ -56,12 +55,15 @@ class Profile extends Component {
       event.preventDefault();
       if (this.state.bio) {
         API.updateUser({
-          bio: this.state.title,
+          bio: this.state.bio
         })
           .then(res => this.loadUser())
           .catch(err => console.log(err));
       }
+      console.log(this.state.bio);
   };
+
+  
 
   render() {
     return (
@@ -70,20 +72,8 @@ class Profile extends Component {
       	<Chat/>
       	<Greeting {...this.props}/>
       				
-      	{/*<Input/>
-        value={this.state.local.password}
-        onChange={this.handleInputChange}
-        name="password"
-        placeholder="Password (required)"
-        />
-
-        <FormBtn
-          disabled={!(this.state.local.password)}
-          onClick={this.handleFormSubmitPassword}>
-          Update Password
-        </FormBtn> */}
-
-        <Input/>
+        <h2> Bio </h2>
+        <Input
         value={this.state.bio}
         onChange={this.handleInputChange}
         name="bio"
@@ -91,11 +81,10 @@ class Profile extends Component {
         />
 
         <FormBtn
-          disabled={!(this.state.local.bio)}
           onClick={this.handleFormSubmitBio}>
           Update Bio
         </FormBtn>
-
+        <h2> Image </h2>
       	<Image/>
       								
       	<Wins_Losses/>

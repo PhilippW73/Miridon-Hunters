@@ -18,8 +18,6 @@ router.get('/user', (req, res, next) => {
 router.post(
 	'/login',
 	function(req, res, next) {
-		// console.log(req.body)
-		// console.log('================')
 		next()
 	},
 	passport.authenticate('local'),
@@ -32,6 +30,8 @@ router.post(
 			delete cleanUser.local.password
 		}
 		res.json({ user: cleanUser })
+		console.log("******************************");
+		console.log(user);
 	}
 )
 
@@ -50,7 +50,8 @@ router.get('/logout', (req, res) => {
 })
 
 router.post('/signup', (req, res) => {
-	const { username, password, email } = req.body
+	console.log("MADE IT TO /auth/signup");
+	const { username, password, email, bio } = req.body
 	// ADD VALIDATION
 	User.findOne({ 'local.email': email }, (err, userMatch) => {
 		if (userMatch) {
@@ -61,7 +62,8 @@ router.post('/signup', (req, res) => {
 		const newUser = new User({
 			'local.username': username,
 			'local.password': password,
-			'local.email': email
+			'local.email': email,
+			'bio': bio
 		})
 		newUser.save((err, savedUser) => {
 			if (err) return res.json(err)

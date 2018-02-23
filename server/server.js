@@ -16,14 +16,8 @@ const path = require ('path')
 const passport = require('./passport')
 //const mutilpart = require('connect-fileuploader')
 const app = express()
+const routes = require("../routes");
 const PORT = process.env.PORT || 9000
-
-// Configure body parser for AJAX requests
-app.use(bodyParser.urlencoded({ extended: false }));
-// Serve up static assets
-app.use(express.static("client/build"));
-// Add routes, both API and view
-app.use(routes);
 
 
 // === Upload Picture === 
@@ -101,6 +95,14 @@ if (process.env.NODE_ENV === 'production') {
 
 /* Express app ROUTING */
 app.use('/auth', require('./auth'))
+// Add routes, both API and view
+app.use(routes);
+
+// Configure body parser for AJAX requests
+app.use(bodyParser.urlencoded({ extended: false }));
+// Serve up static assets
+app.use(express.static("client/build"));
+
 
 // ====== Error handler ====
 app.use(function(err, req, res, next) {

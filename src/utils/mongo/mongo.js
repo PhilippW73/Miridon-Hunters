@@ -101,18 +101,18 @@ export default {
 };
 
 
-db.User.create(
-  {
-      email : req.body.email,
-      password : req.body.password,
-      username : req.body.username,
-      user_bio : req.body.user_bio,
-      profile_image : req.body.profile_image
-  })
-  .then(function(dbUser) {
-    res.redirect(307, "/login");
-  }).catch(function(err) {
-    console.log(err);
-    res.json(err);
-  });
+// db.User.create(
+//   {
+//       email : req.body.email,
+//       password : req.body.password,
+//       username : req.body.username,
+//       user_bio : req.body.user_bio,
+//       profile_image : req.body.profile_image
+//   })
+//   .then(function(dbUser) {
+//     res.redirect(307, "/login");
+//   }).catch(function(err) {
+//     console.log(err);
+//     res.json(err);
+//   });
 
