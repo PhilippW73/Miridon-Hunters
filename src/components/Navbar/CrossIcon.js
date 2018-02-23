@@ -8,9 +8,7 @@ export default class CrossIcon extends Component {
     return {
       position: 'absolute',
       width: 3,
-      height: 14,
-      transform: type === 'before' ? 'rotate(45deg)' : 'rotate(-45deg)'
-    };
+      height: 14    };
   }
 
   render() {
@@ -19,15 +17,15 @@ export default class CrossIcon extends Component {
       position: 'absolute',
       width: 24,
       height: 24,
-      right: 8,
-      top: 8
+      right: 0,
+      top: 0
     };
     var buttonStyle = {
-      position: 'absolute',
+      position: 'fixed',
       left: 0,
       top: 0,
-      width: '100%',
-      height: '100%',
+      width: '10%',
+      height: '10%',
       margin: 0,
       padding: 0,
       border: 'none',
