@@ -10,92 +10,92 @@ import Greeting from "../components/Greeting";
 import Wins_Losses from "../components/Wins_Losses";
 import API from "../utils/user/API";
 import FormBtn from "../components/FormBtn";
+import {Launcher} from '../components/Chat2';
+import Menu  from '../components/Navbar/menus/pushRotate';
+import Imagetwo from '../components/Imagetwo';
+import { Well, Button, Jumbotron } from 'react-bootstrap';
 
-class Profile extends Component {
-  state = {
-    local: {
-      username: "",
-      email: ""
-    },
-    bio: ""
-  };
+const Profile = props => (
+	<div>
 
-  componentDidMount() {
-    this.loadUser();
-  }
+<footer className="navbar-fixed-bottom">
+					<div className="container">
+						<div className="row">
+							<p>Don't miss my site: <a href="www.devbutze.com">DevButze</a> </p>
+						</div>
+					</div>
+				</footer>
+		<Launcher
+			agentProfile={{
+			teamName: 'react-live-chat',
+			imageUrl: 'https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png'
+			}}
+			onMessageWasSent={props._onMessageWasSent}
+			messageList={props.messageList}
+			showEmoji
+		/>
+		<div className="App" id="outer-container"> 
+		<Menu left outerContainerId={"outer-container"} pageWrapId={"page-wrap"}>
 
-  loadUser = () => {
-      API.getUser()
-        .then(res =>
-          this.setState({bio: res.data})
+			<Imagetwo />
+			<br />
+				<a id="login" className="menu-item" href="/login">
+					<h3>Log In</h3>
+				</a>
+				<a id="profile" className="menu-item" href="/profile">
+					<h3>Profile</h3>
+				</a>
+				<a id="createhero" className="menu-item" href="/createhero">
+					<h3>Create Hero</h3>
+				</a>
+				<a id="selecthero" className="menu-item" href="/selecthero">
+					<h3>Select Hero</h3>
+				</a>
+				<a id="battle" className="menu-item" href="/battle">
+					<h3>Battle</h3>
+				</a>
+				<a id="upgrades" className="menu-item" href="/upgrades">
+					<h3>Upgrades</h3>
+				</a>
+				<a onClick={ this.showSettings } className="menu-item--small" href="">Settings</a>
+		</Menu>
+  								
+  									
+		
+<div id="page-wrap">
+				<div className="container">
+						{/* <Header user={props.user} /> */}
+						<br />	
+						<br />
+						{/* <HomeComp /> */}
 
-        )
-        //console.log(res)
-        .catch(err => console.log(err));
-  };
-
-  handleInputChange = event => {
-      const { name, value } = event.target;
-      this.setState({
-        [name]: value
-      });
-  };
-
-  // handleFormSubmitPassword = event => {
-  //     event.preventDefault();
-  //     if (this.state.local.password) {
-  //       API.updateUser({
-  //         local.password: this.state.local.password,
-  //       })
-  //         .then(res => this.loadUser())
-  //         .catch(err => console.log(err));
-  //     }
-  // };
-
-  handleFormSubmitBio = event => {
-      event.preventDefault();
-      if (this.state.bio) {
-        API.updateUser({
-          bio: this.state.bio
-        })
-          .then(res => this.loadUser())
-          .catch(err => console.log(err));
-      }
-      console.log(this.state.bio);
-  };
-
+						<div>
+  	<Header user={props.user.user} />
+  	{/*image*/}
   
+  				
+  	<Greeting {...props}/>
+  	<div className="jumbotron">			
+  	<Input/>
+  	{/*image*/}
+  								
 
-  render() {
-    return (
-      <div>
-      	<Header user={this.props.user.user} />
-      	<Chat/>
-      	<Greeting {...this.props}/>
-      				
-        <h2> Bio </h2>
-        <Input
-        value={this.state.bio}
-        onChange={this.handleInputChange}
-        name="bio"
-        placeholder="Bio"
-        />
+	  
+	  </div>
+	  </div>
+</div>
+	 
 
-        <FormBtn
-          onClick={this.handleFormSubmitBio}>
-          Update Bio
-        </FormBtn>
-        <h2> Image </h2>
-      	<Image/>
-      								
-      	<Wins_Losses/>
-      								
-      	<Footer/>
-      									
-      </div>
+</div>
+</div>
+    </div>
 
-    );
-  }
-}
+	
+);
+
+
+
 
   export default Profile;
+ 
+
