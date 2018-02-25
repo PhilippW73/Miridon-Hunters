@@ -172,6 +172,23 @@ class Upgrade_and_Shop extends Component {
             {/* make purchase button */}
             <ButtonDropdown name="Material" faIcon="fa-cubes" list={this.state.materials} current={this.state.currentMaterial.name} onSelect={this.handleMaterialChange}/>
             <ButtonDropdown name="Exchange" faIcon="fa-exchange" list={this.state.materials} current={this.state.currentExchange.name} onSelect={this.handleExchangeChange}/>
+            
+            <form>
+              <FormGroup
+                controlId="exchangeInput"
+                // validationState={this.getValidationState()}
+              >
+                <FormControl
+                  type="number"
+                  value={this.state.currentExchangeAmount}
+                  placeholder="Enter amount to exchange"
+                  onChange={this.handleChange}
+                  max={this.state.player[this.state.currentExchange.name]}
+                />
+                {/* <FormControl.Feedback /> */}
+              </FormGroup>
+            </form>
+        
             {this.state.currentMaterial === "steel" ? <ButtonDropdown name="Weapon" faIcon="fa-crosshairs" list={this.state.steelweapons}/> : ""}
             <Button onClick={this.handleFormSubmit} data-value="Buy">
               Buy
