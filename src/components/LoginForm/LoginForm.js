@@ -39,9 +39,9 @@ class LoginForm extends Component {
 				<div className="LoginForm">
 					<h1>Login form</h1>
 					<form onSubmit={this.handleSubmit}>
-						<label htmlFor="username">Email: </label>
+						<label htmlFor="email">Email: </label>
 							<input
-								type="text"
+								type="email"
 								name="email"
 								value={this.state.email}
 								onChange={this.handleChange}
