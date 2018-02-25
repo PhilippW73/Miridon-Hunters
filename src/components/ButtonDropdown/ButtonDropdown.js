@@ -1,24 +1,24 @@
 import React from "react";
 import "./ButtonDropdown.css";
+import DropdownButton from "react-bootstrap";
 
 const ButtonDropdown = props =>
-<div className="btn-group" role="group">
-	<button id={`${props.name}Dropdown`} type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled={props.disabled}>
-		<i className={`fa ${props.faIcon}`}></i> <span id={`${props.name}DropdownText`} disabled={props.disabled}>{props.current ? props.current : props.name}</span>
-	</button>
-	<div className="dropdown-menu" aria-labelledby={`${props.name}Dropdown`} value={props.name}>
-		<ul className="list-group">
-			{props.list
+<Dropdown id={`${props.name}Dropdown`}
+		bsStyle="default"
+		key={`${props.name}Dropdown`}>
+	<Dropdown.Toggle
+		disabled={props.disabled}>
+			<i className={`fa ${props.faIcon}`}></i>
+			{props.current ? props.current : props.name}
+	</Dropdown.Toggle>
+	<Dropdown.Menu className="default">
+		{props.list
 			.map(item => {
 				return (
-					<li key={item.name} className="list-group-item">
-						<a className="dropdown-item" href="#">{item.name}</a>
-					</li>
+					<MenuItem eventKey={item.name}>{item.name}</MenuItem>
 				);
-			})}
-		</ul>
-	</div>
-</div>;
-
+		})}
+	</Dropdown.Menu>
+</Dropdown>;
 
 export default ButtonDropdown
