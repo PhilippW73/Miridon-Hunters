@@ -9,15 +9,13 @@ const BattleButtonDropdown = props =>
 	<Dropdown.Toggle
 		disabled={props.actionsDisabled}>
 			<i className={`fa ${props.actionType.faIcon}`}></i> 
-			<span id={`${props.actionType.name}DropdownText`} disabled={props.actionsDisabled}>{props.current ? props.current : props.actionType.name}</span>
+			{props.current ? props.current : props.actionType.name}
 	</Dropdown.Toggle>
 	<Dropdown.Menu className="default">
 	{props.actions.filter(action => {action.actionType === props.actionType.name && (action.actionType !== "meleeCombo" || meleeCombo === true)})
-			.map(action => {
+			.map(item => {
 				return (
-					<li key={action.name} className="list-group-item">
-						<a className="dropdown-item" href="#">{action.name}</a>
-					</li>
+					<MenuItem eventKey={item.name} value={item.name} onSelect={props.onSelect}>{item.name}</MenuItem>
 				);
 			})}
 	</Dropdown.Menu>

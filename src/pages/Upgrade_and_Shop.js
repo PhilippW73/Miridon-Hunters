@@ -20,6 +20,10 @@ class Upgrade_and_Shop extends Component {
     player: {},
     materials: [],
     currentMaterial: {},
+    currentExchange: {},
+    currentExchangeAmount: 0,
+    currentStatChangeAmount: 0,
+    currentWeapon: {},
     weapons: {
       steel: [],
       mechanical: [],
@@ -33,64 +37,126 @@ class Upgrade_and_Shop extends Component {
     //First time: get character, action types, actions
     this.getCharacter();
   }
-
-  getCharacter() {
-    mongo.getCharacter({
-      //TODO: pass in id somehow
-        id: props.id
-      })
-      .then(res => {
-        let player = this.state.player;
-        
-        player.fullStats = res.data.message;
-        this.setState({
-          player: player
+  //Get data from Mongo
+    getCharacter() {
+      mongo.getCharacter({
+        //TODO: pass in id somehow
+          id: props.id
         })
-        this.getMaterials();
-      })
-      .catch(err => console.log(err));
+        .then(res => {
+          let player = this.state.player;
+          
+          player.fullStats = res.data.message;
+          this.setState({
+            player: player
+          })
+          this.getMaterials();
+        })
+        .catch(err => console.log(err));
+    }
+
+    getMaterials() {
+      //gives exchange rates and which materials are available
+      mongo.getAvailableMaterials()
+        .then(res => {
+          this.setState({materials: res.data.message});
+          this.getWeapons();
+        })
+        .catch(err => console.log(err));
+    }
+
+    getWeapons() {
+      mongo.getWeapons()
+        .then(res => {
+          let weapons = [];
+          for(let i = 0; i < res.data.message.length; i++){
+            weapons[res.data.message[i].material].push(res.data.message);
+          }
+          this.setState({weapons: weapons});
+        })
+        .catch(err => console.log(err));
+    }
+
+  //Handles choice of actions
+  handleMaterialChange = (event) => {
+    const current = this.state.materials.find(function(element) {
+      return element.name === event.target.value;
+    })
+    this.setState({ currentMaterial: current});
   }
 
-  getMaterials() {
-    //gives exchange rates and which materials are available
-    mongo.getAvailableMaterials()
-      .then(res => {
-        this.setState({materials: res.data.message});
-        this.getWeapons();
-      })
-      .catch(err => console.log(err));
+  handleExchangeChange = (event) => {
+    const current = this.state.materials.find(function(element) {
+      return element.name === event.target.value;
+    })
+    this.setState({ currentExchange: current});
   }
-  getWeapons() {
-    mongo.getWeapons()
-      .then(res => {
-        let weapons = [];
-        for(let i = 0; i < res.data.message.length; i++){
-          weapons[res.data.message[i].material].push(res.data.message);
-        }
-        this.setState({weapons: weapons});
-      })
-      .catch(err => console.log(err));
+
+  handleExchangeAmountChange = (event) => {
+    this.setState({ currentExchangeAmount: event.target.value});
   }
-  getStatExchange() {
-    
+
+  handleStatAmountChange = (event) => {
+    this.setState({ currentStatChangeAmount: event.target.value});
   }
-  //Handles choice of actions
-  handleActionChange = (event) => {
-    let player = this.state.player;
-    player[event.target.name] = event.target.value;
-    this.setState({ player: player});
-  }
+
 
   handleFormSubmit = event => {
     event.preventDefault();
-    this.setState({
-      meleeCombo: false,
-      actionsDisabled: true,
-      comments: ""
-    });
-    this.enemyChoice();
+    if (this.state.currentExchangeAmount > 0) {
+      mongo.exchangeMaterial(this.state.player.character_id, this.state.currentMaterial, this.state.currentExchange, this.state.currentExchangeAmount)
+      .then(res => {
+        this.setState({comments: res.comments});
+        this.submitBuy()
+      })
+      .catch(err => console.log(err));
+    } else {
+      this.submitBuy();
+    }
   };
 
+  submitBuy = () => {
+    switch (this.state.currentMaterial) {
+      case "Meat/ Protein (lbs.)":
+      case "Produce (lbs.)":
+      case "Ghost HP":
+        mongo.buyStats(this.state.player.character_id, this.state.currentMaterial, this.state.currentStatChangeAmount)
+        .then(res => {
+          this.setState({comments: res.comments});
+          this.setState({
+            currentExchangeAmount: 0,
+            currentStatChangeAmount: 0
+          });
+        })
+        .catch(err => console.log(err));
+        break;
+      case "Steel (lbs.)":
+      case "steel":
+      case "Mechanical Parts (oz.)":
+      case "Puzzle Parts (oz.)":
+        mongo.buyWeapon(this.state.player.character_id, this.state.currentMaterial, this.state.currentWeapon)
+        .then(res => {
+          this.setState({comments: res.comments});
+          this.setState({
+            currentExchangeAmount: 0,
+            currentStatChangeAmount: 0
+          });
+        })
+        .catch(err => console.log(err));
+        break;
+      case "Imperial Pounds":
+      default:
+        this.setState({
+          currentExchangeAmount: 0,
+          currentStatChangeAmount: 0
+        });
+        break;
+    }
+  };
+
+  // currentMaterial: {},
+  // currentStatChangeAmount: 0,
+  // currentWeapon: {},
   render() {
     return (
       <Container>
@@ -104,8 +170,8 @@ class Upgrade_and_Shop extends Component {
             {/* Exchange for x material dropdown */}
             {/* Item list with scroll bar OR current stat list + cost to add more*/}
             {/* make purchase button */}
-            <ButtonDropdown name="Material" faIcon="fa-cubes" list={this.state.materials}/>
-            <ButtonDropdown name="Exchange" faIcon="fa-exchange" list={this.state.materials}/>
+            <ButtonDropdown name="Material" faIcon="fa-cubes" list={this.state.materials} current={this.state.currentMaterial.name} onSelect={this.handleMaterialChange}/>
+            <ButtonDropdown name="Exchange" faIcon="fa-exchange" list={this.state.materials} current={this.state.currentExchange.name} onSelect={this.handleExchangeChange}/>
             {this.state.currentMaterial === "steel" ? <ButtonDropdown name="Weapon" faIcon="fa-crosshairs" list={this.state.steelweapons}/> : ""}
             <Button onClick={this.handleFormSubmit} data-value="Buy">
               Buy

@@ -15,7 +15,7 @@ const ButtonDropdown = props =>
 		{props.list
 			.map(item => {
 				return (
-					<MenuItem eventKey={item.name}>{item.name}</MenuItem>
+					<MenuItem eventKey={item.name} value={item.name} onSelect={props.onSelect}>{item.name}</MenuItem>
 				);
 		})}
 	</Dropdown.Menu>
