@@ -8,7 +8,7 @@ import HomeComp from '../components/HomeComp'
 import DisplayLinks from '../components/DisplayLinks'
 import {Launcher} from '../components/Chat2'
 import Menu  from '../components/Navbar/menus/pushRotate'
-import Image from '../components/Image'
+import Logo from '../components/Logo'
 import { Well, Button, Jumbotron } from 'react-bootstrap';
 // https://react-bootstrap.github.io/components/buttons/
 
@@ -33,7 +33,7 @@ const Home = props => (
 			<div id="page-wrap">
 				<div className="container">
 						{/* <Header user={props.user} /> */}
-						<Image />	
+						<Logo />	
 						<br />	
 						<br />
 						{/* <HomeComp /> */}
