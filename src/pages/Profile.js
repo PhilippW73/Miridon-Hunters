@@ -21,7 +21,18 @@ const Profile = props => (
 <footer className="navbar-fixed-bottom">
 					<div className="container">
 						<div className="row">
-							<p>Don't miss my site: <a href="www.devbutze.com">DevButze</a> </p>
+							<p>
+                <a href="/get-started">Get Started</a> 
+              </p>
+              <p>
+                <a href="/about-us">About Us</a> 
+              </p>
+              <p>
+                <a href="/support">Support</a> 
+              </p>
+              <p>
+                <a href="/information">Information</a> 
+              </p>
 						</div>
 					</div>
 				</footer>
@@ -77,7 +88,13 @@ const Profile = props => (
   	<Greeting {...props}/>
   	<div className="jumbotron">			
   	<Input/>
-  	{/*image*/}
+    <FormBtn
+    onClick={this.handleFormSubmitBio}>
+    Update Bio
+  </FormBtn>
+  <h2> Image </h2>
+  <Image/>
+  <Wins_Losses/>
   								
 
 	  
