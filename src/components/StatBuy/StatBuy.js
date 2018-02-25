@@ -5,6 +5,7 @@ import "./StatBuy.css";
 const StatBuy = props => 
 <div>
   {`Current ${props.stat}: ${props.cur}`}
+  {`New ${props.stat}: ${props.new}`}
   Cost to increase: {
     // switch () {
 
