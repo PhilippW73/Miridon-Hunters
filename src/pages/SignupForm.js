@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { Redirect } from 'react-router-dom'
+import "./SignupForm.css";
 
 class SignupForm extends Component {
 	constructor() {
@@ -50,51 +51,77 @@ class SignupForm extends Component {
 			return <Redirect to={{ pathname: this.state.redirectTo }} />
 		}
 		return (
-			<div className="SignupForm">
-				<h1>Signup form</h1>
-				
-				<label htmlFor="email">Email: </label>
-				<input
-					type="text"
-					name="email"
-					value={this.state.email}
-					onChange={this.handleChange}
-				/>
+			<form action="#0" method="post">
+				<div className="SignupForm">
+					<h1>Signup form</h1>
+					
+					<div>
+						<input required
+							type="email"
+							name="email"
+							id="email"
+							value={this.state.email}
+							onChange={this.handleChange}
+							validate='required,isEmail'
+						/>
+						<label htmlFor="email">Email: </label>
 
-				<label htmlFor="username">Username: </label>
-				<input
-					type="text"
-					name="username"
-					value={this.state.username}
-					onChange={this.handleChange}
-				/>
+						<div class="requirements">
+							Must be a valid email address.
+							</div>
+					</div>
 
-				<label htmlFor="bio">Bio: </label>
-				<input
-					type="text"
-					name="bio"
-					value={this.state.bio}
-					onChange={this.handleChange}
-				/>
+					<div>
+						<input required
+							type="text"
+							name="username"
+							id="username"
+							value={this.state.username}
+							onChange={this.handleChange}
+						/>
+						<label htmlFor="username">Username: </label>
+					</div>
 
-				<label htmlFor="password">Password: </label>
-				<input
-					type="password"
-					name="password"
-					value={this.state.password}
-					onChange={this.handleChange}
-				/>
+					<div>
+						<input
+							type="text"
+							name="bio"
+							id="bio"
+							value={this.state.bio}
+							onChange={this.handleChange}
+						/>
+						<label htmlFor="bio">Bio: </label>
+					</div>	
 
-				<label htmlFor="confirmPassword">Confirm Password: </label>
-				<input
-					type="password"
-					name="confirmPassword"
-					value={this.state.confirmPassword}
-					onChange={this.handleChange}
-				/>
+					<div>
+						<label htmlFor="password">Password: </label>
+						<input required
+							type="password"
+							name="password"
+							id="password"
+							pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" 
+							value={this.state.password}
+							onChange={this.handleChange}
+						/>
+						<div className="requirements">
+							Your password must be at least 6 characters as well as contain at least one uppercase, one lowercase, and one number.
+							</div>
+					</div>
 
-				<button onClick={this.handleSubmit}>Sign up</button>
-			</div>
+					<div>
+						<input
+							type="password"
+							name="confirmPassword"
+							value={this.state.confirmPassword}
+							onChange={this.handleChange}
+						/>
+						<label htmlFor="confirmPassword">Confirm Password: </label>
+					</div>
+
+					<button onClick={this.handleSubmit}>Sign up</button>
+					
+				</div>
+			</form>
 		)
 	}
 }
