@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Image from "../components/Image";
@@ -6,13 +6,8 @@ import Chat from "../components/Chat";
 import Navbar from "../components/Navbar";
 import Input from "../components/Input";
 import Row from "../components/Row";
-import Col from "../components/Col";
-import Container from "../components/Container";
+import Col from "../components/col";
 import ButtonDropdown from "../components/ButtonDropdown";
-import Button from "../components/Button";
-import ButtonLinkInfo from "../components/ButtonLinkInfo";
-import mongo from "../utils/mongo";
-
 
 class Upgrade_and_Shop extends Component {
   state = {
@@ -210,4 +205,4 @@ class Upgrade_and_Shop extends Component {
   }
 };
 
-export default Upgrade_and_Shop;
+ export default Upgrade_and_Shop;
