@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Image from "../components/Image";
@@ -11,6 +11,8 @@ import Container from "../components/Container";
 import ButtonDropdown from "../components/ButtonDropdown";
 import Button from "../components/Button";
 import ButtonLinkInfo from "../components/ButtonLinkInfo";
+import mongo from "../utils/mongo";
+
 
 class Upgrade_and_Shop extends Component {
   state = {
@@ -18,7 +20,11 @@ class Upgrade_and_Shop extends Component {
     player: {},
     materials: [],
     currentMaterial: {},
-    steelweapons: [],
+    weapons: {
+      steel: [],
+      mechanical: [],
+      puzzle: []
+    },
     comments: "Select a material to exchange it for others or use it."
   };
 
@@ -31,7 +37,7 @@ class Upgrade_and_Shop extends Component {
   getCharacter() {
     mongo.getCharacter({
       //TODO: pass in id somehow
-        id
+        id: props.id
       })
       .then(res => {
         let player = this.state.player;
@@ -40,16 +46,30 @@ class Upgrade_and_Shop extends Component {
         this.setState({
           player: player
         })
-        this.getExchangeRates();
+        this.getMaterials();
       })
       .catch(err => console.log(err));
   }
 
-  getExchangeRates() {
+  getMaterials() {
     //gives exchange rates and which materials are available
+    mongo.getAvailableMaterials()
+      .then(res => {
+        this.setState({materials: res.data.message});
+        this.getWeapons();
+      })
+      .catch(err => console.log(err));
   }
   getWeapons() {
-
+    mongo.getWeapons()
+      .then(res => {
+        let weapons = [];
+        for(let i = 0; i < res.data.message.length; i++){
+          weapons[res.data.message[i].material].push(res.data.message);
+        }
+        this.setState({weapons: weapons});
+      })
+      .catch(err => console.log(err));
   }
   getStatExchange() {
     
@@ -105,6 +125,6 @@ class Upgrade_and_Shop extends Component {
       </Container>
     );
   }
-}
+};
 
 export default Upgrade_and_Shop;
