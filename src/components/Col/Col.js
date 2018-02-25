@@ -1,5 +1,5 @@
 import React from "react";
-import from "./Col.css";
+import "./Col.css";
 
 const Col = props => {
   const size = props.size.split(" ").map(size => "col-" + size).join(" ");
@@ -7,3 +7,4 @@ const Col = props => {
 };
 
 export default Col;
+
