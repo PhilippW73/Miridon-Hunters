@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Image from "../components/Image";
@@ -77,7 +77,7 @@ class Battle extends Component {
   getCharacter() {
     mongo.getCharacter({
       //TODO: pass in id somehow
-        id
+        id: props.id
       })
       .then(res => {
         let player = this.state.player;

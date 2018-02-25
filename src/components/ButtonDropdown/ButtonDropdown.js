@@ -1,7 +1,8 @@
 import React from "react";
 import "./ButtonDropdown.css";
+import DropdownButton from "react-bootstrap";
 
-// const ButtonDropdown = props =>
+=// const ButtonDropdown = props =>
 // <div className="btn-group" role="group">
 // 	<button id={`${props.name}Dropdown`} type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" { props.disabled ? "disabled" : "" }>
 // 		<i className={`fa ${props.faIcon}`}></i> <span id={`${props.name}DropdownText`} { props.disabled ? "disabled" : "" }>{props.current ? props.current : props.name}</span>
@@ -19,6 +20,7 @@ import "./ButtonDropdown.css";
 // 		</ul>
 // 	</div>
 // </div>;
+
 
 
 export default ButtonDropdown

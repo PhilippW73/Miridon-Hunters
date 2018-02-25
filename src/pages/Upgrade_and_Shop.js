@@ -18,6 +18,7 @@
 //     comments: "Select a material to exchange it for others or use it."
 //   };
 
+
 //   componentDidMount() {
 //     //how are we getting the id?
 //     //First time: get character, action types, actions
@@ -48,24 +49,7 @@
 
 //   }
 //   getStatExchange() {
-    
-//   }
-//   //Handles choice of actions
-//   handleActionChange = (event) => {
-//     let player = this.state.player;
-//     player[event.target.name] = event.target.value;
-//     this.setState({ player: player});
-//   }
 
-//   handleFormSubmit = event => {
-//     event.preventDefault();
-//     this.setState({
-//       meleeCombo: false,
-//       actionsDisabled: true,
-//       comments: ""
-//     });
-//     this.enemyChoice();
-//   };
 
 //   render() {
 //     return (
@@ -97,5 +81,6 @@
 //     );
 //   }
 // }
+  
 
 // export default Upgrade_and_Shop;
