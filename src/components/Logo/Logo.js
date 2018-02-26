@@ -1,7 +1,7 @@
 import React from "react"
 
 const style = {
-  width: "900px",
+  width: "700px",
   marginLeft: "auto",
   marginRight: "auto",
   display: "block"
