@@ -200,8 +200,21 @@ export default {
       return res.json(err);
     });
   },
-  getStoreItemsAll: function(material) {
-    db.Store.find({
+  getStartWeapons: function() {
+    db.Weapons.find({
+      material: "steel",
+      $or: [{weight: { $lte : 2}},{name: "Shotgun"}, {name: "Hunting Rifle"}]
+    })
+    .then(function(dbItems) {
+      return res.json(dbItems);
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      return res.json(err);
+    });
+  },
+  getAllWeapons: function(material) {
+    db.Weapons.find({
       material: material
     })
     .then(function(dbItems) {
@@ -339,5 +352,8 @@ export default {
         console.log(err);
         return res.json(err);
       });
+  },
+  getStartWeapons: function() {
+
   }
 };

@@ -84,11 +84,26 @@ class Upgrade_and_Shop extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
-    mongo.createCharacter(this.state)
-    .then(res => {
-      this.setState({comments: "Character created."});
-    })
-    .catch(err => console.log(err));
+    if(!this.currentClass){
+      this.setState({comments: "Please select a class before submitting."});
+    } else {
+      if(this.state.strength + this.state.speed != 4 ){
+        this.setState({comments: "Please use 4 stat points before submitting."});
+      } else {
+        if(!this.state.currentWeapon){
+          this.setState({comments: "Please select a weapon before submitting."});
+        } else {
+          mongo.createCharacter(this.state)
+          .then(res => {
+            this.setState({comments: "Character created."});
+          })
+          .catch(err => {
+            console.log(err)
+            this.setState({comments: "Please fill in character information before submitting."});
+          });
+        }
+      }
+    }
   };
 
 
@@ -136,9 +151,9 @@ class Upgrade_and_Shop extends Component {
                 <FormControl id="strength"
                 type="number"
                 label="strength"
-                value={this.state.player.strength_point + this.state.strength}
-                min={this.state.player.strength_point}
-                max={this.state.player.strength_point + 4-this.state.speed}
+                value={this.state.currentClass.strength_point + this.state.strength}
+                min={this.state.currentClass.strength_point}
+                max={this.state.currentClass.strength_point + 4-this.state.speed}
                 onChange={this.handleChange}/>
               </FormGroup>
               <FormGroup controlId="speed">
@@ -146,12 +161,11 @@ class Upgrade_and_Shop extends Component {
                 <FormControl id="speed"
                 type="number"
                 label="speed"
-                value={this.state.player.speed_point + this.state.speed}
-                min={this.state.player.speed_point}
-                max={this.state.player.speed_point + 4-this.state.strength}
+                value={this.state.currentClass.speed_point + this.state.speed}
+                min={this.state.currentClass.speed_point}
+                max={this.state.currentClass.speed_point + 4-this.state.strength}
                 onChange={this.handleChange}/>
               </FormGroup>
-              
               
               <Button type="submit">Submit</Button>
             </form>
