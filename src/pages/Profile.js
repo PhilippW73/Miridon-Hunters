@@ -89,7 +89,12 @@ const Profile = props => (
 						  		{props.user.user &&<Bio 
 						  			bio={props.user.user.bio}
 						  		/>}
-					  			<h2> Image </h2>
+
+								<h2> Image </h2>
+
+					  			{props.user.user &&<Image 
+						  			img={props.user.user.img}
+						  		/>}
 					  			<Image/>
 					  			<Wins_Losses/>
 					  		</div>
