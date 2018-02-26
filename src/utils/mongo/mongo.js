@@ -467,6 +467,75 @@ export default {
     });
   },
   buyWeapon: function(id, mat, newWeap) {
-
+    db.Characters.findOne({ character_id: id })
+    .then(function(dbCharacter) {
+      db.Weapons.find({
+        $or: [
+          {name: newWeap,
+          material: mat},
+          {name: dbCharacter.weapon,
+          material: weaponmaterial}]
+      })
+      .then(function(dbItems) {
+        //Now that we know the two weapons...
+        const newWeapon = dbItems.find(function(element) {
+          return (name === newWeap && material === mat);
+        })
+        const oldWeapon = dbItems.find(function(element) {
+          return (name === dbCharacter.weapon && material === dbCharacter.weaponmaterial);
+        })
+        //Double check there is enough material. 
+        var temp = dbCharacter[mat];
+        if(oldWeapon.material === newWeapon.material){
+         temp += oldWeapon.cost; 
+        }
+        if(temp < newWeapon.cost) {
+          return {
+            character: dbCharacter,
+            comments: "You do not have enough "+mat+" to make the "+newWeapon.name+"."
+          }
+        } else {
+          //Buy it!
+          if(dbCharacter[mat] < cost) {
+            return {
+              character: dbCharacter,
+              comments: "You did not have enough "+mat+" to gain "+amt+" "+name+"."
+            };
+          } else {
+            db.Character.update(
+              {
+                _id: id
+              }, {
+                $inc: {
+                  [oldWeapon.material]: oldWeapon.cost,
+                  [mat]: -newWeapon.cost
+                },
+                $set: {
+                  weapon: newWeap,
+                  weaponmaterial: mat
+                }
+              })
+              .then(function(dbCharacter) {
+                
+                return {
+                  character: dbCharacter,
+                  comments: "You turned your "+oldWeapon.name+"into scrap "+oldWeapon.material+" and got a new "+newWeap+" made from "+mat+ "."
+                };
+              }).catch(function(err) {
+                console.log(err);
+                return res.json(err);
+              });
+            }
+        }
+      })
+      .catch(function(err) {
+        // If an error occurred, send it to the client
+        return res.json(err);
+      });
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      return res.json(err);
+    });
   }
 };
