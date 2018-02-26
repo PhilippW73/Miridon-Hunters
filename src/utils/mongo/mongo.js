@@ -184,22 +184,6 @@ export default {
         });
       });
   },
-  getStoreItemsPurchasable: function(material, maxcost) {
-    if (!maxcost) {
-      maxcost = 99999;
-    }
-    db.Store.find({
-      cost: { $lte: maxcost },
-      material: material
-    })
-    .then(function(dbItems) {
-      return res.json(dbItems);
-    })
-    .catch(function(err) {
-      // If an error occurred, send it to the client
-      return res.json(err);
-    });
-  },
   getStartWeapons: function() {
     db.Weapons.find({
       material: "steel",
@@ -353,7 +337,35 @@ export default {
         return res.json(err);
       });
   },
-  getStartWeapons: function() {
+  getWeaponsPurchasable: function(material, maxcost) {
+    if (!maxcost) {
+      maxcost = 99999;
+    }
+    db.Weapons.find({
+      cost: { $lte: maxcost },
+      material: material
+    })
+    .then(function(dbItems) {
+      return res.json(dbItems);
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      return res.json(err);
+    });
+  },
+  getAvailableMaterials: function() {
+    db.Materials.find({
+      available: true
+    })
+    .then(function(dbItems) {
+      return res.json(dbItems);
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      return res.json(err);
+    });
+  },
+  exchangeMaterial: function(id, curMat, newMat, amt) {
 
   }
 };

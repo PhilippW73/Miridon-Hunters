@@ -93,7 +93,7 @@ class Upgrade_and_Shop extends Component {
         if(!this.state.currentWeapon){
           this.setState({comments: "Please select a weapon before submitting."});
         } else {
-          mongo.createCharacter(this.state)
+          mongo.createCharacter(props.user._id, this.state)
           .then(res => {
             this.setState({comments: "Character created."});
           })
