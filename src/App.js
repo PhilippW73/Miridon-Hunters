@@ -145,7 +145,8 @@ class App extends Component {
               <Route exact path="/" render={() => <Home 
                                                     user={this.state.user} 
                                                     _onMessageWasSent={this._onMessageWasSent}
-                                                    messageList={this.state.messageList} />} />
+                                                    messageList={this.state.messageList} />} 
+                                                    _logout={this.state._logout}/>
               <Route exact path="/login" render={() => <LoginForm _login={this._login} />} />
             </Wrapper>
             
