@@ -61,7 +61,7 @@ class Upgrade_and_Shop extends Component {
     }
 
     getWeapons() {
-      mongo.getWeapons()
+      mongo.getWeaponsPurchasable(this.state.currentMaterial, this.state.player[this.state.currentMaterial])
         .then(res => {
           let weapons = [];
           for(let i = 0; i < res.data.message.length; i++){
@@ -78,6 +78,7 @@ class Upgrade_and_Shop extends Component {
       return element.name === event.target.value;
     })
     this.setState({ currentMaterial: current});
+    this.getWeapons();
   }
 
   handleExchangeChange = (event) => {
@@ -99,7 +100,7 @@ class Upgrade_and_Shop extends Component {
   handleFormSubmit = event => {
     event.preventDefault();
     if (this.state.currentExchangeAmount > 0) {
-      mongo.exchangeMaterial(this.state.player.character_id, this.state.currentMaterial, this.state.currentExchange, this.state.currentExchangeAmount)
+      mongo.exchangeMaterial(this.state.player.character_id, this.state.currentMaterial.name, this.state.currentExchange.name, this.state.currentExchangeAmount)
       .then(res => {
         this.setState({comments: res.comments});
         this.submitBuy()

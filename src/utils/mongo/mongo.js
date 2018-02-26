@@ -25,6 +25,8 @@ export default {
   getClasses: function() {
     db.Classes.find()
     .then(function(dbClasses) {
+      console.log("----------------")
+      console.log(dbClasses)
       return res.json(dbClasses);
     })
     .catch(function(err) {
@@ -184,22 +186,6 @@ export default {
         });
       });
   },
-  getStoreItemsPurchasable: function(material, maxcost) {
-    if (!maxcost) {
-      maxcost = 99999;
-    }
-    db.Store.find({
-      cost: { $lte: maxcost },
-      material: material
-    })
-    .then(function(dbItems) {
-      return res.json(dbItems);
-    })
-    .catch(function(err) {
-      // If an error occurred, send it to the client
-      return res.json(err);
-    });
-  },
   getStartWeapons: function() {
     db.Weapons.find({
       material: "steel",
@@ -353,7 +339,205 @@ export default {
         return res.json(err);
       });
   },
-  getStartWeapons: function() {
+  getWeaponsPurchasable: function(material, maxcost) {
+    if (!maxcost) {
+      maxcost = 99999;
+    }
+    db.Weapons.find({
+      cost: { $lte: maxcost },
+      material: material
+    })
+    .then(function(dbItems) {
+      return res.json(dbItems);
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      return res.json(err);
+    });
+  },
+  getAvailableMaterials: function() {
+    db.Materials.find({
+      available: true
+    })
+    .then(function(dbItems) {
+      return res.json(dbItems);
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      return res.json(err);
+    });
+  },
+  exchangeMaterial: function(id, curMat, newMat, amt) {
+    db.Materials.find({
+      $or: [{name: curMat}, {name: newMat}]
+    })
+    .then(function(dbItems) {
+      let newamt = Math.floor(dbItems.curMat.cost * amt / dbItems.newMat.cost);
+      let remainder = Math.floor(dbItems.curMat.cost * amt % dbItems.newMat.cost)/dbItems.curMat.cost;
+      db.Character.update(
+        {
+          _id: id
+        }, {
+          $inc: {
+            [curMat]: - amt + remainder,
+            [newMat]: + newamt
+          }
+        })
+        .then(function(dbCharacter) {
+          
+          return {
+            character: dbCharacter,
+            comments: "You traded "+amt+" "+curMat+" for "+newamt+" "+newMat+ " and had "+remainder+ " of "+curMat+ " left over from the trade."
+          };
+        }).catch(function(err) {
+          console.log(err);
+          return res.json(err);
+        });
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      return res.json(err);
+    });
 
+    
+  },
+  buyStats: function(id, mat, amt) {
+    var stat="";
+    var expgain=1;
+    var name="";
+    switch(mat){
+      case "Ghost HP":
+        stat = "ghost_hp";
+        name = "ghost hp";
+        expgain=1;
+        break;
+      case "Meat/ Protein (lbs.)":
+        stat = "strength_point";
+        name = "strength";
+        break;
+      case "Produce (lbs.)":
+        stat = "speed_point";
+        name = "speed";
+        expgain = 10;
+        break;      
+    }
+    db.Characters.findOne({ character_id: id })
+    .then(function(dbCharacter) {
+      // Change 5 to 25 for stats used in original.
+      if(!dbCharacter[stat+"_exp"] || dbCharacter[stat+"_exp"] === 0){
+
+        var start = (5/2)*(dbCharacter[stat]-1)*dbCharacter[stat];
+        var end = (5/2)*(dbCharacter[stat]+amt-1)*(dbCharacter[stat]+amt);
+        var cost = Math.ceil((end - start)/expgain);
+      } else {
+        var start = dbCharacter[stat+"_exp"];
+        var end = (5/2)*(dbCharacter[stat]+amt-1)*(dbCharacter[stat]+amt);
+        var cost = Math.ceil((end - start)/expgain);
+      }
+      end = cost * expgain + start;
+      if(dbCharacter[mat] < cost) {
+        return {
+          character: dbCharacter,
+          comments: "You did not have enough "+mat+" to gain "+amt+" "+name+"."
+        };
+      } else {
+        db.Character.update(
+          {
+            _id: id
+          }, {
+            $inc: {
+              [stat+"_exp"]: end,
+              [mat]: -cost,
+              [stat]: amt
+            }
+          })
+          .then(function(dbCharacter) {
+            
+            return {
+              character: dbCharacter,
+              comments: "You ate "+cost+" "+mat+" and got "+amt+" "+name+ "."
+            };
+          }).catch(function(err) {
+            console.log(err);
+            return res.json(err);
+          });
+      }
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      return res.json(err);
+    });
+  },
+  buyWeapon: function(id, mat, newWeap) {
+    db.Characters.findOne({ character_id: id })
+    .then(function(dbCharacter) {
+      db.Weapons.find({
+        $or: [
+          {name: newWeap,
+          material: mat},
+          {name: dbCharacter.weapon,
+          material: weaponmaterial}]
+      })
+      .then(function(dbItems) {
+        //Now that we know the two weapons...
+        const newWeapon = dbItems.find(function(element) {
+          return (name === newWeap && material === mat);
+        })
+        const oldWeapon = dbItems.find(function(element) {
+          return (name === dbCharacter.weapon && material === dbCharacter.weaponmaterial);
+        })
+        //Double check there is enough material. 
+        var temp = dbCharacter[mat];
+        if(oldWeapon.material === newWeapon.material){
+         temp += oldWeapon.cost; 
+        }
+        if(temp < newWeapon.cost) {
+          return {
+            character: dbCharacter,
+            comments: "You do not have enough "+mat+" to make the "+newWeapon.name+"."
+          }
+        } else {
+          //Buy it!
+          if(dbCharacter[mat] < cost) {
+            return {
+              character: dbCharacter,
+              comments: "You did not have enough "+mat+" to gain "+amt+" "+name+"."
+            };
+          } else {
+            db.Character.update(
+              {
+                _id: id
+              }, {
+                $inc: {
+                  [oldWeapon.material]: oldWeapon.cost,
+                  [mat]: -newWeapon.cost
+                },
+                $set: {
+                  weapon: newWeap,
+                  weaponmaterial: mat
+                }
+              })
+              .then(function(dbCharacter) {
+                
+                return {
+                  character: dbCharacter,
+                  comments: "You turned your "+oldWeapon.name+"into scrap "+oldWeapon.material+" and got a new "+newWeap+" made from "+mat+ "."
+                };
+              }).catch(function(err) {
+                console.log(err);
+                return res.json(err);
+              });
+            }
+        }
+      })
+      .catch(function(err) {
+        // If an error occurred, send it to the client
+        return res.json(err);
+      });
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      return res.json(err);
+    });
   }
 };

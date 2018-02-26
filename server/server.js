@@ -117,16 +117,25 @@ app.use('/auth', require('./auth'))
 // Add routes, both API and view
 app.use(routes);
 
-//------- making mongodb public------// 
-// var MONGO_URI = "mongodb://miridon:miridon@ds245548.mlab.com:45548/miridon"; 
-// mongoose.connect(MONGO_URI);
+//----mongodb connection/mlab for heroku deployment-----//
 
-// const db = mongoose.connection;
-// db.on('error', console.error.bind(console, '-- connection  error:'));
-// db.once('open', () => console.log('++ mongoose connected successfully'))
+var databaseUri = 'mongodb://localhost/27017';
+var MONGODB_URI = 'mongodb://miridon:miridon@ds249398.mlab.com:49398/heroku_h090q6bj'
 
-//------------------------------------//
+if (process.env.MONGODB_URI){
+	mongoose.connect(process.env.MONGODB_URI);
+}else{
+	mongoose.connect(databaseUri);
+}
 
+var db = mongoose.connection;
+db.on('error', function(err){
+	console.log('Mongoose Error: ', err);
+});
+
+db.once('open', function(){
+	console.log('Mongoose connection successful.');
+});
 
 
 // ==== Starting Server =====

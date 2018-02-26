@@ -1,12 +1,21 @@
 import React from "react";
 import "./Greeting.css";
 
+// const styles = StyleSheet.create({
+// 	: {
+// 	fontFamily: 'Bad Script',
+// 	fontSize: 20,
+// 	},
+
+// });
+
+
 const Greeting = props => {
 	console.log('props in greeting component: ', props);
 	if (props.user) {
 		return (
 			<div className="Home">
-				<p>Current User:</p>
+				<p  >Current User:</p>
 				<code>
 					{JSON.stringify(props)}
 				</code>
@@ -15,7 +24,7 @@ const Greeting = props => {
 	} else {
 		return (
 			<div className="Home">
-				<p>Current User:</p>
+				<p >Current User:</p>
 				<code>
 					{JSON.stringify(props)}
 				</code>
