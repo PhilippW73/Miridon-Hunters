@@ -243,13 +243,80 @@ export default {
         return res.json(err);
       });
   },
+  battleLoot: function(CharWon, CharLost) {
+    db.Character.findOne(
+      {
+        _id: CharLost
+      }
+    )
+    .then(function(dbCharacter) {
+      let spoils = {};
+
+      //Gathered Materials
+      spoils["Meat/ Protein (lbs.)"] = Math.ceil(dbCharacter["Meat/ Protein (lbs.)"]/5);
+      spoils["Steel (lbs.)"] = Math.ceil(dbCharacter["Steel (lbs.)"]/5);
+      spoils["Mechanical Parts (oz.)"] = Math.ceil(dbCharacter["Mechanical Parts (oz.)"]/5);
+      spoils["Puzzle Parts (oz.)"] = Math.ceil(dbCharacter["Puzzle Parts (oz.)"]/5);
+      spoils["Imperial Pounds"] = Math.ceil(dbCharacter["Imperial Pounds"]/5);
+      spoils["Produce (lbs.)"] = Math.ceil(dbCharacter["Produce (lbs.)"]/5);
+      spoils["Ghost HP"] = Math.ceil(dbCharacter["Ghost HP"]/5);
+
+      //Food materials
+      spoils["Meat/ Protein (lbs.)"] += Math.ceil((100 + 5*dbCharacter[strength_point] + 5*dbCharacter[speed_point])/5);
+      //Weapon materials
+      db.Weapons.findOne({
+        name: dbCharacter[weapon],
+        material: dbCharacter[weaponmaterial]
+      }).then(function(dbWeapon) {
+        spoils[dbCharacter.weaponmaterial] += dbWeapon.cost;
+
+        db.Character.findOneAndUpdate(
+          {
+            _id: CharWon
+          }, {
+            $inc: { 
+              "Meat/ Protein (lbs.)": spoils["Meat/ Protein (lbs.)"],
+              "Steel (lbs.)": spoils["Steel (lbs.)"],
+              "Mechanical Parts (oz.)": spoils["Mechanical Parts (oz.)"],
+              "Puzzle Parts (oz.)": spoils["Puzzle Parts (oz.)"],
+              "Imperial Pounds": spoils["Imperial Pounds"],
+              "Produce (lbs.)": spoils["Produce (lbs.)"],
+              "Ghost HP": spoils["Ghost HP"]
+            }
+          })
+        .then(function(dbCharacterWon) {
+
+          return {
+            characterWon: dbCharacterWon,
+            characterLost: dbCharacter,
+            comments: dbCharacterWon.name + " got "+ spoils["Meat/ Protein (lbs.)"] + " Meat/ Protein (lbs.), " + spoils["Steel (lbs.)"] + " Steel (lbs.), " + spoils["Imperial Pounds"] + " Imperial Pounds, and " + spoils["Produce (lbs.)"] + " Produce (lbs.)."
+            // + spoils["Mechanical Parts (oz.)"] + " " + "Mechanical Parts (oz.)"+", " + spoils["Puzzle Parts (oz.)"] + " " + "Puzzle Parts (oz.)"+", "
+            // + spoils["Ghost HP"] + " " + "Ghost HP."
+          };
+
+        }).catch(function(err) {
+          console.log(err);
+          return res.json(err);
+        });
+      }).catch(function(err) {
+        console.log(err);
+        return res.json(err);
+      });
+
+    }).catch(function(err) {
+      console.log(err);
+      return res.json(err);
+    });
+
+
+  },
   charLose: function(id) {
     db.Character.findOneAndUpdate(
       {
         character_id: id
       }, {
         $inc: { losses: 1 }
-      }, options, callback)
+      })
       .then(function(dbCharacter) {
         return res.json(dbCharacter);
       }).catch(function(err) {
@@ -263,7 +330,7 @@ export default {
         user_id: id
       }, {
         $inc: { losses: 1 }
-      }, options, callback)
+      })
       .then(function(dbCharacter) {
         return res.json(dbCharacter);
       }).catch(function(err) {
@@ -277,7 +344,7 @@ export default {
         character_id: id
       }, {
         $inc: { wins: 1 }
-      }, options, callback)
+      })
       .then(function(dbCharacter) {
         return res.json(dbCharacter);
       }).catch(function(err) {
@@ -291,7 +358,7 @@ export default {
         user_id: id
       }, {
         $inc: { wins: 1 }
-      }, options, callback)
+      })
       .then(function(dbCharacter) {
         return res.json(dbCharacter);
       }).catch(function(err) {

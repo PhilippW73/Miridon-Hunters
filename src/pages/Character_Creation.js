@@ -19,6 +19,7 @@ class Upgrade_and_Shop extends Component {
     classes: [],
     weapons: [],
     currentWeapon: {},
+    material: "steel",
     currentClass: {},
     strength: 0,
     speed: 0,
