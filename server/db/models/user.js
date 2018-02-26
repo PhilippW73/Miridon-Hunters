@@ -13,7 +13,7 @@ const userSchema = new Schema({
 		email: { type: String, unique: true, required: true}
 	},
 	bio: { type: String, unique: false },
-	img: { data: Buffer, contentType: String }
+	img: { type: String, unique: false }
 	
 })
 
