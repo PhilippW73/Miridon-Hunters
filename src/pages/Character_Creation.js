@@ -6,6 +6,7 @@ import Chat from "../components/Chat";
 import Navbar from "../components/Navbar";
 import Input from "../components/Input";
 import Row from "../components/Row";
+import ButtonDropdown from "../components/ButtonDropdown";
 //import Column from "../components/Colmun";
 
 
@@ -13,8 +14,13 @@ class Upgrade_and_Shop extends Component {
   state = {
     error: "",
     player: {},
+    addStrength: 0,
+    addSpeed: 0,
     classes: [],
     weapons: [],
+    currentWeapon: {},
+    currentClass: {},
+    image: "",
     comments: "Select your class, beginning stats, and beginning weapon."
   };
 
@@ -37,7 +43,7 @@ class Upgrade_and_Shop extends Component {
     }
 
     getWeapons() {
-      mongo.getWeapons()
+      mongo.getStartWeapons()
         .then(res => {
           let weapons = [];
           for(let i = 0; i < res.data.message.length; i++){
@@ -74,37 +80,67 @@ class Upgrade_and_Shop extends Component {
       <Container>
         <Header />
         <Row>
-          <Col size="md-offset-1 md-4">
-            {/* Current Character Items + Materials*/}
-          </Col>
-          <Col size="md-offset-1 md-4">
-            {/* Dropdown at top */}
-            {/* Exchange for x material dropdown */}
-            {/* Item list with scroll bar OR current stat list + cost to add more*/}
-            {/* make purchase button */}
-            <ButtonDropdown name="Material" faIcon="fa-cubes" list={this.state.materials} current={this.state.currentMaterial.name} onSelect={this.handleMaterialChange}/>
-            <ButtonDropdown name="Exchange" faIcon="fa-exchange" list={this.state.materials} current={this.state.currentExchange.name} onSelect={this.handleExchangeChange}/>
-            
+          <Col size="md-8">
+              {/* Character name
+              Class
+              Weapon
+              Image
+              Description
+              Stats */}
             <form>
-              <FormGroup
-                controlId="exchangeInput"
-                // validationState={this.getValidationState()}
-              >
-                <FormControl
-                  type="number"
-                  value={this.state.currentExchangeAmount}
-                  placeholder="Enter amount to exchange"
-                  onChange={this.handleChange}
-                  max={this.state.player[this.state.currentExchange.name]}
-                />
-                {/* <FormControl.Feedback /> */}
+              <FormGroup controlId="name">
+                <ControlLabel>Name</ControlLabel>
+                <FormControl id="name"
+                type="text"
+                label="Name"
+                placeholder="Enter character name" />
               </FormGroup>
+              <ButtonDropdown name="Class" faIcon="fa-users" list={this.state.classes} current={this.state.currentClass.name} onSelect={this.handleClassChange}/>
+              <ButtonDropdown name="Weapon" faIcon="fa-crosshairs" list={this.state.weapons} current={this.state.currentWeapon.name} onSelect={this.handleWeaponChange}/>
+              <FormGroup controlId="description">
+                <ControlLabel>Description</ControlLabel>
+                <FormControl id="description"
+                type="text"
+                label="Description"
+                placeholder="Enter character description" />
+              </FormGroup>
+              <FormGroup>
+                <FormControl.Static>You have 4 points to spend on stats.</FormControl.Static>
+              </FormGroup>
+              <FormGroup controlId="strength">
+                <ControlLabel>Strength Points</ControlLabel>
+                <FormControl id="strength"
+                type="number"
+                label="strength"
+                value={this.state.player.strength_point + this.state.addStrength}
+                min={this.state.player.strength_point}
+                max={this.state.player.strength_point + 4-this.state.addSpeed}/>
+              </FormGroup>
+              <FormGroup controlId="speed">
+                <ControlLabel>Speed Points</ControlLabel>
+                <FormControl id="speed"
+                type="number"
+                label="speed"
+                value={this.state.player.speed_point + this.state.addSpeed}
+                min={this.state.player.speed_point}
+                max={this.state.player.speed_point + 4-this.state.addStrength}/>
+              </FormGroup>
+              
+              
+              <Button type="submit">Submit</Button>
             </form>
-        
-            {this.state.currentMaterial === "steel" ? <ButtonDropdown name="Weapon" faIcon="fa-crosshairs" list={this.state.steelweapons}/> : ""}
-            <Button onClick={this.handleFormSubmit} data-value="Buy">
-              Buy
-            </Button>
+          </Col>
+          <Col size="md-4">
+              <Thumbnail src={this.state.image ? this.state.image : "https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-group-512.png"} responsive />
+              <Form>
+                <FormGroup controlId="image">
+                  <ControlLabel>Image URL</ControlLabel>
+                  <FormControl id="image"
+                  type="text"
+                  label="Image URL"
+                  placeholder="Enter image url" />
+                </FormGroup>
+              </Form>
           </Col>
         </Row>
         <Footer />
