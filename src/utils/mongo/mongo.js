@@ -319,24 +319,25 @@ export default {
       // If an error occurred, send it to the client
       return res.json(err);
     });
+  },
+  createCharacter: function(id, params) {
+    db.Character.create(
+      {
+        character_name: params.name,
+        character_author: id,
+        character_desc: params.description,
+        class_name: params.currentClass,
+        character_image: params.image,
+        strength_point: params.strength + params.currentClass.strength_point,
+        speed_point: params.speed + params.currentClass.speed_point,
+        hit_point: 5*(params.speed + params.currentClass.speed_point + params.strength + params.currentClass.strength_point),
+        "Imperial Pounds": 50
+      })
+      .then(function(dbCharacter) {
+        return dbCharacter;
+      }).catch(function(err) {
+        console.log(err);
+        return res.json(err);
+      });
   }
 };
-
-
-
-// db.User.create(
-//   {
-//       email : req.body.email,
-//       password : req.body.password,
-//       username : req.body.username,
-//       user_bio : req.body.user_bio,
-//       profile_image : req.body.profile_image
-//   })
-//   .then(function(dbUser) {
-//     res.redirect(307, "/login");
-//   }).catch(function(err) {
-//     console.log(err);
-//     res.json(err);
-//   });
-
-=======
