@@ -8,7 +8,7 @@ import Character_Creation from "./pages/Character_Creation";
 import Character_Selection from "./pages/Character_Selection";
 import Profile from "./pages/Profile";
 import Upgrade_and_Shop from "./pages/Upgrade_and_Shop";
-import SignupForm from "./pages/SignupForm";
+import SignupForm from "./components/SignupForm";
 // import Footer from "./components/Footer";
 import LoginForm from "./components/LoginForm"; 
 //import Navbar from "./components/Navbar";
@@ -140,19 +140,13 @@ class App extends Component {
               <Route exact path="/Character_Creation" component={Character_Creation} />
               <Route exact path="/Profile" render={(props) => <Profile user={this.state} /> } />
               <Route exact path="/Upgrade_and_Shop" component={Upgrade_and_Shop} />
-              <Route exact path="/signup" component={SignupForm} />
+              <Route exact path="/signup" component={SignupForm} /> 
+
               <Route exact path="/" render={() => <Home 
                                                     user={this.state.user} 
                                                     _onMessageWasSent={this._onMessageWasSent}
                                                     messageList={this.state.messageList} />} />
-              <Route
-                exact
-                path="/login"
-                render={() =>
-                  <LoginForm
-                    _login={this._login}
-                  />}
-              />
+              <Route exact path="/login" render={() => <LoginForm _login={this._login} />} />
             </Wrapper>
             
           </div>
