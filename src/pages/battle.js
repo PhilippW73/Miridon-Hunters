@@ -77,7 +77,7 @@ class Battle extends Component {
   getCharacter() {
     mongo.getCharacter({
       //TODO: pass in id somehow
-        id: props.user._id
+
       })
       .then(res => {
         let player = this.state.player;
@@ -333,7 +333,7 @@ class Battle extends Component {
             <div className="btn-group" role="group">
               {props.actionTypes.map(actionType => <ButtonDropdown actionType actions strength={this.state.player.curStats.strength_point} speed={this.state.player.curStats.speed_point} weapon={this.state.player.fullStats.weapon} current={this.state.player[actionType.name]} meleeCombo actionsDisabled/>
                 )}
-              <button class="btn btn-default" type="button" id="startTurn" onClick={this.handleActionChange} disabled={ this.state.actionsDisabled }>Start Turn
+              <button class="btn btn-default" type="button" id="startTurn" onClick={this.handleActionChange} disabled={ this.state.actionsDisabled ? "disabled" : "" }>Start Turn
               </button> 
             </div>
             <div>{this.state.comments}

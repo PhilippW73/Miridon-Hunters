@@ -120,7 +120,7 @@ app.use(routes);
 //----mongodb connection/mlab for heroku deployment-----//
 
 var databaseUri = 'mongodb://localhost/27017';
-var MONGODB_URI = 'mongodb://heroku_h090q6bj:heroku_h090q6bj@ds249398.mlab.com:49398/heroku_h090q6bj'
+var MONGODB_URI = 'mongodb://miridon:miridon@ds249398.mlab.com:49398/heroku_h090q6bj'
 
 if (process.env.MONGODB_URI){
 	mongoose.connect(process.env.MONGODB_URI);
