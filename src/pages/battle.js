@@ -9,7 +9,7 @@ import Row from "../components/Row";
 import Col from "../components/col";
 import Greeting from "../components/Greeting";
 import Wins_Losses from "../components/Wins_Losses";
-
+import BattleButtonDropdown from "../components/BattleButtonDropdown";
 //import API from "../utils/API";
 //import mongo from "../utils/mongo";
 //import Container from "../components/Container";

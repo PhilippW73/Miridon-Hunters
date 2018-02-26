@@ -30,7 +30,7 @@ skill_point: {
 
 ghost_hp: {
   type: Number,
-  required: true},
+  required: true}
   
 });
 

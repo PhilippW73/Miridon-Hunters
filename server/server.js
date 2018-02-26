@@ -15,18 +15,13 @@ const dbConnection = require('./db') // loads our c
 const mongoose = require('mongoose')
 const path = require ('path')
 const passport = require('./passport');
-const routes = require('../routes/api/index')
 
 //const mutilpart = require('connect-fileuploader')
 const app = express()
+const routes = require("../routes");
 const PORT = process.env.PORT || 9000
 
-// Configure body parser for AJAX requests
-app.use(bodyParser.urlencoded({ extended: false }));
-// Serve up static assets
-app.use(express.static("client/build"));
-// Add routes, both API and view
-app.use(routes);
+
 
 // === Upload Picture === 
 
@@ -101,8 +96,13 @@ if (process.env.NODE_ENV === 'production') {
 	})
 }
 
-/* Express app ROUTING */
-app.use('/auth', require('./auth'))
+
+// Configure body parser for AJAX requests
+app.use(bodyParser.urlencoded({ extended: false }));
+// Serve up static assets
+app.use(express.static("client/build"));
+
+
 
 // ====== Error handler ====
 app.use(function(err, req, res, next) {
@@ -111,14 +111,19 @@ app.use(function(err, req, res, next) {
 	res.status(500)
 })
 
+/* Express app ROUTING */
+app.use('/auth', require('./auth'))
+
+// Add routes, both API and view
+app.use(routes);
 
 //------- making mongodb public------// 
-var MONGO_URI = "mongodb://miridon:miridon@ds245548.mlab.com:45548/miridon"; 
-mongoose.connect(MONGO_URI);
+// var MONGO_URI = "mongodb://miridon:miridon@ds245548.mlab.com:45548/miridon"; 
+// mongoose.connect(MONGO_URI);
 
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, '-- connection  error:'));
-db.once('open', () => console.log('++ mongoose connected successfully'))
+// const db = mongoose.connection;
+// db.on('error', console.error.bind(console, '-- connection  error:'));
+// db.once('open', () => console.log('++ mongoose connected successfully'))
 
 //------------------------------------//
 
