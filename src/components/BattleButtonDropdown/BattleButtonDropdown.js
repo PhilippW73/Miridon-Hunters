@@ -1,24 +1,25 @@
 import React from "react";
 import "./BattleButtonDropdown.css";
+import DropdownButton from "react-bootstrap";
 
 const BattleButtonDropdown = props =>
-<div className="btn-group" role="group">
-	<button id={`${props.actionType.name}Dropdown`} type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled={props.actionsDisabled}>
-		<i className={`fa ${props.actionType.faIcon}`}></i> <span id={`${props.actionType.name}DropdownText`} disabled={props.actionsDisabled}>{props.current ? props.current : props.actionType.name}</span>
-	</button>
-	<div className="dropdown-menu" aria-labelledby={`${props.actionType.name}Dropdown`} value={props.actionType.name}>
-		<ul className="list-group">
-			{props.actions.filter(action => {action.actionType === props.actionType.name && (action.actionType !== "meleeCombo" || meleeCombo === true)})
-			.map(action => {
+<Dropdown id={`${props.actionType.name}Dropdown`}
+		bsStyle="default"
+		key={`${props.actionType.name}Dropdown`}>
+	<Dropdown.Toggle
+		disabled={props.actionsDisabled}>
+			<i className={`fa ${props.actionType.faIcon}`}></i> 
+			{props.current ? props.current : props.actionType.name}
+	</Dropdown.Toggle>
+	<Dropdown.Menu className="default">
+	{props.actions.filter(action => {action.actionType === props.actionType.name && (action.actionType !== "meleeCombo" || meleeCombo === true)})
+			.map(item => {
 				return (
-					<li key={action.name} className="list-group-item">
-						<a className="dropdown-item" href="#">{action.name}</a>
-					</li>
+					<MenuItem eventKey={item.name} value={item.name} onSelect={props.onSelect}>{item.name}</MenuItem>
 				);
 			})}
-		</ul>
-	</div>
-</div>;
+	</Dropdown.Menu>
+</Dropdown>;
 
 
 export default BattleButtonDropdown
