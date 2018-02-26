@@ -41,7 +41,7 @@ const Home = props => (
 		<Button href="/login" bsStyle="primary" bsSize="large" block>
 			Log In
 		</Button>
-	  <Button bsSize="large" block>
+	  <Button href="/signup" bsSize="large" block>
 Sign Up	  </Button>
 </Jumbotron>
 	  </div>

@@ -1,16 +1,6 @@
 import React, { Component } from 'react';
 import "./Image.css";
 
-// const Image = props =>
-
-// 	<form action="/upload/image" method="POST" enctype="multipart/form-data">
-// 		<input type="file" name="myimage" ></input>
-// 		<input type="submit" name="submit" value="Submit"></input>
-// 	</form> 
-
-// export default Image;
-
-
 class Image extends Component {
   constructor(props) {
     super(props);

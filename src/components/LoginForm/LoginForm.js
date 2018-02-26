@@ -36,6 +36,7 @@ class LoginForm extends Component {
 			return <Redirect to={{ pathname: this.state.redirectTo }} />
 		} else {
 			return (
+				<jumbotron>
 				<div className="LoginForm">
 					<h1>Login form</h1>
 					<form onSubmit={this.handleSubmit}>
@@ -62,11 +63,13 @@ class LoginForm extends Component {
 								required
 								value={this.state.password}
 								onChange={this.handleChange}
+								required
 							/>
 							<input type="submit" value="Login" />
 					</form>
 					
 				</div>
+				</jumbotron>
 			)
 		}
 	}

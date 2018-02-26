@@ -22,6 +22,9 @@ const Greeting = props => {
 			</div>
 		)
 	}
+
+	<p> {props.user.user.bio} </p>
 }
 
 export default Greeting
+
