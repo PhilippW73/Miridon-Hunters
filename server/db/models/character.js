@@ -55,6 +55,10 @@ const characterSchema = new Schema({
     type: String,
     default: "Unarmed"
   },
+  weaponmaterial: {
+    type: String,
+    default: "Unarmed"
+  },
   "Meat/ Protein (lbs.)": {
     type: Number,
     default: 0
