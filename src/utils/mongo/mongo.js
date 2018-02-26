@@ -366,6 +366,107 @@ export default {
     });
   },
   exchangeMaterial: function(id, curMat, newMat, amt) {
+    db.Materials.find({
+      $or: [{name: curMat}, {name: newMat}]
+    })
+    .then(function(dbItems) {
+      let newamt = Math.floor(dbItems.curMat.cost * amt / dbItems.newMat.cost);
+      let remainder = Math.floor(dbItems.curMat.cost * amt % dbItems.newMat.cost)/dbItems.curMat.cost;
+      db.Character.update(
+        {
+          _id: id
+        }, {
+          $inc: {
+            [curMat]: - amt + remainder,
+            [newMat]: + newamt
+          }
+        })
+        .then(function(dbCharacter) {
+          
+          return {
+            character: dbCharacter,
+            comments: "You traded "+amt+" "+curMat+" for "+newamt+" "+newMat+ " and had "+remainder+ " of "+curMat+ " left over from the trade."
+          };
+        }).catch(function(err) {
+          console.log(err);
+          return res.json(err);
+        });
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      return res.json(err);
+    });
+
+    
+  },
+  buyStats: function(id, mat, amt) {
+    var stat="";
+    var expgain=1;
+    var name="";
+    switch(mat){
+      case "Ghost HP":
+        stat = "ghost_hp";
+        name = "ghost hp";
+        expgain=1;
+        break;
+      case "Meat/ Protein (lbs.)":
+        stat = "strength_point";
+        name = "strength";
+        break;
+      case "Produce (lbs.)":
+        stat = "speed_point";
+        name = "speed";
+        expgain = 10;
+        break;      
+    }
+    db.Characters.findOne({ character_id: id })
+    .then(function(dbCharacter) {
+      // Change 5 to 25 for stats used in original.
+      if(!dbCharacter[stat+"_exp"] || dbCharacter[stat+"_exp"] === 0){
+
+        var start = (5/2)*(dbCharacter[stat]-1)*dbCharacter[stat];
+        var end = (5/2)*(dbCharacter[stat]+amt-1)*(dbCharacter[stat]+amt);
+        var cost = Math.ceil((end - start)/expgain);
+      } else {
+        var start = dbCharacter[stat+"_exp"];
+        var end = (5/2)*(dbCharacter[stat]+amt-1)*(dbCharacter[stat]+amt);
+        var cost = Math.ceil((end - start)/expgain);
+      }
+      end = cost * expgain + start;
+      if(dbCharacter[mat] < cost) {
+        return {
+          character: dbCharacter,
+          comments: "You did not have enough "+mat+" to gain "+amt+" "+name+"."
+        };
+      } else {
+        db.Character.update(
+          {
+            _id: id
+          }, {
+            $inc: {
+              [stat+"_exp"]: end,
+              [mat]: -cost,
+              [stat]: amt
+            }
+          })
+          .then(function(dbCharacter) {
+            
+            return {
+              character: dbCharacter,
+              comments: "You ate "+cost+" "+mat+" and got "+amt+" "+name+ "."
+            };
+          }).catch(function(err) {
+            console.log(err);
+            return res.json(err);
+          });
+      }
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      return res.json(err);
+    });
+  },
+  buyWeapon: function(id, mat, newWeap) {
 
   }
 };

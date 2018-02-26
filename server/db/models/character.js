@@ -29,6 +29,12 @@ const characterSchema = new Schema({
     type: Number,
     required: true
   },
+  strength_point_exp: {
+    type: Number
+  },
+  speed_point_exp: {
+    type: Number
+  },
   hit_point: {
     type: Number,
     required: true
