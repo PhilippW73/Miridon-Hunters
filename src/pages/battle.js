@@ -77,7 +77,7 @@ class Battle extends Component {
   getCharacter() {
     mongo.getCharacter({
       //TODO: pass in id somehow
-        id
+
       })
       .then(res => {
         let player = this.state.player;
