@@ -13,14 +13,15 @@ import ButtonDropdown from "../components/ButtonDropdown";
 class Upgrade_and_Shop extends Component {
   state = {
     error: "",
-    player: {},
-    addStrength: 0,
-    addSpeed: 0,
+    name: "",
+    description: "",
+    image: "",
     classes: [],
     weapons: [],
     currentWeapon: {},
     currentClass: {},
-    image: "",
+    strength: 0,
+    speed: 0,
     comments: "Select your class, beginning stats, and beginning weapon."
   };
 
@@ -56,15 +57,34 @@ class Upgrade_and_Shop extends Component {
 
   //Handles choice of actions
   handleChange = (event) => {
-    let player = this.state.player;
-    player[event.target.name] = event.target.value;
-    this.setState({ player: player});
+    switch (event.target.id) {
+      case "strength":
+      case "speed":
+        this.setState({ [event.target.id]: event.target.value - this.state.currentClass[event.target.id]})
+        break;
+      case "image":
+      case "description":
+      case "name":
+        this.setState({ [event.target.id]: event.target.value});
+        break;
+    }
   }
-
+  handleClassChange = (event) => {
+    const newClass = this.state.classes.find(function(element) {
+      return element.name === event.target.value;
+    });
+    this.setState({ currentClass: newClass});
+  }
+  handleWeaponChange = (event) => {
+    const newWeapon = this.state.weapons.find(function(element) {
+      return element.name === event.target.value;
+    });
+    this.setState({ currentWeapon: newWeapon});
+  }
 
   handleFormSubmit = event => {
     event.preventDefault();
-    mongo.createCharacter(this.state.player)
+    mongo.createCharacter(this.state)
     .then(res => {
       this.setState({comments: "Character created."});
     })
@@ -93,16 +113,20 @@ class Upgrade_and_Shop extends Component {
                 <FormControl id="name"
                 type="text"
                 label="Name"
-                placeholder="Enter character name" />
+                placeholder="Enter character name"
+                onChange={this.handleChange}
+                value={this.state.name}/>
               </FormGroup>
-              <ButtonDropdown name="Class" faIcon="fa-users" list={this.state.classes} current={this.state.currentClass.name} onSelect={this.handleClassChange}/>
-              <ButtonDropdown name="Weapon" faIcon="fa-crosshairs" list={this.state.weapons} current={this.state.currentWeapon.name} onSelect={this.handleWeaponChange}/>
-              <FormGroup controlId="description">
+                <ButtonDropdown name="Class" faIcon="fa-users" list={this.state.classes} current={this.state.currentClass.name} onSelect={this.handleClassChange}/>
+                <ButtonDropdown name="Weapon" faIcon="fa-crosshairs" list={this.state.weapons} current={this.state.currentWeapon.name} onSelect={this.handleWeaponChange}/>
+                <FormGroup controlId="description">
                 <ControlLabel>Description</ControlLabel>
                 <FormControl id="description"
                 type="text"
                 label="Description"
-                placeholder="Enter character description" />
+                placeholder="Enter character description" 
+                onChange={this.handleChange}
+                value={this.state.description}/>
               </FormGroup>
               <FormGroup>
                 <FormControl.Static>You have 4 points to spend on stats.</FormControl.Static>
@@ -112,18 +136,20 @@ class Upgrade_and_Shop extends Component {
                 <FormControl id="strength"
                 type="number"
                 label="strength"
-                value={this.state.player.strength_point + this.state.addStrength}
+                value={this.state.player.strength_point + this.state.strength}
                 min={this.state.player.strength_point}
-                max={this.state.player.strength_point + 4-this.state.addSpeed}/>
+                max={this.state.player.strength_point + 4-this.state.speed}
+                onChange={this.handleChange}/>
               </FormGroup>
               <FormGroup controlId="speed">
                 <ControlLabel>Speed Points</ControlLabel>
                 <FormControl id="speed"
                 type="number"
                 label="speed"
-                value={this.state.player.speed_point + this.state.addSpeed}
+                value={this.state.player.speed_point + this.state.speed}
                 min={this.state.player.speed_point}
-                max={this.state.player.speed_point + 4-this.state.addStrength}/>
+                max={this.state.player.speed_point + 4-this.state.strength}
+                onChange={this.handleChange}/>
               </FormGroup>
               
               
@@ -138,7 +164,9 @@ class Upgrade_and_Shop extends Component {
                   <FormControl id="image"
                   type="text"
                   label="Image URL"
-                  placeholder="Enter image url" />
+                  placeholder="Enter image url" 
+                  onChange={this.handleChange}
+                  value={this.state.image}/>
                 </FormGroup>
               </Form>
           </Col>
