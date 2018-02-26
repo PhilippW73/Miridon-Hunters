@@ -8,12 +8,12 @@ Welcome to the world of Miridon, a world cruel enough that most efficient way to
 
 ### Table of contents
 
-* [The History of Miridon](#The-History-of-Miridon)
-* [Use](#Use)
-* [Makings of](#Makings-of)
-* [Outside Resources Used](#Outside-Resources-Used)
-* [Future Plans](#Future-Plans)
-* [Contributors](#Contributors)
+* [The History of Miridon](#the-history-of-miridon)
+* [Use](#use)
+* [Makings of](#makings-of)
+* [Outside Resources Used](#outside-resources-used)
+* [Future Plans](#future-plans)
+* [Contributors](#contributors)
 
 
 ## The History of Miridon

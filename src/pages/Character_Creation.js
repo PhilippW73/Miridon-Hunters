@@ -10,20 +10,23 @@
 // //import Column from "../components/Colmun";
 
 
-// class Upgrade_and_Shop extends Component {
-//   state = {
-//     error: "",
-//     name: "",
-//     description: "",
-//     image: "",
-//     classes: [],
-//     weapons: [],
-//     currentWeapon: {},
-//     currentClass: {},
-//     strength: 0,
-//     speed: 0,
-//     comments: "Select your class, beginning stats, and beginning weapon."
-//   };
+
+class Upgrade_and_Shop extends Component {
+  state = {
+    error: "",
+    name: "",
+    description: "",
+    image: "",
+    classes: [],
+    weapons: [],
+    currentWeapon: {},
+    material: "steel",
+    currentClass: {},
+    strength: 0,
+    speed: 0,
+    comments: "Select your class, beginning stats, and beginning weapon."
+  };
+
 
 //   componentDidMount() {
 //     //how are we getting the id?
