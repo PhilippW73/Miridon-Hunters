@@ -30,6 +30,7 @@ export default class BurgerIcon extends Component {
       top: 0,
       width: '10%',
       height: '10%',
+      color: '#373a47',
       margin: 0,
       padding: 0,
       border: 'none',
