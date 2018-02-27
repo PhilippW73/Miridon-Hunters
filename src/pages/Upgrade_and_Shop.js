@@ -1,4 +1,6 @@
-import React from "react";
+
+import React, { Component } from 'react';
+
 import { FormGroup, FormControl, Col, ButtonDropdown } from'react-bootstrap';
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -7,9 +9,17 @@ import Chat from "../components/Chat";
 import Navbar from "../components/Navbar";
 import Input from "../components/Input";
 import Row from "../components/Row";
+
+import Col from "../components/Col";
+import ButtonDropdown from "../components/ButtonDropdown";
+import axios from "axios";
+import Container from "../components/Container";
+import ButtonLinkInfo from "../components/ButtonLinkInfo";
+import Button from "../components/Button";
 //import ButtonDropdown from "../components/ButtonDropdown";
 import mongo from '../utils/mongo/mongo';
-import ButtonLinkInfo from '../components/ButtonLinkInfo';
+
+
 
 
 

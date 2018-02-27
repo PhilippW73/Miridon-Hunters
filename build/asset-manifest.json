@@ -1,6 +1,8 @@
 {
-  "main.css": "static/css/main.d41d8cd9.css",
-  "main.css.map": "static/css/main.d41d8cd9.css.map",
-  "main.js": "static/js/main.1fd9e5ab.js",
-  "main.js.map": "static/js/main.1fd9e5ab.js.map"
+  "main.css": "static/css/main.43d3ede8.css",
+  "main.css.map": "static/css/main.43d3ede8.css.map",
+  "main.js": "static/js/main.09d667cd.js",
+  "main.js.map": "static/js/main.09d667cd.js.map",
+  "static/media/chat-icon.svg": "static/media/chat-icon.e0d2b748.svg",
+  "static/media/logo-no-bg.svg": "static/media/logo-no-bg.7718b3e3.svg"
 }
