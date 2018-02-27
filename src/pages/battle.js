@@ -11,7 +11,7 @@ import Greeting from "../components/Greeting";
 import Wins_Losses from "../components/Wins_Losses";
 
 //import API from "../utils/API";
-//import mongo from "../utils/mongo";
+import axios from "axios";
 //import Container from "../components/Container";
 import {
   aimedAttack,
@@ -75,13 +75,9 @@ class Battle extends Component {
   }
 
   getCharacter() {
-    mongo.getCharacter({
-      //TODO: pass in id somehow
-        id: props.user._id
-      })
+    axios.get("/Character/"+props.user._id)
       .then(res => {
         let player = this.state.player;
-        
         player.fullStats = res.data.message;
         this.setState({
           player: player
@@ -92,7 +88,7 @@ class Battle extends Component {
   }
 
   getActionTypes() {
-    mongo.getActionTypes()
+    axios.get("/ActionTypes")
       .then(res => {
         //Send action type info 
         this.setState({
@@ -109,7 +105,7 @@ class Battle extends Component {
     } else {
       const randEnemy = (Math.random() * .1);
     }
-    mongo.getCharacterByRatio(randEnemy)
+    axios.get("/Character/ratio/"+randEnemy)
       .then(res => {
         let enemy = this.state.enemy;
         enemy.fullStats = res.data.message;
@@ -127,7 +123,7 @@ class Battle extends Component {
     const id = this.state.eval(who).fullStats.character_id;
     const strength = this.state.eval(who).curStats.strength_point;
     const speed = this.state.eval(who).curStats.speed_point;
-    mongo.getActions(id, strength, speed)
+    axios.get("/Actions/"+ id+"/"+ strength +"/"+ speed)
       .then(res => {
         let temp = this.state.eval(who);
         temp.actions = res.data.message;
