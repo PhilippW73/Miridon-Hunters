@@ -16,6 +16,7 @@ import ButtonLinkInfo from '../components/ButtonLinkInfo';
 class Upgrade_and_Shop extends React.Component {
   state = {
     error: "",
+
     player: {},
     materials: [],
     currentMaterial: {},
@@ -34,14 +35,17 @@ class Upgrade_and_Shop extends React.Component {
   componentDidMount() {
     //how are we getting the id?
     //First time: get character, action types, actions
-    this.getCharacter();
+  getUser() {
+    axios.get("/api/user")
+      .then(function(response) {
+        this.setState({user_id: response._id})
+        this.getCharacter();
+      })
   }
+  
   //Get data from Mongo
     getCharacter() {
-      mongo.getCharacter({
-        //TODO: pass in id somehow
-          //id: props.id
-        })
+      axios.get("/api/api/Character/"+ this.state.user_id)
         .then(res => {
           let player = this.state.player;
           
@@ -56,7 +60,7 @@ class Upgrade_and_Shop extends React.Component {
 
     getMaterials() {
       //gives exchange rates and which materials are available
-      mongo.getAvailableMaterials()
+      axios.get("/api/api/Materials")
         .then(res => {
           this.setState({materials: res.data.message});
           this.getWeapons();
@@ -65,7 +69,7 @@ class Upgrade_and_Shop extends React.Component {
     }
 
     getWeapons() {
-      mongo.getWeaponsPurchasable(this.state.currentMaterial, this.state.player[this.state.currentMaterial])
+      axios.get("/api/api/Weapons/Purchasable/" + this.state.currentMaterial + "/" + this.state.player[this.state.currentMaterial])
         .then(res => {
           let weapons = [];
           for(let i = 0; i < res.data.message.length; i++){
@@ -104,7 +108,7 @@ class Upgrade_and_Shop extends React.Component {
   handleFormSubmit = event => {
     event.preventDefault();
     if (this.state.currentExchangeAmount > 0) {
-      mongo.exchangeMaterial(this.state.player.character_id, this.state.currentMaterial.name, this.state.currentExchange.name, this.state.currentExchangeAmount)
+      axios.put("/api/api/Material/exchange/"+this.state.player.character_id + "/" +this.state.currentMaterial.name, + "/" +this.state.currentExchange.name + "/" +this.state.currentExchangeAmount)
       .then(res => {
         this.setState({comments: res.comments});
         this.submitBuy()
@@ -120,7 +124,7 @@ class Upgrade_and_Shop extends React.Component {
       case "Meat/ Protein (lbs.)":
       case "Produce (lbs.)":
       case "Ghost HP":
-        mongo.buyStats(this.state.player.character_id, this.state.currentMaterial, this.state.currentStatChangeAmount)
+      axios.put("/api/api/StatBuy/" + this.state.player.character_id + "/" + this.state.currentMaterial + "/" + this.state.currentStatChangeAmount)
         .then(res => {
           this.setState({comments: res.comments});
           this.setState({
@@ -134,7 +138,7 @@ class Upgrade_and_Shop extends React.Component {
       case "steel":
       case "Mechanical Parts (oz.)":
       case "Puzzle Parts (oz.)":
-        mongo.buyWeapon(this.state.player.character_id, this.state.currentMaterial, this.state.currentWeapon)
+      axios.put("/api/api/Weapon/Buy/"+ this.state.player.character_id + "/" + this.state.currentMaterial + "/" + this.state.currentWeapon)
         .then(res => {
           this.setState({comments: res.comments});
           this.setState({
@@ -159,6 +163,7 @@ class Upgrade_and_Shop extends React.Component {
   // currentWeapon: {},
   render() {
     return (
+      
         <div className="container">
         <Header/>
         <Row>

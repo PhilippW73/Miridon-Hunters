@@ -33,7 +33,8 @@ class App extends Component {
     this.state = {
       loggedIn: false,
       user: null,
-      messageList: []
+      messageList: [],
+      bio : ''
     }
     this._logout = this._logout.bind(this)
     this._login = this._login.bind(this)
@@ -45,7 +46,8 @@ class App extends Component {
       if(res.data.user){
         this.setState({
           loggedIn: true,
-          user: res.data.user
+          user: res.data.user,
+          bio: res.data.user.bio
         });
       }else{
         this.setState({
@@ -113,6 +115,10 @@ class App extends Component {
     })
   }
  
+ refresh = () => {
+
+ }
+
   _sendMessage(text) {
     if (text.length > 0) {
       this.setState({
@@ -125,11 +131,12 @@ class App extends Component {
     }
   }
 
+  newBio = bio => this.setState({bio})
 
   render () {
     return (
       <Router>
-          <div>
+          <div className="main-container" styles={{border: '2px solid blue'}}>
             {/*<Navbar/> */}
             <Wrapper>
               {/* <Route exact path="/" component={Home} /> */}
@@ -138,7 +145,7 @@ class App extends Component {
               <Route exact path="/Character_Creation" component={Character_Creation} />
               <Route exact path="/Character_Selection" component={Character_Selection} />
               <Route exact path="/Character_Creation" component={Character_Creation} />
-              <Route exact path="/Profile" render={(props) => <Profile user={this.state} /> } />
+              <Route exact path="/Profile" render={(props) => <Profile user={this.state} bio={this.state.bio} bioChanger={this.newBio} /> } />
               <Route exact path="/Upgrade_and_Shop" component={Upgrade_and_Shop} />
               <Route exact path="/signup" component={SignupForm} /> 
 

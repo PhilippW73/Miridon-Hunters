@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { Redirect } from 'react-router-dom'
 import "./SignupForm.css";
+import { Well, Button, Jumbotron } from 'react-bootstrap';
+
 
 class SignupForm extends Component {
 	constructor() {
@@ -54,10 +56,16 @@ class SignupForm extends Component {
 		} 
 		return (
 				<div className="SignupForm">
-					<h1>Signup form</h1>
+					<div className="container">	
+						<h1>Signup form</h1>
+						<br />
+						<Jumbotron>				
+
 						<form onSubmit={this.
 							handleSubmit}>
 							<div>
+								<label htmlFor="email">Email: </label>
+								<br />
 								<input 
 									type="email"
 									name="email"
@@ -65,14 +73,15 @@ class SignupForm extends Component {
 									onChange={this.handleChange}
 									required
 								/>
-								<label htmlFor="email">Email: </label>
-
 								<div className="requirements">
-									Must be a valid email address.
-									</div>
+								Must be a valid email address.
+								</div>
+							<br />
 							</div>
 
 							<div>
+								<label htmlFor="username">Username: </label>
+								<br />
 								<input 
 									required
 									type="text"
@@ -81,10 +90,12 @@ class SignupForm extends Component {
 									value={this.state.username}
 									onChange={this.handleChange}
 								/>
-								<label htmlFor="username">Username: </label>
 							</div>
+							<br />
 
 							<div>
+								<label htmlFor="bio">Bio: </label>
+								<br />
 								<input
 									type="text"
 									name="bio"
@@ -92,11 +103,13 @@ class SignupForm extends Component {
 									value={this.state.bio}
 									onChange={this.handleChange}
 								/>
-								<label htmlFor="bio">Bio: </label>
+							<br />
 							</div>	
+							<br />
 
 							<div>
 								<label htmlFor="password">Password: </label>
+								<br />
 								<input 
 									required
 									type="password"
@@ -107,11 +120,15 @@ class SignupForm extends Component {
 									onChange={this.handleChange}
 								/>
 								<div className="requirements">
-									Your password must be at least 6 characters as well as contain at least one uppercase, one lowercase, and one number.
-									</div>
+									Your password must be at least 6 characters as well as <br /> contain at least one uppercase, one lowercase, and one number.
+								</div>
+								<br />
 							</div>
 
+
 							<div>
+							<label htmlFor="confirmPassword">Confirm Password: </label>
+							< br />
 								<input
 									required
 									type="password"
@@ -119,8 +136,9 @@ class SignupForm extends Component {
 									value={this.state.confirmPassword}
 									onChange={this.handleChange}
 								/>
-								<label htmlFor="confirmPassword">Confirm Password: </label>
 							</div>
+							<br />
+
 
 							<div>
 								<input 
@@ -134,10 +152,11 @@ class SignupForm extends Component {
 								<label htmlFor="img">Image: </label>
 							</div>
 
-							<button type="submit">Sign up</button>
+							<button type="submit" href="/home">Sign up</button>
 						</form>
+				</Jumbotron>
 				</div>
-			
+			</div>
 		)
 	}
 	
