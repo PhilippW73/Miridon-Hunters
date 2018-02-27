@@ -29,7 +29,6 @@ const Home = props => (
 				<a id="about" className="menu-item" href="/about">About</a>
 				<a id="contact" className="menu-item" href="/contact">Contact</a>
 				<a onClick={ this.showSettings } className="menu-item--small" href="">Settings</a>
-
 				<a id="logout" className="menu-item" href="" onClick={props._logout}>Logout</a>
 			</Menu>
 			<div id="page-wrap">
