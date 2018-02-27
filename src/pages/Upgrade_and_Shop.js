@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from 'react';
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Image from "../components/Image";
@@ -9,6 +9,11 @@ import Row from "../components/Row";
 import Col from "../components/Col";
 import ButtonDropdown from "../components/ButtonDropdown";
 import axios from "axios";
+import Container from "../components/Container";
+import ButtonLinkInfo from "../components/ButtonLinkInfo";
+import Button from "../components/Button";
+
+
 
 class Upgrade_and_Shop extends Component {
   state = {

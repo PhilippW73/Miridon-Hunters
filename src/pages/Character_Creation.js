@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, {Component} from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Image from "../components/Image";
@@ -8,23 +8,27 @@ import Navbar from "../components/Navbar";
 import Input from "../components/Input";
 import Row from "../components/Row";
 import ButtonDropdown from "../components/ButtonDropdown";
+import axios from 'axios';
+import Container from "../components/Container";
+import Col from "../components/Col";
+import Button from "../components/Button";
 
-class Upgrade_and_Shop extends Component {
+
+class Character_Creation extends Component {
   state = {
     error: "",
-    user_id = 0,
     name: "",
     description: "",
     image: "",
     classes: [],
     weapons: [],
     currentWeapon: {},
-    material: "steel",
     currentClass: {},
     strength: 0,
     speed: 0,
     comments: "Select your class, beginning stats, and beginning weapon."
-  };
+   };
+  
 
   componentDidMount() {
     //how are we getting the id?
@@ -227,5 +231,5 @@ class Upgrade_and_Shop extends Component {
 };
   
 
-export default CharacterCreation;
+export default Character_Creation;
 
