@@ -9,7 +9,7 @@ import Row from "../components/Row";
 import axios from "axios";
 import ButtonDropdown from "../components/ButtonDropdown";
 import { Well, Button, Jumbotron, Col, FormGroup, Thumbnail, FormControl, Form, ControlLabel } from 'react-bootstrap';
-import axios from "axios";
+
 
 
 class CharacterCreation extends React.Component {
@@ -229,5 +229,5 @@ class CharacterCreation extends React.Component {
 };
   
 
-export default Character_Creation;
+export default CharacterCreation;
 
