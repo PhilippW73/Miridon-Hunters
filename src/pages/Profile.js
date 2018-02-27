@@ -13,8 +13,8 @@ import FormBtn from "../components/FormBtn";
 import {Launcher} from '../components/Chat2';
 import Menu  from '../components/Navbar/menus/pushRotate';
 import Imagetwo from '../components/Imagetwo';
+import Imagethree from '../components/Imagethree';
 import { Well, Button, Jumbotron, Col } from 'react-bootstrap';
-import Bio from '../components/Bio';
 
 const Profile = props => (
   <div>
@@ -24,9 +24,9 @@ const Profile = props => (
 				left 
 				outerContainerId={"outer-container"} 
 				pageWrapId={"page-wrap"}
-				customBurgerIcon={ <img src= "/../public/menuicon.png"/> }  
+                customBurgerIcon={ <Imagethree /> }  
 			>
-				<br />
+                <Imagethree />
 				<a href="/">
 					<Imagetwo />
 				</a>
@@ -53,65 +53,72 @@ const Profile = props => (
 			</Menu>
 
 			<main id="page-wrap">
-			<div className="container">
-					{/* <Header user={props.user} /> */}
-                    <Header user={props.user.user} />
-                    <br />
-                    <div className="jumbotron">	
-                        {/* <h2> Bio </h2>
-                            <Input
-                            value={this.state.bio}
-                            onChange={this.handleInputChange}
-                            name="bio"
-                            placeholder="Bio"
-                            />		 */}
-                        <Input/>
-                        <FormBtn
-                        onClick={this.handleFormSubmitBio}>
-                        Update Bio
-                        </FormBtn>
-                        <h2> Image </h2>
-                        <Image/>
-                        <Wins_Losses/>
-                    </div>
-            </div>
-    
-            <footer className="navbar-fixed-bottom">
                 <div className="container">
-                    <div className="row">
-                        <Col xs={2} md={3}>
-                        <p>
-                            <a href="/get-started">Get Started</a> 
-                        </p>
-                        </Col>
-                        <Col xs={2} md={3}>
-                        <p>
-                            <a href="/about-us">About Us</a> 
-                        </p>
-                        </Col>
-                        <Col xs={2} md={3}>
-                        <p>
-                            <a href="/support">Support</a> 
-                        </p>
-                        </Col>
-                        <Col xs={2} md={3}>
-                        <p>
-                            <a href="/information">Information</a> 
-                        </p>
-                        </Col>
-                    </div>
+                < br />
+                        {/* <Header user={props.user} /> */}
+                        <Header user={props.user.user} />
+                        <br />
+                        <div className="jumbotron" height="2000px">	
+                            {/* <h2> Bio </h2>
+                                <Input
+                                value={this.state.bio}
+                                onChange={this.handleInputChange}
+                                name="bio"
+                                placeholder="Bio"
+                                />		 */}
+                <div className="row">
+                <Col xs={6} md={6}>                            
+                            <Input/>
+                            <FormBtn
+                            onClick={this.handleFormSubmitBio}>
+                            Update Bio
+                            </FormBtn>
+                </Col>
+                <Col xs={6} md={6}>
+                            <Image/>
+                </Col>
                 </div>
-            </footer>
+                            <Wins_Losses/>
+                            <p> hi! </p>
+                        </div>
+                </div>
+        
+                <footer className="navbar-fixed-bottom">
+                    <div className="container">
+                        <div className="row">
+                            <Col xs={2} md={3}>
+                            <p>
+                                <a href="/get-started">Get Started</a> 
+                            </p>
+                            </Col>
+                            <Col xs={2} md={3}>
+                            <p>
+                                <a href="/about-us">About Us</a> 
+                            </p>
+                            </Col>
+                            <Col xs={2} md={3}>
+                            <p>
+                                <a href="/support">Support</a> 
+                            </p>
+                            </Col>
+                            <Col xs={2} md={3}>
+                            <p>
+                                <a href="/information">Information</a> 
+                            </p>
+                            </Col>
+                        </div>
+                    </div>
+                </footer>
 
-				<Launcher
-        agentProfile={{
-        teamName: 'react-live-chat',
-        imageUrl: 'https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png'
-        }}
-        onMessageWasSent={props._onMessageWasSent}
-        messageList={props.messageList}
-        showEmoji
-    />
+                <Launcher
+                    agentProfile={{
+                    teamName: 'react-live-chat',
+                    imageUrl: 'https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png'
+                    }}
+                    onMessageWasSent={props._onMessageWasSent}
+                    messageList={props.messageList}
+                    showEmoji
+                />
 			</main>
 
 
@@ -130,5 +137,5 @@ const Profile = props => (
 
 
   export default Profile;
-
+ 
 

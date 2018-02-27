@@ -8,11 +8,14 @@ import Navbar from "../components/Navbar";
 import Input from "../components/Input";
 import Row from "../components/Row";
 import ButtonDropdown from "../components/ButtonDropdown";
+import { Well, Button, Jumbotron, Col, FormGroup, Thumbnail, FormControl, Form, ControlLabel } from 'react-bootstrap';
+import axios from "axios";
 
-class Upgrade_and_Shop extends Component {
+
+class CharacterCreation extends React.Component {
   state = {
     error: "",
-    user_id = 0,
+    user_id: 0,
     name: "",
     description: "",
     image: "",
@@ -147,8 +150,8 @@ class Upgrade_and_Shop extends Component {
   // currentWeapon: {},
   render() {
     return (
-      <Container>
-        <Header />
+<div className="container">     
+   <Header />
         <Row>
           <Col size="md-8">
               {/* Character name
@@ -221,8 +224,7 @@ class Upgrade_and_Shop extends Component {
           </Col>
         </Row>
         <Footer />
-      </Container>
-    );
+</div>    );
   }
 };
   

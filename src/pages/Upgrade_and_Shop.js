@@ -6,11 +6,13 @@ import Chat from "../components/Chat";
 import Navbar from "../components/Navbar";
 import Input from "../components/Input";
 import Row from "../components/Row";
-import Col from "../components/Col";
-import ButtonDropdown from "../components/ButtonDropdown";
 import axios from "axios";
+import ButtonDropdown from "../components/ButtonDropdown";
+import ButtonLinkInfo from "../components/ButtonLinkInfo";
+import { Well, Button, Jumbotron, Col, FormGroup, Thumbnail, FormControl, Form, ControlLabel } from 'react-bootstrap';
 
-class Upgrade_and_Shop extends Component {
+
+class Upgrade_and_Shop extends React.Component {
   state = {
     error: "",
     user_id: 0,
@@ -166,7 +168,7 @@ class Upgrade_and_Shop extends Component {
   // currentWeapon: {},
   render() {
     return (
-      <Container>
+        <div className="container">
         <Header />
         <Row>
           <Col size="md-offset-1 md-4">
@@ -212,8 +214,8 @@ class Upgrade_and_Shop extends Component {
           </Col>
         </Row>
         <Footer />
-      </Container>
-    );
+        </div>    
+        );
   }
 };
 
