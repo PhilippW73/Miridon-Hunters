@@ -8,6 +8,7 @@ import Input from "../components/Input";
 import Row from "../components/Row";
 import Col from "../components/col";
 import ButtonDropdown from "../components/ButtonDropdown";
+import axios from "axios";
 
 class Upgrade_and_Shop extends Component {
   state = {
