@@ -15,6 +15,7 @@ const dbConnection = require('./db') // loads our c
 const mongoose = require('mongoose')
 const path = require ('path')
 const passport = require('./passport');
+const keys = require('../config/keys');
 
 //const mutilpart = require('connect-fileuploader')
 const app = express()
@@ -119,15 +120,9 @@ app.use(routes);
 
 //----mongodb connection/mlab for heroku deployment-----//
 
-var databaseUri = 'mongodb://localhost/27017';
-var MONGODB_URI = 'mongodb://heroku_h090q6bj:heroku_h090q6bj@ds249398.mlab.com:49398/heroku_h090q6bj'
 
-if (process.env.MONGODB_URI){
-	mongoose.connect(process.env.MONGODB_URI);
-}else{
-	mongoose.connect(databaseUri);
-}
-
+// var MONGODB_URI = 'mongodb://miridon:miridon@ds249398.mlab.com:49398/heroku_h090q6bj'
+mongoose.connect(keys.mongoURI);
 var db = mongoose.connection;
 db.on('error', function(err){
 	console.log('Mongoose Error: ', err);

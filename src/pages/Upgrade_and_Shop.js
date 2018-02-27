@@ -70,29 +70,29 @@ class Upgrade_and_Shop extends Component {
         .catch(err => console.log(err));
     }
 
-  //Handles choice of actions
-  handleMaterialChange = (event) => {
-    const current = this.state.materials.find(function(element) {
-      return element.name === event.target.value;
-    })
-    this.setState({ currentMaterial: current});
-    this.getWeapons();
-  }
+//   //Handles choice of actions
+//   handleMaterialChange = (event) => {
+//     const current = this.state.materials.find(function(element) {
+//       return element.name === event.target.value;
+//     })
+//     this.setState({ currentMaterial: current});
+//     this.getWeapons();
+//   }
 
-  handleExchangeChange = (event) => {
-    const current = this.state.materials.find(function(element) {
-      return element.name === event.target.value;
-    })
-    this.setState({ currentExchange: current});
-  }
+//   handleExchangeChange = (event) => {
+//     const current = this.state.materials.find(function(element) {
+//       return element.name === event.target.value;
+//     })
+//     this.setState({ currentExchange: current});
+//   }
 
-  handleExchangeAmountChange = (event) => {
-    this.setState({ currentExchangeAmount: event.target.value});
-  }
+//   handleExchangeAmountChange = (event) => {
+//     this.setState({ currentExchangeAmount: event.target.value});
+//   }
 
-  handleStatAmountChange = (event) => {
-    this.setState({ currentStatChangeAmount: event.target.value});
-  }
+//   handleStatAmountChange = (event) => {
+//     this.setState({ currentStatChangeAmount: event.target.value});
+//   }
 
 
   handleFormSubmit = event => {
