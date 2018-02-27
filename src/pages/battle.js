@@ -42,105 +42,7 @@ const stats = [
   progressClass: ""}];
 
 
-class Battle extends Component {
-  state = {
-    error: "",
-    player: {
-      position: "player",
-      opposition: "enemy",
-      Movement: "",
-      Offensive: "",
-      Defensive: "",
-      actions: {}
-    },
-    enemy: {
-      position: "enemy",
-      opposition: "player",
-      Movement: "",
-      Offensive: "",
-      Defensive: "",
-      actions: {}
-    },
-    actionTypes: [],
-    first: "",
-    meleeCombo: false,
-    actionsDisabled: false,
-    comments: "Choose your actions for the round (one of each), and then press 'Start Turn'."
-  };
 
-
-  componentDidMount() {
-    //how are we getting the id?
-    //First time: get character, action types, actions
-    this.getCharacter();
-  }
-
-  getCharacter() {
-    mongo.getCharacter({
-      //TODO: pass in id somehow
-        id: props.id
-      })
-      .then(res => {
-        let player = this.state.player;
-        
-        player.fullStats = res.data.message;
-        this.setState({
-          player: player
-        })
-        this.getActionTypes();
-      })
-      .catch(err => console.log(err));
-  }
-
-  getActionTypes() {
-    mongo.getActionTypes()
-      .then(res => {
-        //Send action type info 
-        this.setState({
-          actionTypes: res.data.message
-        })
-        this.getActions("player", this.getEnemy);
-      })
-      .catch(err => console.log(err));
-  }
-
-  getEnemy() {
-    if (this.state.player.fullStats.wins != 0) {
-      const randEnemy = (Math.random() * .2 - .1) + (parseFloat(this.state.player.fullStats.wins) / (parseFloat(this.state.player.fullStats.wins) + parseFloat(this.state.player.fullStats.losses)));
-    } else {
-      const randEnemy = (Math.random() * .1);
-    }
-    mongo.getCharacterByRatio(randEnemy)
-      .then(res => {
-        let enemy = this.state.enemy;
-        enemy.fullStats = res.data.message;
-        this.setState({
-          enemy: enemy
-        })
-        this.initiative();
-        this.getActions("enemy", );
-      })
-      .catch(err => console.log(err));
-  }
-
-  getActions(who, callback) {
-    //sends id based on who
-    const id = this.state.eval(who).fullStats.character_id;
-    const strength = this.state.eval(who).curStats.strength_point;
-    const speed = this.state.eval(who).curStats.speed_point;
-    mongo.getActions(id, strength, speed)
-      .then(res => {
-        let temp = this.state.eval(who);
-        temp.actions = res.data.message;
-        this.setState({
-          [who]: temp
-        })
-      })
-      .catch(err => console.log(err));
-    if(callback && typeof callback === "function"){
-      callback();
-    }
-  }
 class Battle extends Component {
   state = {
     error: "",
@@ -167,7 +69,6 @@ class Battle extends Component {
     actionsDisabled: false,
     comments: "Choose your actions for the round (one of each), and then press 'Start Turn'."
   };
-
 
   componentDidMount() {
     //how are we getting the id?
