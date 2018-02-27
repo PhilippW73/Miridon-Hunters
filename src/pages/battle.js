@@ -75,7 +75,7 @@ class Battle extends Component {
   }
 
   getCharacter() {
-    axios.get("/Character/"+props.user._id)
+    axios.get("/api/api/Character/"+props.user._id)
       .then(res => {
         let player = this.state.player;
         player.fullStats = res.data.message;
@@ -88,7 +88,7 @@ class Battle extends Component {
   }
 
   getActionTypes() {
-    axios.get("/ActionTypes")
+    axios.get("/api/api/ActionTypes")
       .then(res => {
         //Send action type info 
         this.setState({
@@ -105,7 +105,7 @@ class Battle extends Component {
     } else {
       const randEnemy = (Math.random() * .1);
     }
-    axios.get("/Character/ratio/"+randEnemy)
+    axios.get("/api/api/Character/ratio/"+randEnemy)
       .then(res => {
         let enemy = this.state.enemy;
         enemy.fullStats = res.data.message;
@@ -123,7 +123,7 @@ class Battle extends Component {
     const id = this.state.eval(who).fullStats.character_id;
     const strength = this.state.eval(who).curStats.strength_point;
     const speed = this.state.eval(who).curStats.speed_point;
-    axios.get("/Actions/"+ id+"/"+ strength +"/"+ speed)
+    axios.get("/api/api/Actions/"+ id+"/"+ strength +"/"+ speed)
       .then(res => {
         let temp = this.state.eval(who);
         temp.actions = res.data.message;
@@ -270,16 +270,16 @@ class Battle extends Component {
         //lose
         let comments = this.state.comments + " You lost the battle.";
         this.setState({comments: comments});
-        mongo.charLose(this.state.player.character_id);
-        mongo.charWin(this.state.enemy.character_id);
-        mongo.playerLose(id);
+        axios.put("/api/api/battle/charlose/"+this.state.player.character_id);
+        axios.put("/api/api/battle/userlose/"+user_id);
+        axios.put("/api/api/battle/charwin/"+this.state.enemy.character_id);
       } else {
         //win
         let comments = this.state.comments + " You won the battle!";
         this.setState({comments: comments});
-        mongo.charWin(this.state.player.character_id);
-        mongo.charLose(this.state.enemy.character_id);
-        mongo.playerWin(id);
+        axios.put("/api/api/battle/charwin/"+this.state.player.character_id);
+        axios.put("/api/api/battle/charlose/"+this.state.enemy.character_id);
+        axios.put("/api/api/battle/userwin/"+user_id);
       }
     } else {
       func(who);
