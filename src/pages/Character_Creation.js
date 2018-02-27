@@ -1,5 +1,4 @@
-
-import React, {Component} from "react";
+import React, { Component } from 'react';
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Image from "../components/Image";
@@ -7,11 +6,10 @@ import Chat from "../components/Chat";
 import Navbar from "../components/Navbar";
 import Input from "../components/Input";
 import Row from "../components/Row";
+import axios from "axios";
 import ButtonDropdown from "../components/ButtonDropdown";
-import axios from 'axios';
+import { Well, Button, Jumbotron, Col, FormGroup, Thumbnail, FormControl, Form, ControlLabel } from 'react-bootstrap';
 import Container from "../components/Container";
-import Col from "../components/Col";
-import Button from "../components/Button";
 
 
 class Character_Creation extends Component {

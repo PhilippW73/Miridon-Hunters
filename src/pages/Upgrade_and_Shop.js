@@ -16,8 +16,13 @@ import axios from "axios";
 import Container from "../components/Container";
 import ButtonLinkInfo from "../components/ButtonLinkInfo";
 import Button from "../components/Button";
+<<<<<<< HEAD
+import { Well, Jumbotron, FormGroup, Thumbnail, FormControl, Form, ControlLabel } from 'react-bootstrap';
+
+=======
 //import ButtonDropdown from "../components/ButtonDropdown";
 import mongo from '../utils/mongo/mongo';
+>>>>>>> 28af0324bbadbdef1eacb5695192be72ecf6ad8a
 
 
 
