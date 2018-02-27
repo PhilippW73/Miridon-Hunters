@@ -1,14 +1,15 @@
-import React from "react";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import Image from "../components/Image";
-import Chat from "../components/Chat";
-import Navbar from "../components/Navbar";
-import Input from "../components/Input";
-import Row from "../components/Row";
-import Col from "../components/col";
-import Greeting from "../components/Greeting";
-import Wins_Losses from "../components/Wins_Losses";
+// import React from "react";
+// import Header from "../components/Header";
+// import Footer from "../components/Footer";
+// import Image from "../components/Image";
+// import Chat from "../components/Chat";
+// import Navbar from "../components/Navbar";
+// import Input from "../components/Input";
+// import Row from "../components/Row";
+// import Col from "../components/col";
+// import Greeting from "../components/Greeting";
+// import Wins_Losses from "../components/Wins_Losses";
+
 
 //import API from "../utils/API";
 import axios from "axios";
@@ -26,21 +27,120 @@ import {
   restoreStrength
 } from "../utils/actions";
 
-const stats = [
-  {name: "Hit Points",
-  reference: "hit_point",
-  progressClass: "bg-danger"},
-  {name: "Strength",
-  reference: "strength_point",
-  progressClass: "bg-warning"},
-  {name: "Speed",
-  reference: "speed_point",
-  progressClass: "bg-success"},
-  {name: "Ghost Hit Points",
-  reference: "ghost_hp",
-  progressClass: ""}];
+// const stats = [
+//   {name: "Hit Points",
+//   reference: "hit_point",
+//   progressClass: "bg-danger"},
+//   {name: "Strength",
+//   reference: "strength_point",
+//   progressClass: "bg-warning"},
+//   {name: "Speed",
+//   reference: "speed_point",
+//   progressClass: "bg-success"},
+//   {name: "Ghost Hit Points",
+//   reference: "ghost_hp",
+//   progressClass: ""}];
 
 
+// class Battle extends Component {
+//   state = {
+//     error: "",
+//     player: {
+//       position: "player",
+//       opposition: "enemy",
+//       Movement: "",
+//       Offensive: "",
+//       Defensive: "",
+//       actions: {}
+//     },
+//     enemy: {
+//       position: "enemy",
+//       opposition: "player",
+//       Movement: "",
+//       Offensive: "",
+//       Defensive: "",
+//       actions: {}
+//     },
+//     actionTypes: [],
+//     first: "",
+//     meleeCombo: false,
+//     actionsDisabled: false,
+//     comments: "Choose your actions for the round (one of each), and then press 'Start Turn'."
+//   };
+
+
+//   componentDidMount() {
+//     //how are we getting the id?
+//     //First time: get character, action types, actions
+//     this.getCharacter();
+//   }
+
+//   getCharacter() {
+//     mongo.getCharacter({
+//       //TODO: pass in id somehow
+//         id: props.id
+//       })
+//       .then(res => {
+//         let player = this.state.player;
+        
+//         player.fullStats = res.data.message;
+//         this.setState({
+//           player: player
+//         })
+//         this.getActionTypes();
+//       })
+//       .catch(err => console.log(err));
+//   }
+
+//   getActionTypes() {
+//     mongo.getActionTypes()
+//       .then(res => {
+//         //Send action type info 
+//         this.setState({
+//           actionTypes: res.data.message
+//         })
+//         this.getActions("player", this.getEnemy);
+//       })
+//       .catch(err => console.log(err));
+//   }
+
+//   getEnemy() {
+//     if (this.state.player.fullStats.wins != 0) {
+//       const randEnemy = (Math.random() * .2 - .1) + (parseFloat(this.state.player.fullStats.wins) / (parseFloat(this.state.player.fullStats.wins) + parseFloat(this.state.player.fullStats.losses)));
+//     } else {
+//       const randEnemy = (Math.random() * .1);
+//     }
+//     mongo.getCharacterByRatio(randEnemy)
+//       .then(res => {
+//         let enemy = this.state.enemy;
+//         enemy.fullStats = res.data.message;
+//         this.setState({
+//           enemy: enemy
+//         })
+//         this.initiative();
+//         this.getActions("enemy", );
+//       })
+//       .catch(err => console.log(err));
+//   }
+
+//   getActions(who, callback) {
+//     //sends id based on who
+//     const id = this.state.eval(who).fullStats.character_id;
+//     const strength = this.state.eval(who).curStats.strength_point;
+//     const speed = this.state.eval(who).curStats.speed_point;
+//     mongo.getActions(id, strength, speed)
+//       .then(res => {
+//         let temp = this.state.eval(who);
+//         temp.actions = res.data.message;
+//         this.setState({
+//           [who]: temp
+//         })
+//       })
+//       .catch(err => console.log(err));
+//     if(callback && typeof callback === "function"){
+//       callback();
+//     }
+//   }
 class Battle extends Component {
   state = {
     error: "",
@@ -146,130 +246,131 @@ class Battle extends Component {
     }
   }
 
-  initiative = () => {
-    if (this.state.player.fullStats.speed_point > this.state.enemy.fullStats.speed_point) {
-      this.setState({first: "player"});
-    } else if (this.state.player.fullStats.speed_point < this.state.enemy.fullStats.speed_point || Math.random()<.5 ) {
-      this.setState({first: "enemy"});
-    } else {
-      this.setState({first: "player"});
-    }
-  }
+//   initiative = () => {
+//     if (this.state.player.fullStats.speed_point > this.state.enemy.fullStats.speed_point) {
+//       this.setState({first: "player"});
+//     } else if (this.state.player.fullStats.speed_point < this.state.enemy.fullStats.speed_point || Math.random()<.5 ) {
+//       this.setState({first: "enemy"});
+//     } else {
+//       this.setState({first: "player"});
+//     }
+//   }
 
-  //battle order functions
-    //actions
-    chooseOffense = (input) => {
-      console.log(input+" is attacking");
-      let who = this.state.eval(input);
-      let target = this.state.eval(this.state.eval(input).opposition);
-      let results = {};
-      switch(who.Offensive) {
-        case "Restore Strength Points":
-          results = restoreStrength(who);
-          break;
-        case "Melee Attack":
-          results = meleeAttack(who, target);
-          if (input === "player"){
-            this.setState({meleeCombo: true});
-          }
-          break;
-        case "Melee Combo Attack":
-          results = meleeCombo(who, target);
-          if (input === "player"){
-            this.setState({meleeCombo: true});
-          }
-          break;
-        case "Gun Attack":
-          results = gunAttack(who, target);
-          break;
-        case "Aimed Attack":
-          results = aimedAttack(who, target);
-          break;
-        case "Reload":
-          results = reload(who, target);
-          break;
-        default:
-          break;
-      }
-      this.setState({
-        [input]: results.who,
-        [who.opposition]: results.target,
-        comments: this.state.comments + results.comment
-      });
-      //CHECK FOR SYNTAX - trying to get who's name and see if it matches first.
-      console.log("Ready for next turn part.");
-      console.log("--------------------");
-      console.log(input);
-      console.log(first);
-      if(input === first) {
-        this.checkDead(who.opposition, this.chooseMove);
-      } else {
-        this.checkDead(who.opposition, this.endTurn);
-      }
-    }
+//   //battle order functions
+//     //actions
+//     chooseOffense = (input) => {
+//       console.log(input+" is attacking");
+//       let who = this.state.eval(input);
+//       let target = this.state.eval(this.state.eval(input).opposition);
+//       let results = {};
+//       switch(who.Offensive) {
+//         case "Restore Strength Points":
+//           results = restoreStrength(who);
+//           break;
+//         case "Melee Attack":
+//           results = meleeAttack(who, target);
+//           if (input === "player"){
+//             this.setState({meleeCombo: true});
+//           }
+//           break;
+//         case "Melee Combo Attack":
+//           results = meleeCombo(who, target);
+//           if (input === "player"){
+//             this.setState({meleeCombo: true});
+//           }
+//           break;
+//         case "Gun Attack":
+//           results = gunAttack(who, target);
+//           break;
+//         case "Aimed Attack":
+//           results = aimedAttack(who, target);
+//           break;
+//         case "Reload":
+//           results = reload(who, target);
+//           break;
+//         default:
+//           break;
+//       }
+//       this.setState({
+//         [input]: results.who,
+//         [who.opposition]: results.target,
+//         comments: this.state.comments + results.comment
+//       });
+//       //CHECK FOR SYNTAX - trying to get who's name and see if it matches first.
+//       console.log("Ready for next turn part.");
+//       console.log("--------------------");
+//       console.log(input);
+//       console.log(first);
+//       if(input === first) {
+//         this.checkDead(who.opposition, this.chooseMove);
+//       } else {
+//         this.checkDead(who.opposition, this.endTurn);
+//       }
+//     }
 
-    chooseDefense = (input) => {
-      console.log(input+" is defending");
-      let who = this.state.eval(input);
-      let target = this.state.eval(this.state.eval(input).opposition);
-      let results = {};
-      switch(who.Defensive) {
-        case "Dodge":
-          results = dodge(who);
-          break;
-        case "Block":
-          results = block(who);
-          break;
-        default:
-          break;
-      }
-      this.setState({
-        [input]: results.who,
-        comments: this.state.comments + results.comment
-      });
-    }
-    chooseMove = (input) => {
-      console.log(input+" is moving");
-      let who = this.state.eval(input);
-      let target = this.state.eval(this.state.eval(input).opposition);
-      let results = {};
-      switch(who.Movement) {
-        case "Restore Speed Points":
-          results = restoreSpeed(who);
-          break;
-        case "Charge":
-          results = charge(who);
-          break;
-        default:
-          break;
-      }
-      this.setState({
-        [input]: results.who,
-        comments: this.state.comments + results.comment
-      });
-      chooseDefense(who.opposition);
-      chooseOffense(input);
-    }
-  //Enemy Choice
-    enemyChoice = () => {
-      this.getActions("enemy", () =>{
-        let enemy = this.state.enemy
-        enemy.Offensive = (this.state.enemy.actions.Offensive[Math.floor(Math.random()*this.state.enemy.actions.Offensive.length + 1 )]);
-        enemy.Movement = (this.state.enemy.actions.Movement[Math.floor(Math.random()*this.state.enemy.actions.Movement.length + 1 )]);
-        enemy.Defensive = (this.state.enemy.actions.Defensive[Math.floor(Math.random()*this.state.enemy.actions.Defensive.length + 1 )]);
-        this.setState({
-          enemy: enemy
-        });
-        console.log("Enemy choices:"+this.state.enemy.Movement+this.state.enemy.Offensive+this.state.enemy.Defensive);
-        if(this.state.first === "player"){
-          //player goes first
-          this.chooseMove("player");
-        } else {
-          //enemy goes first
-          this.chooseMove("enemy");
-        }
-      });
-    }
+//     chooseDefense = (input) => {
+//       console.log(input+" is defending");
+//       let who = this.state.eval(input);
+//       let target = this.state.eval(this.state.eval(input).opposition);
+//       let results = {};
+//       switch(who.Defensive) {
+//         case "Dodge":
+//           results = dodge(who);
+//           break;
+//         case "Block":
+//           results = block(who);
+//           break;
+//         default:
+//           break;
+//       }
+//       this.setState({
+//         [input]: results.who,
+//         comments: this.state.comments + results.comment
+//       });
+//     }
+//     chooseMove = (input) => {
+//       console.log(input+" is moving");
+//       let who = this.state.eval(input);
+//       let target = this.state.eval(this.state.eval(input).opposition);
+//       let results = {};
+//       switch(who.Movement) {
+//         case "Restore Speed Points":
+//           results = restoreSpeed(who);
+//           break;
+//         case "Charge":
+//           results = charge(who);
+//           break;
+//         default:
+//           break;
+//       }
+//       this.setState({
+//         [input]: results.who,
+//         comments: this.state.comments + results.comment
+//       });
+//       chooseDefense(who.opposition);
+//       chooseOffense(input);
+//     }
+//   //Enemy Choice
+//     enemyChoice = () => {
+//       this.getActions("enemy", () =>{
+//         let enemy = this.state.enemy
+//         enemy.Offensive = (this.state.enemy.actions.Offensive[Math.floor(Math.random()*this.state.enemy.actions.Offensive.length + 1 )]);
+//         enemy.Movement = (this.state.enemy.actions.Movement[Math.floor(Math.random()*this.state.enemy.actions.Movement.length + 1 )]);
+//         enemy.Defensive = (this.state.enemy.actions.Defensive[Math.floor(Math.random()*this.state.enemy.actions.Defensive.length + 1 )]);
+//         this.setState({
+//           enemy: enemy
+//         });
+//         console.log("Enemy choices:"+this.state.enemy.Movement+this.state.enemy.Offensive+this.state.enemy.Defensive);
+//         if(this.state.first === "player"){
+//           //player goes first
+//           this.chooseMove("player");
+//         } else {
+//           //enemy goes first
+//           this.chooseMove("enemy");
+//         }
+//       });
+//     }
+
 
   checkDead = (who, func) => {
     if(this.state.eval(who).curStats.hit_point < 1) {
@@ -295,30 +396,31 @@ class Battle extends Component {
     }
   }
 
-  endTurn = () => {
-    console.log("Turn end");
-    //set buttons back to normal
-    this.setState({
-      actionsDisabled: false
-    });
-  }
+//   endTurn = () => {
+//     console.log("Turn end");
+//     //set buttons back to normal
+//     this.setState({
+//       actionsDisabled: false
+//     });
+//   }
 
-  //Handles choice of actions
-  handleActionChange = (event) => {
-    let player = this.state.player;
-    player[event.target.name] = event.target.value;
-    this.setState({ player: player});
-  }
+//   //Handles choice of actions
+//   handleActionChange = (event) => {
+//     let player = this.state.player;
+//     player[event.target.name] = event.target.value;
+//     this.setState({ player: player});
+//   }
 
-  handleFormSubmit = event => {
-    event.preventDefault();
-    this.setState({
-      meleeCombo: false,
-      actionsDisabled: true,
-      comments: ""
-    });
-    this.enemyChoice();
-  };
+//   handleFormSubmit = event => {
+//     event.preventDefault();
+//     this.setState({
+//       meleeCombo: false,
+//       actionsDisabled: true,
+//       comments: ""
+//     });
+//     this.enemyChoice();
+//   };
+
 
   render() {
     return (
@@ -352,4 +454,4 @@ class Battle extends Component {
   }
 }
 
-export default Battle;
+// export default Battle;

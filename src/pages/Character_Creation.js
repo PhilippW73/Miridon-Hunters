@@ -1,3 +1,4 @@
+
 import React from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -104,6 +105,29 @@ class Upgrade_and_Shop extends Component {
           this.setState({comments: "Please select a weapon before submitting."});
         } else {
 
+//   handleFormSubmit = event => {
+//     event.preventDefault();
+//     if(!this.currentClass){
+//       this.setState({comments: "Please select a class before submitting."});
+//     } else {
+//       if(this.state.strength + this.state.speed != 4 ){
+//         this.setState({comments: "Please use 4 stat points before submitting."});
+//       } else {
+//         if(!this.state.currentWeapon){
+//           this.setState({comments: "Please select a weapon before submitting."});
+//         } else {
+//           mongo.createCharacter(props.user._id, this.state)
+//           .then(res => {
+//             this.setState({comments: "Character created."});
+//           })
+//           .catch(err => {
+//             console.log(err)
+//             this.setState({comments: "Please fill in character information before submitting."});
+//           });
+//         }
+//       }
+//     }
+//   };
           axios.post("/api/api/Character/"+ this.state.user_id+"/"+JSON.stringify(this.state))
           .then(res => {
             this.setState({comments: "Character created."});
@@ -202,5 +226,6 @@ class Upgrade_and_Shop extends Component {
   }
 };
   
+
 export default CharacterCreation;
 

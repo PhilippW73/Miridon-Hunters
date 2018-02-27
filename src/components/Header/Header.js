@@ -5,7 +5,10 @@ const Header = props => {
 	console.log('props in Header: ', props);
 	let Greeting
 	if (!props.user) {
-		Greeting = <p>Hello guest</p>
+		Greeting = 
+		<div className="GreetingText">
+			<p>Hello guest</p>
+		</div>
 	} else{
 		Greeting = (
 			<p>
