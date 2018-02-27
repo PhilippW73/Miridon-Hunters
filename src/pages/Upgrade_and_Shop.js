@@ -9,20 +9,12 @@ import Chat from "../components/Chat";
 import Navbar from "../components/Navbar";
 import Input from "../components/Input";
 import Row from "../components/Row";
-
-import Col from "../components/Col";
-import ButtonDropdown from "../components/ButtonDropdown";
 import axios from "axios";
-import Container from "../components/Container";
+import ButtonDropdown from "../components/ButtonDropdown";
 import ButtonLinkInfo from "../components/ButtonLinkInfo";
-import Button from "../components/Button";
-<<<<<<< HEAD
-import { Well, Jumbotron, FormGroup, Thumbnail, FormControl, Form, ControlLabel } from 'react-bootstrap';
-
-=======
+import { Well, Button, Jumbotron, Col, FormGroup, Thumbnail, FormControl, Form, ControlLabel } from 'react-bootstrap';
 //import ButtonDropdown from "../components/ButtonDropdown";
 import mongo from '../utils/mongo/mongo';
->>>>>>> 28af0324bbadbdef1eacb5695192be72ecf6ad8a
 
 
 
@@ -178,9 +170,9 @@ class Upgrade_and_Shop extends React.Component {
   // currentWeapon: {},
   render() {
     return (
-      
         <div className="container">
-        <Header/>
+        <Header />
+
         <Row>
           <Col size="md-offset-1 md-4">
             {/* Current Character Items + Materials*/}
@@ -225,8 +217,9 @@ class Upgrade_and_Shop extends React.Component {
           </Col>
         </Row>
         <Footer />
-      </div>
-    );
+        </div>    
+        );
+
   }
 };
 

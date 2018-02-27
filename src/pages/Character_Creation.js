@@ -9,12 +9,13 @@ import Row from "../components/Row";
 import axios from "axios";
 import ButtonDropdown from "../components/ButtonDropdown";
 import { Well, Button, Jumbotron, Col, FormGroup, Thumbnail, FormControl, Form, ControlLabel } from 'react-bootstrap';
-import Container from "../components/Container";
+import axios from "axios";
 
 
-class Character_Creation extends Component {
+class CharacterCreation extends React.Component {
   state = {
     error: "",
+    user_id: 0,
     name: "",
     description: "",
     image: "",
@@ -149,8 +150,8 @@ class Character_Creation extends Component {
   // currentWeapon: {},
   render() {
     return (
-      <Container>
-        <Header />
+<div className="container">     
+   <Header />
         <Row>
           <Col size="md-8">
               {/* Character name
@@ -223,8 +224,7 @@ class Character_Creation extends Component {
           </Col>
         </Row>
         <Footer />
-      </Container>
-    );
+</div>    );
   }
 };
   
