@@ -109,8 +109,8 @@ const Profile = props => (
 						                  </FormBtn> */}
 								  		{
 								  			props.user.user && 
-								  			<Bio 
-								  				bio={props.user.user.bio}
+								  			<Bio
+								  				{...props}
 								  			/>
 								  		}
 

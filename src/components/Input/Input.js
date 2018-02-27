@@ -3,7 +3,8 @@ import "./Input.css";
 
 export const Input = props =>
   <div className="form-group">
-    <input className="form-control" {...props} />
+   {console.log(props)}
+    <input className="form-control" value={props.val} name={props.name} />
   </div>;
 
 export default Input
