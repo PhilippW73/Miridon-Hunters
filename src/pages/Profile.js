@@ -92,8 +92,6 @@ const Profile = props => (
 								<br />
 								{/* <HomeComp /> */}
 
-								<div>
-
 								  	<Header user={props.user.user} />  				
 								  	
 								  	<div className="jumbotron">		
