@@ -36,8 +36,8 @@ class Launcher extends Component {
         </div>
         <div className={classList.join(' ')} onClick={this.handleClick.bind(this)}>
           <MessageCount count={this.props.newMessagesCount} isOpen={isOpen} />
-          <img className={"sc-open-icon"} src={launcherIconActive} />
-          <img className={"sc-closed-icon"} src={launcherIcon} />
+          <img className={"sc-open-icon"} alt="" src={launcherIconActive} />
+          <img className={"sc-closed-icon"} alt="" src={launcherIcon} />
         </div>
         <ChatWindow
           messageList={this.props.messageList}

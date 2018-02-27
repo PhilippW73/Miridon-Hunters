@@ -32,15 +32,11 @@ class Upgrade_and_Shop extends React.Component {
   };
 
   componentDidMount() {
-    getUser();
-  }
-    //how are we getting the id?
-    //First time: get character, action types, actions
     this.getUser();
   }
 
 
-  getUser() {
+  getUser =() => {
     axios.get("/api/user")
       .then(function(response) {
         this.setState({user_id: response._id})
