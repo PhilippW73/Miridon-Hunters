@@ -1,5 +1,7 @@
-import React, { Component } from 'react'
-import { Redirect } from 'react-router-dom'
+import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
+import { Well, Button, Jumbotron, Col } from 'react-bootstrap';
+import "./LoginForm.css";
 
 
 class LoginForm extends Component {
@@ -36,11 +38,13 @@ class LoginForm extends Component {
 			return <Redirect to={{ pathname: this.state.redirectTo }} />
 		} else {
 			return (
-				<jumbotron>
 				<div className="LoginForm">
-					<h1>Login form</h1>
+            <div className="container">
+			<h1>Login form</h1>
+					<Jumbotron>
 					<form onSubmit={this.handleSubmit}>
 						<label htmlFor="email">Email: </label>
+						<br />
 							<input
 								type="email"
 								name="email"
@@ -48,7 +52,9 @@ class LoginForm extends Component {
 								onChange={this.handleChange}
 								required
 							/>
+							< br />
 							<label htmlFor="username">Username: </label>
+							<br />
 							<input
 								type="text"
 								name="username"
@@ -56,7 +62,9 @@ class LoginForm extends Component {
 								onChange={this.handleChange}
 								required
 							/>
+							< br />
 							<label htmlFor="password">Password: </label>
+							<br />
 							<input
 								type="password"
 								name="password"
@@ -65,11 +73,15 @@ class LoginForm extends Component {
 								onChange={this.handleChange}
 								required
 							/>
-							<input type="submit" value="Login" />
+							<br />
+							<br />
+							<input type="submit" value="Login" color="red" />
 					</form>
-					
+
+					</Jumbotron>
+</div>					
 				</div>
-				</jumbotron>
+				
 			)
 		}
 	}

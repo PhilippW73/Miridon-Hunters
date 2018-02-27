@@ -129,7 +129,7 @@ class App extends Component {
   render () {
     return (
       <Router>
-          <div>
+          <div className="main-container" styles={{border: '2px solid blue'}}>
             {/*<Navbar/> */}
             <Wrapper>
               {/* <Route exact path="/" component={Home} /> */}

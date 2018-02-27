@@ -1,4 +1,4 @@
-// import React from "react";
+// // import React from "react";
 // import Header from "../components/Header";
 // import Footer from "../components/Footer";
 // import Image from "../components/Image";
@@ -8,22 +8,6 @@
 // import Row from "../components/Row";
 // import ButtonDropdown from "../components/ButtonDropdown";
 // //import Column from "../components/Colmun";
-
-
-// class Upgrade_and_Shop extends Component {
-//   state = {
-//     error: "",
-//     name: "",
-//     description: "",
-//     image: "",
-//     classes: [],
-//     weapons: [],
-//     currentWeapon: {},
-//     currentClass: {},
-//     strength: 0,
-//     speed: 0,
-//     comments: "Select your class, beginning stats, and beginning weapon."
-//   };
 
 //   componentDidMount() {
 //     //how are we getting the id?
@@ -93,7 +77,7 @@
 //         if(!this.state.currentWeapon){
 //           this.setState({comments: "Please select a weapon before submitting."});
 //         } else {
-//           mongo.createCharacter(this.state)
+//           mongo.createCharacter(props.user._id, this.state)
 //           .then(res => {
 //             this.setState({comments: "Character created."});
 //           })
@@ -192,4 +176,3 @@
 // };
   
 // export default CharacterCreation;
-
