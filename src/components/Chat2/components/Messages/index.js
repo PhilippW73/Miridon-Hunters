@@ -9,6 +9,7 @@ class Message extends Component {
   _renderMessageOfType(type) {
     switch(type) {
       case 'text':
+      default:
         return <TextMessage {...this.props.message} />
       case 'emoji':
         return <EmojiMessage {...this.props.message} />
