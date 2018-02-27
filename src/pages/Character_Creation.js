@@ -12,7 +12,7 @@ import { Well, Button, Jumbotron, Col, FormGroup, Thumbnail, FormControl, Form, 
 
 
 
-class CharacterCreation extends React.Component {
+class Character_Creation extends React.Component {
   state = {
     error: "",
     user_id: 0,
