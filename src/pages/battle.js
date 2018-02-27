@@ -44,6 +44,7 @@ const stats = [
 class Battle extends Component {
   state = {
     error: "",
+    user_id: 0,
     player: {
       position: "player",
       opposition: "enemy",
@@ -71,7 +72,15 @@ class Battle extends Component {
   componentDidMount() {
     //how are we getting the id?
     //First time: get character, action types, actions
-    this.getCharacter();
+    this.getUser();
+  }
+
+  getUser() {
+    axios.get("/api/user")
+      .then(function(response) {
+        this.setState({user_id: response._id})
+        this.getCharacter();
+      })
   }
 
   getCharacter() {
@@ -271,7 +280,7 @@ class Battle extends Component {
         let comments = this.state.comments + " You lost the battle.";
         this.setState({comments: comments});
         axios.put("/api/api/battle/charlose/"+this.state.player.character_id);
-        axios.put("/api/api/battle/userlose/"+user_id);
+        axios.put("/api/api/battle/userlose/"+this.state.user_id);
         axios.put("/api/api/battle/charwin/"+this.state.enemy.character_id);
       } else {
         //win
@@ -279,7 +288,7 @@ class Battle extends Component {
         this.setState({comments: comments});
         axios.put("/api/api/battle/charwin/"+this.state.player.character_id);
         axios.put("/api/api/battle/charlose/"+this.state.enemy.character_id);
-        axios.put("/api/api/battle/userwin/"+user_id);
+        axios.put("/api/api/battle/userwin/"+this.state.user_id);
       }
     } else {
       func(who);

@@ -1,4 +1,7 @@
 # Miridon-Hunters
+
+Miridon Hunters is a game based in such a world. You can create characters, and use your character or others to fight!
+
 Welcome to the world of Miridon, a world cruel enough that most efficient way to gain power is to consume others; yet, so capturing that you cannot leave!
 
 ## Navigation
@@ -32,7 +35,7 @@ A New Miridon
     With an inability of getting food from an outside source, Miridonians quickly ravaged the land for any potential resources, leaving the northern portion of the planet a bare wasteland. The Miridonians soon exhausted every food source available, plant and animal alike. The intense hunger was too much for most Miridonians, and human societies began to see each other as food. Cannibalism became the staple diet on Miridon, and many of the weaker denizens were forced to band together to fight off this growing threat. Thus, towns were made, living by the strict law of Miridon, where anybody from the town was safe from harm, and all outsiders were to be killed and eaten on sight.
     It quickly became apparent that the mystical affects of Miridon had become even stronger. Miridonians completely stopped aging, getting sick, and having children, and produce stopped growing completely. More importantly, after the lands were ravaged it was found that Miridonians did not need to eat to survive any more, as their energy never seemed to deplete. Food only served a few purposes, namely curbing the horrible hunger that Miridonians constantly felt, regenerating wounds received in battle, and gaining valuable muscles mass and flexibility. The last affect was so significant, that Miridonians who ate regularly soon found themselves gaining godly strength and speed. The godlike strength of Miridonians became a staple of the culture, quickly surpassing the need for any technology on the planet as nothing could surpass the raw power of humanity.
 
-check out miridon website for player's handbook to be proficient in the game and more detail about the world including Factions, Cities and Districts, and Exchange rates!!!
+Check out miridon website for player's handbook to be proficient in the game and more detail about the world including Factions, Cities and Districts, and Exchange rates!!!
 http://miridon.reuniontechnologies.com/
 
 # Use
@@ -40,9 +43,55 @@ http://miridon.reuniontechnologies.com/
 The online game is found at [our heroku page](https://ancient-woodland-15037.herokuapp.com/)
 
 * Login/Sign Up
+  * Sign up or Login
+  * Uses Passport to keep track of user's information and presence.
+* User Profile
+  * Create or update your profile!
+* Character Creation
+  * Create a character!
+  * Choose a class, weapon, and distibute stat points. You start with 4 additional ones beyond the initial classes...as we are a bit more generous than the initial game.
+* Character Selection
+  * Choose a character from those listed in our database
+  * View a character's information
+* Battle
+  * Your chosen character will battle a character against an opponent close to your win percentage + or - 10%.
+  * If there are a lot of characters, this means the more you win, the more likely you will fight others with higher win percentages. You won't fight the same opponent too often, but will generally fight the same set of opponents...until winning or losing changes your percentages.
+  * Winning a battle changes your percentages and gets you loot! As in this game no opponents die, you do not get all their stuff... You get 20% of the rewards, including everything they have on them and everything they have IN them (remember how we mentioned cannibalism?)
+  * Losing updates percentages, but not loot. While this may change in the future, for now there is a steady increase in materials for everyone.
+* Upgrades/Shop
+  * Spend your ill-gotten gains! Or rightfully gotten... in this world, who knows?
+  * While there is a currency, mostly people use a barter system. So here you can barter one material for another.
+  * Use Meat/Protein or Produce to boost your stats! Meat makes you stronger, produce makes you faster.
+  * Use Steel to make weapons. In the future there will be other materrials to make weapons, but steel is the go to for many people...
 
-# Makings of
+# Dependencies
+This is a yarn and react app.
 
+* axios
+* bcrypt
+* bcryptjs
+* body-parser
+* connect-mongo
+* dotenv
+* emoji-js
+* emoji-picker
+* express
+* express-fileuploader
+* express-session
+* mongoose
+* morgan
+* multer
+* passport
+* passport-local
+* prop-types
+* react
+* react-bootstrap
+* react-burger-menu
+* react-dom
+* react-router-dom
+* routes
+* concurrently
+* react-scripts
 
 ## Outside Resources Used
 http://miridon.reuniontechnologies.com/
@@ -55,6 +104,9 @@ Fully implement the game according to design available on the miridon website.
 - implement kills and abiities
 - implement class(character class) specialties 
 - implement multi-player battles
+- turn the game into using a 2-D map.
+
+And continuing to update to include more and more of the game.
 
 ## Contributors
 * Anna Bruestle
@@ -63,3 +115,6 @@ Fully implement the game according to design available on the miridon website.
 * Philipp Wickart
 * Chanel Williams (Version 2)
 * Geony Ayyad (Version 2)
+
+### Contributing
+We welcome new contributors! If you have suggestions, please tell us!

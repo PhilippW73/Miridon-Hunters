@@ -6,13 +6,14 @@ import Chat from "../components/Chat";
 import Navbar from "../components/Navbar";
 import Input from "../components/Input";
 import Row from "../components/Row";
-import Col from "../components/col";
+import Col from "../components/Col";
 import ButtonDropdown from "../components/ButtonDropdown";
 import axios from "axios";
 
 class Upgrade_and_Shop extends Component {
   state = {
     error: "",
+    user_id: 0,
     player: {},
     materials: [],
     currentMaterial: {},
@@ -31,11 +32,21 @@ class Upgrade_and_Shop extends Component {
   componentDidMount() {
     //how are we getting the id?
     //First time: get character, action types, actions
-    this.getCharacter();
+    this.getUser();
   }
+
+
+  getUser() {
+    axios.get("/api/user")
+      .then(function(response) {
+        this.setState({user_id: response._id})
+        this.getCharacter();
+      })
+  }
+  
   //Get data from Mongo
     getCharacter() {
-      axios.get("/api/api/Character/"+ user_id)
+      axios.get("/api/api/Character/"+ this.state.user_id)
         .then(res => {
           let player = this.state.player;
           
@@ -71,29 +82,29 @@ class Upgrade_and_Shop extends Component {
         .catch(err => console.log(err));
     }
 
-//   //Handles choice of actions
-//   handleMaterialChange = (event) => {
-//     const current = this.state.materials.find(function(element) {
-//       return element.name === event.target.value;
-//     })
-//     this.setState({ currentMaterial: current});
-//     this.getWeapons();
-//   }
+  //Handles choice of actions
+  handleMaterialChange = (event) => {
+    const current = this.state.materials.find(function(element) {
+      return element.name === event.target.value;
+    })
+    this.setState({ currentMaterial: current});
+    this.getWeapons();
+  }
 
-//   handleExchangeChange = (event) => {
-//     const current = this.state.materials.find(function(element) {
-//       return element.name === event.target.value;
-//     })
-//     this.setState({ currentExchange: current});
-//   }
+  handleExchangeChange = (event) => {
+    const current = this.state.materials.find(function(element) {
+      return element.name === event.target.value;
+    })
+    this.setState({ currentExchange: current});
+  }
 
-//   handleExchangeAmountChange = (event) => {
-//     this.setState({ currentExchangeAmount: event.target.value});
-//   }
+  handleExchangeAmountChange = (event) => {
+    this.setState({ currentExchangeAmount: event.target.value});
+  }
 
-//   handleStatAmountChange = (event) => {
-//     this.setState({ currentStatChangeAmount: event.target.value});
-//   }
+  handleStatAmountChange = (event) => {
+    this.setState({ currentStatChangeAmount: event.target.value});
+  }
 
 
   handleFormSubmit = event => {
