@@ -1,5 +1,4 @@
 const router = require("express").Router();
-const booksController = require("../../controllers/booksController");
 const mongo = require("../../src/utils/mongo");
 
 router.route("/Character/ratio/:ratio")

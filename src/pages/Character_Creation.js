@@ -1,5 +1,4 @@
-
-import React from "react";
+import React, { Component } from 'react';
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Image from "../components/Image";
@@ -7,6 +6,7 @@ import Chat from "../components/Chat";
 import Navbar from "../components/Navbar";
 import Input from "../components/Input";
 import Row from "../components/Row";
+import axios from "axios";
 import ButtonDropdown from "../components/ButtonDropdown";
 import { Well, Button, Jumbotron, Col, FormGroup, Thumbnail, FormControl, Form, ControlLabel } from 'react-bootstrap';
 import axios from "axios";
@@ -22,12 +22,12 @@ class CharacterCreation extends React.Component {
     classes: [],
     weapons: [],
     currentWeapon: {},
-    material: "steel",
     currentClass: {},
     strength: 0,
     speed: 0,
     comments: "Select your class, beginning stats, and beginning weapon."
-  };
+   };
+  
 
   componentDidMount() {
     //how are we getting the id?
@@ -229,5 +229,5 @@ class CharacterCreation extends React.Component {
 };
   
 
-export default CharacterCreation;
+export default Character_Creation;
 

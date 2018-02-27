@@ -1,4 +1,7 @@
-import React from "react";
+
+import React, { Component } from 'react';
+
+import { FormGroup, FormControl, Col, ButtonDropdown } from'react-bootstrap';
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Image from "../components/Image";
@@ -10,12 +13,17 @@ import axios from "axios";
 import ButtonDropdown from "../components/ButtonDropdown";
 import ButtonLinkInfo from "../components/ButtonLinkInfo";
 import { Well, Button, Jumbotron, Col, FormGroup, Thumbnail, FormControl, Form, ControlLabel } from 'react-bootstrap';
+//import ButtonDropdown from "../components/ButtonDropdown";
+import mongo from '../utils/mongo/mongo';
+
+
+
 
 
 class Upgrade_and_Shop extends React.Component {
   state = {
     error: "",
-    user_id: 0,
+
     player: {},
     materials: [],
     currentMaterial: {},
@@ -34,10 +42,6 @@ class Upgrade_and_Shop extends React.Component {
   componentDidMount() {
     //how are we getting the id?
     //First time: get character, action types, actions
-    this.getUser();
-  }
-
-
   getUser() {
     axios.get("/api/user")
       .then(function(response) {
@@ -63,7 +67,6 @@ class Upgrade_and_Shop extends React.Component {
 
     getMaterials() {
       //gives exchange rates and which materials are available
-
       axios.get("/api/api/Materials")
         .then(res => {
           this.setState({materials: res.data.message});
@@ -128,7 +131,6 @@ class Upgrade_and_Shop extends React.Component {
       case "Meat/ Protein (lbs.)":
       case "Produce (lbs.)":
       case "Ghost HP":
-
       axios.put("/api/api/StatBuy/" + this.state.player.character_id + "/" + this.state.currentMaterial + "/" + this.state.currentStatChangeAmount)
         .then(res => {
           this.setState({comments: res.comments});
@@ -170,6 +172,7 @@ class Upgrade_and_Shop extends React.Component {
     return (
         <div className="container">
         <Header />
+
         <Row>
           <Col size="md-offset-1 md-4">
             {/* Current Character Items + Materials*/}
@@ -199,9 +202,9 @@ class Upgrade_and_Shop extends React.Component {
             </form>
         
             {this.state.currentMaterial === "steel" ? <ButtonDropdown name="Weapon" faIcon="fa-crosshairs" list={this.state.steelweapons}/> : ""}
-            <Button onClick={this.handleFormSubmit} data-value="Buy">
+            <button onClick={this.handleFormSubmit} data-value="Buy">
               Buy
-            </Button>
+            </button>
           </Col>
         </Row>
         <Row>
@@ -216,6 +219,7 @@ class Upgrade_and_Shop extends React.Component {
         <Footer />
         </div>    
         );
+
   }
 };
 
