@@ -107,9 +107,9 @@ const Profile = props => (
                       onClick={this.handleFormSubmitBio}>
                       Update Bio
                     </FormBtn> */}
-						  		{props.user.user &&<Bio 
+						  		{/* {props.user.user &&<Bio 
 						  			bio={props.user.user.bio}
-						  		/>}
+						  		/>} */}
 
 								<h2> Image </h2>
 
