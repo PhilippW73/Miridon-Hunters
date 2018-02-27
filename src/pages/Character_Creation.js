@@ -229,5 +229,5 @@ class Character_Creation extends React.Component {
 };
   
 
-export default CharacterCreation;
+export default Character_Creation;
 
