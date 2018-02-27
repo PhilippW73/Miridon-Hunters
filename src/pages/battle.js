@@ -10,21 +10,22 @@
 // import Greeting from "../components/Greeting";
 // import Wins_Losses from "../components/Wins_Losses";
 
-// //import API from "../utils/API";
-// //import mongo from "../utils/mongo";
-// //import Container from "../components/Container";
-// import {
-//   aimedAttack,
-//   block,
-//   charge,
-//   dodge,
-//   gunAttack,
-//   meleeAttack,
-//   meleeCombo,
-//   reload,
-//   restoreSpeed,
-//   restoreStrength
-// } from "../utils/actions";
+
+//import API from "../utils/API";
+import axios from "axios";
+//import Container from "../components/Container";
+import {
+  aimedAttack,
+  block,
+  charge,
+  dodge,
+  gunAttack,
+  meleeAttack,
+  meleeCombo,
+  reload,
+  restoreSpeed,
+  restoreStrength
+} from "../utils/actions";
 
 // const stats = [
 //   {name: "Hit Points",
@@ -140,6 +141,110 @@
 //       callback();
 //     }
 //   }
+class Battle extends Component {
+  state = {
+    error: "",
+    user_id: 0,
+    player: {
+      position: "player",
+      opposition: "enemy",
+      Movement: "",
+      Offensive: "",
+      Defensive: "",
+      actions: {}
+    },
+    enemy: {
+      position: "enemy",
+      opposition: "player",
+      Movement: "",
+      Offensive: "",
+      Defensive: "",
+      actions: {}
+    },
+    actionTypes: [],
+    first: "",
+    meleeCombo: false,
+    actionsDisabled: false,
+    comments: "Choose your actions for the round (one of each), and then press 'Start Turn'."
+  };
+
+
+  componentDidMount() {
+    //how are we getting the id?
+    //First time: get character, action types, actions
+    this.getUser();
+  }
+
+  getUser() {
+    axios.get("/api/user")
+      .then(function(response) {
+        this.setState({user_id: response._id})
+        this.getCharacter();
+      })
+  }
+
+  getCharacter() {
+    axios.get("/api/api/Character/"+props.user._id)
+      .then(res => {
+        let player = this.state.player;
+        player.fullStats = res.data.message;
+        this.setState({
+          player: player
+        })
+        this.getActionTypes();
+      })
+      .catch(err => console.log(err));
+  }
+
+  getActionTypes() {
+    axios.get("/api/api/ActionTypes")
+      .then(res => {
+        //Send action type info 
+        this.setState({
+          actionTypes: res.data.message
+        })
+        this.getActions("player", this.getEnemy);
+      })
+      .catch(err => console.log(err));
+  }
+
+  getEnemy() {
+    if (this.state.player.fullStats.wins != 0) {
+      const randEnemy = (Math.random() * .2 - .1) + (parseFloat(this.state.player.fullStats.wins) / (parseFloat(this.state.player.fullStats.wins) + parseFloat(this.state.player.fullStats.losses)));
+    } else {
+      const randEnemy = (Math.random() * .1);
+    }
+    axios.get("/api/api/Character/ratio/"+randEnemy)
+      .then(res => {
+        let enemy = this.state.enemy;
+        enemy.fullStats = res.data.message;
+        this.setState({
+          enemy: enemy
+        })
+        this.initiative();
+        this.getActions("enemy", );
+      })
+      .catch(err => console.log(err));
+  }
+
+  getActions(who, callback) {
+    //sends id based on who
+    const id = this.state.eval(who).fullStats.character_id;
+    const strength = this.state.eval(who).curStats.strength_point;
+    const speed = this.state.eval(who).curStats.speed_point;
+    axios.get("/api/api/Actions/"+ id+"/"+ strength +"/"+ speed)
+      .then(res => {
+        let temp = this.state.eval(who);
+        temp.actions = res.data.message;
+        this.setState({
+          [who]: temp
+        })
+      })
+      .catch(err => console.log(err));
+    if(callback && typeof callback === "function"){
+      callback();
+    }
+  }
 
 //   initiative = () => {
 //     if (this.state.player.fullStats.speed_point > this.state.enemy.fullStats.speed_point) {
@@ -266,29 +371,30 @@
 //       });
 //     }
 
-//   checkDead = (who, func) => {
-//     if(this.state.eval(who).curStats.hit_point < 1) {
-//       $(".dropdown-toggle").addClass("disabled");
-//       $("#startTurn").addClass("disabled");
-//       if (who === "player") {
-//         //lose
-//         let comments = this.state.comments + " You lost the battle.";
-//         this.setState({comments: comments});
-//         mongo.charLose(this.state.player.character_id);
-//         mongo.charWin(this.state.enemy.character_id);
-//         mongo.playerLose(id);
-//       } else {
-//         //win
-//         let comments = this.state.comments + " You won the battle!";
-//         this.setState({comments: comments});
-//         mongo.charWin(this.state.player.character_id);
-//         mongo.charLose(this.state.enemy.character_id);
-//         mongo.playerWin(id);
-//       }
-//     } else {
-//       func(who);
-//     }
-//   }
+
+  checkDead = (who, func) => {
+    if(this.state.eval(who).curStats.hit_point < 1) {
+      $(".dropdown-toggle").addClass("disabled");
+      $("#startTurn").addClass("disabled");
+      if (who === "player") {
+        //lose
+        let comments = this.state.comments + " You lost the battle.";
+        this.setState({comments: comments});
+        axios.put("/api/api/battle/charlose/"+this.state.player.character_id);
+        axios.put("/api/api/battle/userlose/"+this.state.user_id);
+        axios.put("/api/api/battle/charwin/"+this.state.enemy.character_id);
+      } else {
+        //win
+        let comments = this.state.comments + " You won the battle!";
+        this.setState({comments: comments});
+        axios.put("/api/api/battle/charwin/"+this.state.player.character_id);
+        axios.put("/api/api/battle/charlose/"+this.state.enemy.character_id);
+        axios.put("/api/api/battle/userwin/"+this.state.user_id);
+      }
+    } else {
+      func(who);
+    }
+  }
 
 //   endTurn = () => {
 //     console.log("Turn end");
@@ -315,36 +421,37 @@
 //     this.enemyChoice();
 //   };
 
-//   render() {
-//     return (
-//       <Container>
-//         <Header />
-//         <Row>
-//           <Col size="md-offset-1 md-4">
-//             <BattleChar {...this.state.player} stats={stats} />
-//           </Col>
-//           <Col size="md-offset-1 md-4">
-//             <BattleChar {...this.state.enemy} stats={stats} />
-//           </Col>
-//         </Row>
-//         <Row>
-//           <Col size="md-12">
-//             <h3>Actions</h3>
-//             <div className="btn-group" role="group">
-//               {props.actionTypes.map(actionType => <ButtonDropdown actionType actions strength={this.state.player.curStats.strength_point} speed={this.state.player.curStats.speed_point} weapon={this.state.player.fullStats.weapon} current={this.state.player[actionType.name]} meleeCombo actionsDisabled/>
-//                 )}
-//               <button class="btn btn-default" type="button" id="startTurn" onClick={this.handleActionChange} disabled={ this.state.actionsDisabled }>Start Turn
-//               </button> 
-//             </div>
-//             <div>{this.state.comments}
-//             </div>
-//             <a class="btn btn-default" href="http://miridon.reuniontechnologies.com/page/battlerules-actions" role="button" target="_blank">See All Actions</a>
-//           </Col>
-//         </Row>
-//         <Footer />
-//       </Container>
-//     );
-//   }
-// }
+
+  render() {
+    return (
+      <Container>
+        <Header />
+        <Row>
+          <Col size="md-offset-1 md-4">
+            <BattleChar {...this.state.player} stats={stats} />
+          </Col>
+          <Col size="md-offset-1 md-4">
+            <BattleChar {...this.state.enemy} stats={stats} />
+          </Col>
+        </Row>
+        <Row>
+          <Col size="md-12">
+            <h3>Actions</h3>
+            <div className="btn-group" role="group">
+              {props.actionTypes.map(actionType => <ButtonDropdown actionType actions strength={this.state.player.curStats.strength_point} speed={this.state.player.curStats.speed_point} weapon={this.state.player.fullStats.weapon} current={this.state.player[actionType.name]} meleeCombo actionsDisabled/>
+                )}
+              <button class="btn btn-default" type="button" id="startTurn" onClick={this.handleActionChange} disabled={ this.state.actionsDisabled ? "disabled" : "" }>Start Turn
+              </button> 
+            </div>
+            <div>{this.state.comments}
+            </div>
+            <a class="btn btn-default" href="http://miridon.reuniontechnologies.com/page/battlerules-actions" role="button" target="_blank">See All Actions</a>
+          </Col>
+        </Row>
+        <Footer />
+      </Container>
+    );
+  }
+}
 
 // export default Battle;

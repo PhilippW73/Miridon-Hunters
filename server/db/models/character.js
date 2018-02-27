@@ -29,6 +29,12 @@ const characterSchema = new Schema({
     type: Number,
     required: true
   },
+  strength_point_exp: {
+    type: Number
+  },
+  speed_point_exp: {
+    type: Number
+  },
   hit_point: {
     type: Number,
     required: true
@@ -44,6 +50,13 @@ const characterSchema = new Schema({
   losses: {
     type: Number,
     default: 0
+  },
+  weapon: {
+    type: String,
+    default: "Unarmed"
+  },
+  weaponmaterial: {
+    type: String
   },
   "Meat/ Protein (lbs.)": {
     type: Number,

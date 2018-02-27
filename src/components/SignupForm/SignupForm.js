@@ -13,6 +13,7 @@ class SignupForm extends Component {
 			password: '',
 			email: '',
 			bio: '',
+			img: '',
 			confirmPassword: '',
 			redirectTo: null
 		}
@@ -34,7 +35,8 @@ class SignupForm extends Component {
 				username: this.state.username,
 				email: this.state.email,
 				password: this.state.password,
-				bio: this.state.bio
+				bio: this.state.bio,
+				img: this.state.img
 			})
 			.then(response => {
 				console.log(response)
@@ -67,7 +69,6 @@ class SignupForm extends Component {
 								<input 
 									type="email"
 									name="email"
-									
 									value={this.state.email}
 									onChange={this.handleChange}
 									required
@@ -129,6 +130,7 @@ class SignupForm extends Component {
 							<label htmlFor="confirmPassword">Confirm Password: </label>
 							< br />
 								<input
+									required
 									type="password"
 									name="confirmPassword"
 									value={this.state.confirmPassword}
@@ -136,6 +138,19 @@ class SignupForm extends Component {
 								/>
 							</div>
 							<br />
+
+
+							<div>
+								<input 
+									
+									type="text"
+									name="img"
+									id="img"
+									value={this.state.img}
+									onChange={this.handleChange}
+								/>
+								<label htmlFor="img">Image: </label>
+							</div>
 
 							<button type="submit" href="/home">Sign up</button>
 						</form>

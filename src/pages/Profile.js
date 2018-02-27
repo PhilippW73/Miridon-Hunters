@@ -14,6 +14,7 @@ import {Launcher} from '../components/Chat2';
 import Menu  from '../components/Navbar/menus/pushRotate';
 import Imagetwo from '../components/Imagetwo';
 import { Well, Button, Jumbotron, Col } from 'react-bootstrap';
+import Bio from '../components/Bio';
 
 const Profile = props => (
   <div>
@@ -129,5 +130,5 @@ const Profile = props => (
 
 
   export default Profile;
- 
+
 

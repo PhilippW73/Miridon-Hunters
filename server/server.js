@@ -15,6 +15,7 @@ const dbConnection = require('./db') // loads our c
 const mongoose = require('mongoose')
 const path = require ('path')
 const passport = require('./passport');
+const keys = require('../config/keys');
 
 //const mutilpart = require('connect-fileuploader')
 const app = express()
@@ -117,16 +118,19 @@ app.use('/auth', require('./auth'))
 // Add routes, both API and view
 app.use(routes);
 
-//------- making mongodb public------// 
-// var MONGO_URI = "mongodb://miridon:miridon@ds245548.mlab.com:45548/miridon"; 
-// mongoose.connect(MONGO_URI);
+//----mongodb connection/mlab for heroku deployment-----//
 
-// const db = mongoose.connection;
-// db.on('error', console.error.bind(console, '-- connection  error:'));
-// db.once('open', () => console.log('++ mongoose connected successfully'))
 
-//------------------------------------//
+// var MONGODB_URI = 'mongodb://miridon:miridon@ds249398.mlab.com:49398/heroku_h090q6bj'
+mongoose.connect(keys.mongoURI);
+var db = mongoose.connection;
+db.on('error', function(err){
+	console.log('Mongoose Error: ', err);
+});
 
+db.once('open', function(){
+	console.log('Mongoose connection successful.');
+});
 
 
 // ==== Starting Server =====

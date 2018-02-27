@@ -36,13 +36,13 @@ router.post(
 )
 
 router.get('/logout', (req, res) => {
-	// if (req.user) {
-	// 	req.session.destroy()
-	// 	res.clearCookie('connect.sid') // clean up!
-	// 	return res.json({ msg: 'logging you out' })
-	// } else {
-	// 	return res.json({ msg: 'no user to log out!' })
-	// }
+	if (req.user) {
+		req.session.destroy()
+		res.clearCookie('connect.sid') // clean up!
+		return res.json({ msg: 'logging you out' })
+	} else {
+		return res.json({ msg: 'no user to log out!' })
+	}
 	console.log('logout route executed!');
 	req.logOut();
 	console.log('It logged out!');
@@ -51,7 +51,7 @@ router.get('/logout', (req, res) => {
 
 router.post('/signup', (req, res) => {
 	console.log("MADE IT TO /auth/signup");
-	const { username, password, email, bio } = req.body
+	const { username, password, email, bio, img } = req.body
 	// ADD VALIDATION
 	User.findOne({ 'local.email': email }, (err, userMatch) => {
 		if (userMatch) {
@@ -63,7 +63,8 @@ router.post('/signup', (req, res) => {
 			'local.username': username,
 			'local.password': password,
 			'local.email': email,
-			'bio': bio
+			'bio': bio,
+			'img': img
 		})
 		newUser.save((err, savedUser) => {
 			if (err) return res.json(err)

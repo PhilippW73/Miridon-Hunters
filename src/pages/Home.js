@@ -49,6 +49,7 @@ const Home = props => (
 					<h3>Upgrades</h3>
 				</a>
 				<a onClick={ this.showSettings } className="menu-item--small" href="">Settings</a>
+				<a id="logout" className="menu-item" href="" onClick={props._logout}>Logout</a>
 			</Menu>
 
 			<main id="page-wrap">
