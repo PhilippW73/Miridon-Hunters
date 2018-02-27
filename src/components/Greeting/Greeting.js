@@ -32,7 +32,7 @@ const Greeting = props => {
 		)
 	}
 
-	<p> {props.user.user.bio} </p>
+	// <p> {props.user.user.bio} </p>
 }
 
 export default Greeting
