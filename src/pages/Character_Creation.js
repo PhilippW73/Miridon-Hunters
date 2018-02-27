@@ -11,6 +11,7 @@ import ButtonDropdown from "../components/ButtonDropdown";
 import { Well, Button, Jumbotron, Col, FormGroup, Thumbnail, FormControl, Form, ControlLabel } from 'react-bootstrap';
 
 
+
 class Character_Creation extends React.Component {
   state = {
     error: "",
@@ -228,5 +229,5 @@ class Character_Creation extends React.Component {
 };
   
 
-export default Character_Creation;
+export default CharacterCreation;
 

@@ -32,6 +32,8 @@ class Upgrade_and_Shop extends React.Component {
   };
 
   componentDidMount() {
+    getUser();
+  }
     //how are we getting the id?
     //First time: get character, action types, actions
     this.getUser();
