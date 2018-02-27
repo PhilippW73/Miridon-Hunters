@@ -54,6 +54,7 @@ const Profile = props => (
 
 			<main id="page-wrap">
 			<div className="container">
+
 					{/* <Header user={props.user} /> */}
                     <Header user={props.user.user} />
                     <br />
@@ -121,7 +122,6 @@ const Profile = props => (
 
     
    
-
 );
 
 
