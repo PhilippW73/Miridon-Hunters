@@ -9,7 +9,7 @@ class Bio extends Component {
 	constructor(props) {
 	  super(props);
 	  this.state = {
-	    bio: ""
+	    bio: props.bio
 	  };
 	}
 
@@ -22,14 +22,21 @@ class Bio extends Component {
 
   handleFormSubmitBio = event => {
       event.preventDefault();
-      if (this.state.bio) {
+      if (this.props.bio !== this.state.bio) {
         API.updateUser({
           bio: this.state.bio
         })
           .then(res => this.loadUser())
           .catch(err => console.log(err));
       }
+      
       console.log(this.state.bio);
+
+  //     componentWillReceiveProps(nextProps) {
+		//   if(next.props.bio !== this.props.bio) {
+		//   this.setState()
+		//   }
+		// };
   };
 
 	render() {
@@ -38,10 +45,9 @@ class Bio extends Component {
 			<div>
 				<h2> Bio </h2>
 			  	<p>{this.props.bio}</p>
-			  	<Input/>
-			    <FormBtn
-			    onClick={this.handleFormSubmitBio}>
-			    Update Bio
+			  	<Input onChange={this.handleInputChange} name={"bio"}/>
+			    <FormBtn onClick={this.handleFormSubmitBio}>
+			    	Update Bio
 	  			</FormBtn>
 	  		</div>
 
