@@ -15,6 +15,7 @@ import Menu  from '../components/Navbar/menus/pushRotate';
 import Imagetwo from '../components/Imagetwo';
 import Imagethree from '../components/Imagethree';
 import { Well, Button, Jumbotron, Col } from 'react-bootstrap';
+import Bio from '../components/Bio';
 
 const Profile = props => (
   <div>
@@ -69,18 +70,28 @@ const Profile = props => (
                                 />		 */}
                 <div className="row">
                 <Col xs={6} md={6}>                            
-                            <Input/>
+                           {/* <Input/>
                             <FormBtn
                             onClick={this.handleFormSubmitBio}>
                             Update Bio
-                            </FormBtn>
+                            </FormBtn> */}
+                            {
+                                            props.user.user && 
+                                            <Bio
+                                                {...props}
+                                            />
+                                        }
+                                        <h2> Image </h2>
+                                        {props.user.user &&<Image 
+                                            img={props.user.user.img}
+                                        />}
                 </Col>
                 <Col xs={6} md={6}>
                             <Image/>
                 </Col>
                 </div>
                             <Wins_Losses/>
-                            <p> hi! </p>
+                            <p> </p>
                         </div>
                 </div>
         

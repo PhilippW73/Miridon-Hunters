@@ -1,3 +1,4 @@
+
 import React from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -43,6 +44,7 @@ class Upgrade_and_Shop extends React.Component {
         this.getCharacter();
       })
   }
+
   
   //Get data from Mongo
     getCharacter() {
