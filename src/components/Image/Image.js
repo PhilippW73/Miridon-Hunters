@@ -6,7 +6,8 @@ class Image extends Component {
     super(props);
     this.state = {
       file: '',
-      imagePreviewUrl: ''
+      imagePreviewUrl: '',
+      img: ''
     };
     this._handleImageChange = this._handleImageChange.bind(this);
     this._handleSubmit = this._handleSubmit.bind(this);
@@ -42,12 +43,22 @@ class Image extends Component {
 
     return (
       <div>
-        <form onSubmit={this._handleSubmit}>
-          <input type="file" onChange={this._handleImageChange} />
-          <button type="submit" onClick={this._handleSubmit}>Upload Image</button>
-        </form>
+        { !this.props.img && (<form onSubmit={this._handleSubmit}>
+                          <input type="file" onChange={this._handleImageChange} />
+                          <button type="submit" onClick={this._handleSubmit}>Upload Image</button>
+                        </form>)
+        }
+
         {$imagePreview}
+        
+        <div>
+          {
+            this.props.img && <img src={this.props.img} alt="picture"/>
+          }
+          
+        </div>
       </div>
+      
     )
   }
 

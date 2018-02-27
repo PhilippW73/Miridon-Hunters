@@ -25,6 +25,8 @@ export default {
   getClasses: function() {
     db.Classes.find()
     .then(function(dbClasses) {
+      console.log("----------------")
+      console.log(dbClasses)
       return res.json(dbClasses);
     })
     .catch(function(err) {

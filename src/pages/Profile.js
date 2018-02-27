@@ -14,6 +14,7 @@ import {Launcher} from '../components/Chat2';
 import Menu  from '../components/Navbar/menus/pushRotate';
 import Imagetwo from '../components/Imagetwo';
 import { Well, Button, Jumbotron, Col } from 'react-bootstrap';
+import Bio from '../components/Bio';
 
 const Profile = props => (
 	<div>
@@ -91,40 +92,40 @@ const Profile = props => (
 						{/* <HomeComp /> */}
 
 						<div>
-  	<Header user={props.user.user} />
-  	{/*image*/}
-  
-  				
-  	{/* <Greeting {...props}/> */}
 
+						  	<Header user={props.user.user} />  				
+						  	
+						  	<div className="jumbotron">		
+                    {/* <h2> Bio </h2>
+                          <Input
+                          value={this.state.bio}
+                          onChange={this.handleInputChange}
+                          name="bio"
+                          placeholder="Bio"
+                          />		
+                      <Input/>
+                      <FormBtn
+                      onClick={this.handleFormSubmitBio}>
+                      Update Bio
+                    </FormBtn> */}
+						  		{props.user.user &&<Bio 
+						  			bio={props.user.user.bio}
+						  		/>}
 
-  	<div className="jumbotron">	
-    {/* <h2> Bio </h2>
-        <Input
-        value={this.state.bio}
-        onChange={this.handleInputChange}
-        name="bio"
-        placeholder="Bio"
-        />		 */}
-  	<Input/>
-    <FormBtn
-    onClick={this.handleFormSubmitBio}>
-    Update Bio
-  </FormBtn>
-  <h2> Image </h2>
-  <Image/>
-  <Wins_Losses/>
-  								
+								<h2> Image </h2>
 
-	  
-	  </div>
-	  </div>
-</div>
-	 
+					  			{props.user.user &&<Image 
+						  			img={props.user.user.img}
+						  		/>}
+					  			<Image/>
+					  			<Wins_Losses/>
+					  		</div>
+					  	</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-</div>
-</div>
-    </div>
 
 	
 );
