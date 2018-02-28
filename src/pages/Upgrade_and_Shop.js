@@ -1,5 +1,4 @@
 import React from "react";
-import { FormGroup, FormControl, Col, ButtonDropdown } from'react-bootstrap';
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Image from "../components/Image";
@@ -7,17 +6,16 @@ import Chat from "../components/Chat";
 import Navbar from "../components/Navbar";
 import Input from "../components/Input";
 import Row from "../components/Row";
-//import ButtonDropdown from "../components/ButtonDropdown";
-import mongo from '../utils/mongo/mongo';
-import ButtonLinkInfo from '../components/ButtonLinkInfo';
-import axios from 'axios';
-
+import axios from "axios";
+import ButtonDropdown from "../components/ButtonDropdown";
+import ButtonLinkInfo from "../components/ButtonLinkInfo";
+import { Well, Button, Jumbotron, Col, FormGroup, Thumbnail, FormControl, Form, ControlLabel } from 'react-bootstrap';
 
 
 class Upgrade_and_Shop extends React.Component {
   state = {
     error: "",
-
+    user_id: 0,
     player: {},
     materials: [],
     currentMaterial: {},
@@ -33,20 +31,22 @@ class Upgrade_and_Shop extends React.Component {
     comments: "Select a material to exchange it for others or use it."
   };
 
-  componentDidMount = () => {
-    //how are we getting the id?
-    //First time: get character, action types, actions
-  };
-    getUser = () => {
+  componentDidMount() {
+    this.getUser();
+  }
+
+
+  getUser =() => {
     axios.get("/api/user")
       .then(function(response) {
         this.setState({user_id: response._id})
         this.getCharacter();
-      });
+      })
   }
 
+  
   //Get data from Mongo
-    getCharacter = () => {
+    getCharacter() {
       axios.get("/api/api/Character/"+ this.state.user_id)
         .then(res => {
           let player = this.state.player;
@@ -60,16 +60,18 @@ class Upgrade_and_Shop extends React.Component {
         .catch(err => console.log(err));
     }
 
-    getMaterials = () => {
+    getMaterials() {
       //gives exchange rates and which materials are available
+
       axios.get("/api/api/Materials")
         .then(res => {
           this.setState({materials: res.data.message});
           this.getWeapons();
         })
         .catch(err => console.log(err));
-    };
-    getWeapons = () => {
+    }
+
+    getWeapons() {
       axios.get("/api/api/Weapons/Purchasable/" + this.state.currentMaterial + "/" + this.state.player[this.state.currentMaterial])
         .then(res => {
           let weapons = [];
@@ -125,6 +127,7 @@ class Upgrade_and_Shop extends React.Component {
       case "Meat/ Protein (lbs.)":
       case "Produce (lbs.)":
       case "Ghost HP":
+
       axios.put("/api/api/StatBuy/" + this.state.player.character_id + "/" + this.state.currentMaterial + "/" + this.state.currentStatChangeAmount)
         .then(res => {
           this.setState({comments: res.comments});
@@ -162,11 +165,10 @@ class Upgrade_and_Shop extends React.Component {
   // currentMaterial: {},
   // currentStatChangeAmount: 0,
   // currentWeapon: {},
-  render = () =>{
+  render() {
     return (
-      
         <div className="container">
-        <Header/>
+        <Header />
         <Row>
           <Col size="md-offset-1 md-4">
             {/* Current Character Items + Materials*/}
@@ -196,9 +198,9 @@ class Upgrade_and_Shop extends React.Component {
             </form>
         
             {this.state.currentMaterial === "steel" ? <ButtonDropdown name="Weapon" faIcon="fa-crosshairs" list={this.state.steelweapons}/> : ""}
-            <button onClick={this.handleFormSubmit} data-value="Buy">
+            <Button onClick={this.handleFormSubmit} data-value="Buy">
               Buy
-            </button>
+            </Button>
           </Col>
         </Row>
         <Row>
@@ -211,8 +213,8 @@ class Upgrade_and_Shop extends React.Component {
           </Col>
         </Row>
         <Footer />
-      </div>
-    );
+        </div>    
+        );
   }
 };
 
