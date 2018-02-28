@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const mongo = require("../../src/utils/mongo");
+const mongo = require("../../controllers/mongo/mongo");
 
 router.route("/Character/ratio/:ratio")
   .get(mongo.getCharacterByRatio(req.params.ratio));
