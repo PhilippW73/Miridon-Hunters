@@ -10,11 +10,13 @@ import Greeting from "../components/Greeting";
 import Wins_Losses from "../components/Wins_Losses";
 import API from "../utils/user/API";
 import FormBtn from "../components/FormBtn";
+import CharacterSelec from "../components/CharacterSelec";
 import {Launcher} from '../components/Chat2';
 import Menu  from '../components/Navbar/menus/pushRotate';
 import Imagetwo from '../components/Imagetwo';
 import { Well, Button, Jumbotron, Col, SplitButton, MenuItem, Glyphicon, ButtonToolbar, ButtonGroup } from 'react-bootstrap';
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+
 
 
 const Character_Selection = props => (
@@ -90,15 +92,15 @@ const Character_Selection = props => (
                 <h1> Select a Character </h1>	
                 <br />
                 <SplitButton href="http://google.com" bsStyle="danger" bsSize="medium" title="Main List" >
-                        <MenuItem eventKey="1">Delete List</MenuItem>
-                        <MenuItem eventKey="2">Edit List Name</MenuItem>
+                        <MenuItem eventKey="1">{this.state.character.character_name}</MenuItem>
+                        {/*<MenuItem eventKey="2">Edit List Name</MenuItem> */}
                 </SplitButton>
                 <br />
                 <br />
                 <div className="jumbotron">	
                     <div className="row">
                         <Col md={6} md={6}>
-                            <p> Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec hendrerit tempor tellus. Donec pretium posuere tellus. Proin quam nisl, tincidunt et, mattis eget, convallis nec, purus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nulla posuere.</p>
+                            <CharacterSelec/>
                         </Col>
                         <Col md={6} md={6}>
                             <Image/>
@@ -120,7 +122,6 @@ const Character_Selection = props => (
 </div>
 
 );
-
 
 
 
