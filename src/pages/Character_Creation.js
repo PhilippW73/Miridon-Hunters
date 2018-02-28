@@ -35,7 +35,7 @@ class Character_Creation extends React.Component {
     this.getUser();
   }
 
-  
+
   getUser() {
     axios.get("/api/user")
       .then(function(response) {
@@ -229,6 +229,4 @@ class Character_Creation extends React.Component {
 };
   
 
-
 export default Character_Creation;
-
