@@ -11,7 +11,10 @@ router.route("/Character/:id/:params?")
 
 
 router.route("/Characters")
-  .get(mongo.getCharacters());
+  .get(mongo.getCharacters);
+
+router.route("/Characternames")
+  .get(mongo.getCharacterNames);
 
 router.route("/User/:id/:params?")
   .delete(mongo.deleteUser)

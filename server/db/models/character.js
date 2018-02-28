@@ -58,31 +58,31 @@ const characterSchema = new Schema({
   weaponmaterial: {
     type: String
   },
-  "Meat/ Protein (lbs.)": {
+  meat_protein_lbs: {
     type: Number,
     default: 0
   },
-  "Steel (lbs.)": {
+  steel_lbs: {
     type: Number,
     default: 0
   },
-  "Mechanical Parts (oz.)": {
+  mechanical_parts_oz: {
     type: Number,
     default: 0
   },
-  "Puzzle Parts (oz.)": {
+  puzzle_parts_oz: {
     type: Number,
     default: 0
   },
-  "Imperial Pounds": {
+  imperial_pounds: {
     type: Number,
     default: 0
   },
-  "Produce (lbs.)": {
+  produce_lbs: {
     type: Number,
     default: 0
   },
-  "Ghost HP": {
+  ghost_hp: {
     type: Number,
     default: 0
   }

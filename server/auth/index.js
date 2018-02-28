@@ -64,7 +64,8 @@ router.post('/signup', (req, res) => {
 			'local.password': password,
 			'local.email': email,
 			'bio': bio,
-			'img': img
+			'img': img,
+			
 		})
 		newUser.save((err, savedUser) => {
 			if (err) return res.json(err)

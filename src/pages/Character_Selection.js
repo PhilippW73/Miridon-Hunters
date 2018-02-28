@@ -19,7 +19,9 @@ import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from
 import axios from 'axios';
 
 
+
 class Character_Selection extends React.Component {
+
     state = {
         user_id: "",
         character_id: 0,
@@ -91,7 +93,9 @@ class Character_Selection extends React.Component {
     }
 
     render() {
+
         return
+
         <div>
             <footer className="navbar-fixed-bottom">
                 <div className="container">
@@ -125,9 +129,9 @@ class Character_Selection extends React.Component {
                 teamName: 'react-live-chat',
                 imageUrl: 'https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png'
                 }}
-                // onMessageWasSent={props._onMessageWasSent}
-                // messageList={props.messageList}
-                // showEmoji
+      onMessageWasSent={props._onMessageWasSent}
+                messageList={props.messageList}
+                showEmoji
             />
 
             <div className="App" id="outer-container"> 
@@ -196,7 +200,9 @@ class Character_Selection extends React.Component {
                 </div>
             </div>
         </div>
-    };
+    }
+
+};
 
 };
 
