@@ -94,7 +94,8 @@ class Character_Selection extends React.Component {
 
     render() {
 
-        return
+        return (
+
 
         <div>
             <footer className="navbar-fixed-bottom">
@@ -129,8 +130,10 @@ class Character_Selection extends React.Component {
                 teamName: 'react-live-chat',
                 imageUrl: 'https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png'
                 }}
-      onMessageWasSent={props._onMessageWasSent}
-                messageList={props.messageList}
+
+                onMessageWasSent={this.props._onMessageWasSent}
+                messageList={this.props.messageList}
+
                 showEmoji
             />
 
@@ -200,9 +203,10 @@ class Character_Selection extends React.Component {
                 </div>
             </div>
         </div>
+        );
     }
+}
 
-};
 
 };
 
