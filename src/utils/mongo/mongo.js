@@ -1,25 +1,26 @@
 import mongoose from "mongoose";
+import db from "../../../server/db/models"
 
 
 export default {
   getCharacter: function(id) {
     db.Characters.findOne({ character_id: id })
     .then(function(dbCharacter) {
-      return res.json(dbCharacter);
+      return (dbCharacter);
     })
     .catch(function(err) {
       // If an error occurred, send it to the client
-      return res.json(err);
+      return (err);
     });
   },
   getCharacters: function() {
     db.Characters.find()
     .then(function(dbCharacters) {
-      return res.json(dbCharacters);
+      return (dbCharacters);
     })
     .catch(function(err) {
       // If an error occurred, send it to the client
-      return res.json(err);
+      return (err);
     });
   },
   getClasses: function() {
@@ -27,22 +28,22 @@ export default {
     .then(function(dbClasses) {
       console.log("----------------")
       console.log(dbClasses)
-      return res.json(dbClasses);
+      return (dbClasses);
     })
     .catch(function(err) {
       // If an error occurred, send it to the client
-      return res.json(err);
+      return (err);
     });
   },
   getClassNames: function() {
     db.Classes.find()
     .select({ name: 1 })
     .then(function(dbClasses) {
-      return res.json(dbClasses);
+      return (dbClasses);
     })
     .catch(function(err) {
       // If an error occurred, send it to the client
-      return res.json(err);
+      return (err);
     });
   },
   getClassByName: function(name) {
@@ -50,21 +51,21 @@ export default {
       name: name
     })
     .then(function(dbClass) {
-      return res.json(dbClass);
+      return (dbClass);
     })
     .catch(function(err) {
       // If an error occurred, send it to the client
-      return res.json(err);
+      return (err);
     });
   },
   getUser: function(id) {
     db.Users.findOne({ user_id: id })
     .then(function(dbUser) {
-      return res.json(dbUser);
+      return (dbUser);
     })
     .catch(function(err) {
       // If an error occurred, send it to the client
-      return res.json(err);
+      return (err);
     });
   },
   getCharacterByRatio: function(ratio) {
@@ -79,26 +80,26 @@ export default {
     })
     .catch(function(err) {
       // If an error occurred, send it to the client
-      return res.json(err);
+      return (err);
     });
     // db.Characters.find({})
     // .sort({wins: 'asc'})
     // .then(function(dbCharacter) {
-    //   res.json(dbCharacter);
+    //   (dbCharacter);
     // })
     // .catch(function(err) {
     //   // If an error occurred, send it to the client
-    //   res.json(err);
+    //   (err);
     // });
   },
   getActionTypes: function() {
     db.ActionTypes.find({})
     .then(function(dbActionTypes) {
-      return res.json(dbActionTypes);
+      return (dbActionTypes);
     })
     .catch(function(err) {
       // If an error occurred, send it to the client
-      return res.json(err);
+      return (err);
     });
   },
   getActions: function(id, strengthpoints, speedpoints) {
@@ -173,16 +174,16 @@ export default {
             break;
         }
         db.Actions.find({
-          $or: [{weapon: dbCharacter.weapon}, {weapon: weapontype}],
+          $or: [{weapon: dbCharacter.weapon}, {weapon: dbWeapon.weapontype}],
           strength: { $lte: strengthpoints },
           speed: { $lte: speedpoints }
         })
         .then(function(dbActions) {
-          return res.json(dbActions);
+          return (dbActions);
         })
         .catch(function(err) {
           // If an error occurred, send it to the client
-          return res.json(err);
+          return (err);
         });
       });
   },
@@ -192,11 +193,11 @@ export default {
       $or: [{weight: { $lte : 2}},{name: "Shotgun"}, {name: "Hunting Rifle"}]
     })
     .then(function(dbItems) {
-      return res.json(dbItems);
+      return (dbItems);
     })
     .catch(function(err) {
       // If an error occurred, send it to the client
-      return res.json(err);
+      return (err);
     });
   },
   getAllWeapons: function(material) {
@@ -204,11 +205,11 @@ export default {
       material: material
     })
     .then(function(dbItems) {
-      return res.json(dbItems);
+      return (dbItems);
     })
     .catch(function(err) {
       // If an error occurred, send it to the client
-      return res.json(err);
+      return (err);
     });
   },
   createUser: function(params) {
@@ -220,7 +221,7 @@ export default {
         res.redirect(307, "/login");
       }).catch(function(err) {
         console.log(err);
-        return res.json(err);
+        return (err);
       });
   },
   updateUser: function(id, params) {
@@ -233,10 +234,10 @@ export default {
         }
       })
       .then(function(dbUser) {
-        return res.json(dbUser);
+        return (dbUser);
       }).catch(function(err) {
         console.log(err);
-        return res.json(err);
+        return (err);
       });
   },
   battleLoot: function(CharWon, CharLost) {
@@ -292,16 +293,16 @@ export default {
 
         }).catch(function(err) {
           console.log(err);
-          return res.json(err);
+          return (err);
         });
       }).catch(function(err) {
         console.log(err);
-        return res.json(err);
+        return (err);
       });
 
     }).catch(function(err) {
       console.log(err);
-      return res.json(err);
+      return (err);
     });
 
 
@@ -314,10 +315,10 @@ export default {
         $inc: { losses: 1 }
       })
       .then(function(dbCharacter) {
-        return res.json(dbCharacter);
+        return (dbCharacter);
       }).catch(function(err) {
         console.log(err);
-        return res.json(err);
+        return (err);
       });
   },
   playerLose: function(id) {
@@ -328,10 +329,10 @@ export default {
         $inc: { losses: 1 }
       })
       .then(function(dbCharacter) {
-        return res.json(dbCharacter);
+        return (dbCharacter);
       }).catch(function(err) {
         console.log(err);
-        return res.json(err);
+        return (err);
       });
   },
   charWin: function(id) {
@@ -342,10 +343,10 @@ export default {
         $inc: { wins: 1 }
       })
       .then(function(dbCharacter) {
-        return res.json(dbCharacter);
+        return (dbCharacter);
       }).catch(function(err) {
         console.log(err);
-        return res.json(err);
+        return (err);
       });
   },
   playerWin: function(id) {
@@ -356,30 +357,30 @@ export default {
         $inc: { wins: 1 }
       })
       .then(function(dbCharacter) {
-        return res.json(dbCharacter);
+        return (dbCharacter);
       }).catch(function(err) {
         console.log(err);
-        return res.json(err);
+        return (err);
       });
   },
   deleteChar: function(id) {
     db.Characters.deleteOne({ character_id: id })
     .then(function(dbCharacter) {
-      return res.json(dbCharacter);
+      return (dbCharacter);
     })
     .catch(function(err) {
       // If an error occurred, send it to the client
-      return res.json(err);
+      return (err);
     });
   },
   deleteUser: function(id) {
     db.Users.deleteOne({ user_id: id })
     .then(function(dbCharacter) {
-      return res.json(dbCharacter);
+      return (dbCharacter);
     })
     .catch(function(err) {
       // If an error occurred, send it to the client
-      return res.json(err);
+      return (err);
     });
   },
   createCharacter: function(id, params) {
@@ -399,7 +400,7 @@ export default {
         return dbCharacter;
       }).catch(function(err) {
         console.log(err);
-        return res.json(err);
+        return (err);
       });
   },
   getWeaponsPurchasable: function(material, maxcost) {
@@ -411,11 +412,11 @@ export default {
       material: material
     })
     .then(function(dbItems) {
-      return res.json(dbItems);
+      return (dbItems);
     })
     .catch(function(err) {
       // If an error occurred, send it to the client
-      return res.json(err);
+      return (err);
     });
   },
   getAvailableMaterials: function() {
@@ -423,11 +424,11 @@ export default {
       available: true
     })
     .then(function(dbItems) {
-      return res.json(dbItems);
+      return (dbItems);
     })
     .catch(function(err) {
       // If an error occurred, send it to the client
-      return res.json(err);
+      return (err);
     });
   },
   exchangeMaterial: function(id, curMat, newMat, amt) {
@@ -454,12 +455,12 @@ export default {
           };
         }).catch(function(err) {
           console.log(err);
-          return res.json(err);
+          return (err);
         });
     })
     .catch(function(err) {
       // If an error occurred, send it to the client
-      return res.json(err);
+      return (err);
     });
 
     
@@ -522,13 +523,13 @@ export default {
             };
           }).catch(function(err) {
             console.log(err);
-            return res.json(err);
+            return (err);
           });
       }
     })
     .catch(function(err) {
       // If an error occurred, send it to the client
-      return res.json(err);
+      return (err);
     });
   },
   buyWeapon: function(id, mat, newWeap) {
@@ -588,19 +589,19 @@ export default {
                 };
               }).catch(function(err) {
                 console.log(err);
-                return res.json(err);
+                return (err);
               });
             }
         }
       })
       .catch(function(err) {
         // If an error occurred, send it to the client
-        return res.json(err);
+        return (err);
       });
     })
     .catch(function(err) {
       // If an error occurred, send it to the client
-      return res.json(err);
+      return (err);
     });
   }
 };
