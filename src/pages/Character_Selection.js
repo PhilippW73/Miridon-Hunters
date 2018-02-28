@@ -16,8 +16,7 @@ import Menu  from '../components/Navbar/menus/pushRotate';
 import Imagetwo from '../components/Imagetwo';
 import { Well, Button, Jumbotron, Col, SplitButton, MenuItem, Glyphicon, ButtonToolbar, ButtonGroup } from 'react-bootstrap';
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'react-bootstrap';
-
-
+import axios from 'axios';
 class CharacterSelection extends React.Component {
     state = {
         user_id: "",
@@ -88,8 +87,8 @@ class CharacterSelection extends React.Component {
         this.setState({ character_id: event.target.value });
         this.getCharacter;
     }
-
     render() {
+        return (
         <div>
             <footer className="navbar-fixed-bottom">
                 <div className="container">
@@ -117,17 +116,15 @@ class CharacterSelection extends React.Component {
                     </div>
                 </div>
             </footer>
-
             <Launcher
                 agentProfile={{
                 teamName: 'react-live-chat',
                 imageUrl: 'https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png'
                 }}
-                onMessageWasSent={props._onMessageWasSent}
-                messageList={props.messageList}
+                onMessageWasSent={this.props._onMessageWasSent}
+                messageList={this.props.messageList}
                 showEmoji
             />
-
             <div className="App" id="outer-container"> 
                 <Menu left outerContainerId={"outer-container"} pageWrapId={"page-wrap"}>
                     <br />
@@ -159,7 +156,7 @@ class CharacterSelection extends React.Component {
                 <div id="page-wrap">
                     <div className="container">
                         {/* <Header user={props.user} /> */}
-                        <h1> Select a Character </h1>	
+                        <h1> Select a Character </h1>   
                         <br />
                         <SplitButton bsStyle="danger" bsSize="medium" title={this.character.name} >
                             {this.state.characters
@@ -171,7 +168,7 @@ class CharacterSelection extends React.Component {
                         </SplitButton>
                         <br />
                         <br />
-                        <div className="jumbotron">	
+                        <div className="jumbotron"> 
                             <div className="row">
                                 <Col md={6} md={6}>
                                     <CharacterSelec {...this.state.character}/>
@@ -194,12 +191,8 @@ class CharacterSelection extends React.Component {
                 </div>
             </div>
         </div>
+        );
     }
-
-};
-
-
-
-export default Character_Selection;
+}
+export default CharacterSelection;
  
-
