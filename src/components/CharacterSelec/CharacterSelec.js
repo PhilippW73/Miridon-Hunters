@@ -4,28 +4,32 @@ import axios from 'axios';
 
 class CharacterSelec extends React.Component {
   state = {
-    character_name: "",
-    character_author: "",
-    character_description: "",
-    class_name: "",
-    character_image: "",
-    strength_point: 0,
-    speed_point: 0,
-    strength_point_exp: 0,
-    speed_point_exp: 0,
-    hit_point: 0,
-    ghost_hp: 0,
-    wins: 0,
-    losses: 0,
-    weapon:"",
-    weaponmaterial: "",
-    meat_protein_lbs: 0, 
-    steel_lbs: 0,
-    mechanical_parts_oz: 0,
-    puzzle_parts_oz: 0,
-    imperial_pounds: 0,
-    produce_lbs: 0,
-    ghost_hP: 0
+    user_id: "",
+    character_id: 0,
+    characters: [],
+    character: {}
+    // character_name: "",
+    // character_author: "",
+    // character_description: "",
+    // class_name: "",
+    // character_image: "",
+    // strength_point: 0,
+    // speed_point: 0,
+    // strength_point_exp: 0,
+    // speed_point_exp: 0,
+    // hit_point: 0,
+    // ghost_hp: 0,
+    // wins: 0,
+    // losses: 0,
+    // weapon:"",
+    // weaponmaterial: "",
+    // meat_protein_lbs: 0, 
+    // steel_lbs: 0,
+    // mechanical_parts_oz: 0,
+    // puzzle_parts_oz: 0,
+    // imperial_pounds: 0,
+    // produce_lbs: 0,
+    // ghost_hP: 0
 };
 
 componentDidMount() {
@@ -36,20 +40,37 @@ componentDidMount() {
   getUser() {
     axios.get("/api/user")
       .then(function(response) {
-        this.setState({user_id: response._id})
-        this.getClasses();
+        this.setState({
+            user_id: response._id,
+            character_id: last_character
+        })
+        this.getCharactersNames();
       })
   }
 
-getCharacters() {
-    axios.get("/api/api/Characters/")
+getCharactersNames() {
+    axios.get("/api/api/Characternames/")
         .then(res => {
-        
           this.setState({
             characters: res.data.message
           })
         .catch(err => console.log(err));
   })
+}
+
+getCharacter() {
+    axios.get("/api/api/Character/"+this.state.character_id)
+        .then(res => {
+          this.setState({
+            character: res.data.message
+          })
+        })
+        .catch(err => console.log(err));
+}
+
+selectHandle = (event) => {
+    this.setState({ character_id: event.target.id });
+    this.getCharacter;
 }
 
   render() {
