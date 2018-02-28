@@ -16,9 +16,10 @@ import Menu  from '../components/Navbar/menus/pushRotate';
 import Imagetwo from '../components/Imagetwo';
 import { Well, Button, Jumbotron, Col, SplitButton, MenuItem, Glyphicon, ButtonToolbar, ButtonGroup } from 'react-bootstrap';
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'react-bootstrap';
+import axios from 'axios';
 
 
-class CharacterSelection extends React.Component {
+class Character_Selection extends React.Component {
     state = {
         user_id: "",
         character_id: 0,
@@ -90,6 +91,7 @@ class CharacterSelection extends React.Component {
     }
 
     render() {
+        return
         <div>
             <footer className="navbar-fixed-bottom">
                 <div className="container">
@@ -123,9 +125,9 @@ class CharacterSelection extends React.Component {
                 teamName: 'react-live-chat',
                 imageUrl: 'https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png'
                 }}
-                onMessageWasSent={props._onMessageWasSent}
-                messageList={props.messageList}
-                showEmoji
+                // onMessageWasSent={props._onMessageWasSent}
+                // messageList={props.messageList}
+                // showEmoji
             />
 
             <div className="App" id="outer-container"> 
@@ -194,7 +196,7 @@ class CharacterSelection extends React.Component {
                 </div>
             </div>
         </div>
-    }
+    };
 
 };
 
