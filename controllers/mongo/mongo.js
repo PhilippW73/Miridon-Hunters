@@ -1,8 +1,9 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 
-export default {
-  getCharacter: function(id) {
+module.exports = {
+  getCharacter: function(req, res) {
+    var id = req.params.id;
     db.Characters.findOne({ character_id: id })
     .then(function(dbCharacter) {
       return res.json(dbCharacter);
@@ -12,7 +13,7 @@ export default {
       return res.json(err);
     });
   },
-  getCharacters: function() {
+  getCharacters: function(req, res) {
     db.Characters.find()
     .then(function(dbCharacters) {
       return res.json(dbCharacters);
@@ -22,7 +23,7 @@ export default {
       return res.json(err);
     });
   },
-  getClasses: function() {
+  getClasses: function(req, res) {
     db.Classes.find()
     .then(function(dbClasses) {
       console.log("----------------")
@@ -34,7 +35,7 @@ export default {
       return res.json(err);
     });
   },
-  getClassNames: function() {
+  getClassNames: function(req, res) {
     db.Classes.find()
     .select({ name: 1 })
     .then(function(dbClasses) {
@@ -45,9 +46,9 @@ export default {
       return res.json(err);
     });
   },
-  getClassByName: function(name) {
+  getClassByName: function(req, res) {
     db.Classes.findOne({
-      name: name
+      name: req.params.name
     })
     .then(function(dbClass) {
       return res.json(dbClass);
@@ -57,8 +58,8 @@ export default {
       return res.json(err);
     });
   },
-  getUser: function(id) {
-    db.Users.findOne({ user_id: id })
+  getUser: function(req, res) {
+    db.Users.findOne({ user_id: req.params.id })
     .then(function(dbUser) {
       return res.json(dbUser);
     })
@@ -67,7 +68,9 @@ export default {
       return res.json(err);
     });
   },
-  getCharacterByRatio: function(ratio) {
+  getCharacterByRatio: function(req, res) {
+    var ratio = req.params.ratio;
+    console.log(req.params);
     db.Characters.aggregate([
         {$project: {id: 1, diff: {$abs: {$subtract: [ratio, { $divide: [ "$wins", { $add: [ "$wins", "$losses" ] }  ] } ]}}}},
         // {$project: {diff: {$abs: {$subtract: [ratio, { $divide: [ "$wins", { $add: [ "$wins", "$losses" ] }  ] } ]}}, doc: '$$ROOT'}},
@@ -91,7 +94,7 @@ export default {
     //   res.json(err);
     // });
   },
-  getActionTypes: function() {
+  getActionTypes: function(req, res) {
     db.ActionTypes.find({})
     .then(function(dbActionTypes) {
       return res.json(dbActionTypes);
@@ -101,10 +104,14 @@ export default {
       return res.json(err);
     });
   },
-  getActions: function(id, strengthpoints, speedpoints) {
+  getActions: function(req, res) {
+    var id = req.params.id;
+    var strengthpoints = req.params.strengthpoints;
+    var speedpoints = req.params.speedpoints;
     this.getCharacter(id)
       .then(function(dbCharacter){
         //weapon types for all weapons
+        let weapontype = "";
         switch (dbCharacter.weapon){
           case "small shield":
           case "large shield":
@@ -112,7 +119,7 @@ export default {
           case "grand shield":
           case "monument shield":
           case "shield":
-            const weapontype = "shield";
+            weapontype = "shield";
             break;
           case "ranged":
           case "palm pistol":
@@ -139,7 +146,7 @@ export default {
           case "tesla":
           case "shotgun":
           case "pistol":
-            const weapontype = "ranged";
+            weapontype = "ranged";
             break;
           case "melee":
           case "longsword":
@@ -169,7 +176,7 @@ export default {
           case "hammer":
           case "grappler":
           default:
-            const weapontype = "melee";
+            weapontype = "melee";
             break;
         }
         db.Actions.find({
@@ -186,7 +193,7 @@ export default {
         });
       });
   },
-  getStartWeapons: function() {
+  getStartWeapons: function(req, res) {
     db.Weapons.find({
       material: "steel",
       $or: [{weight: { $lte : 2}},{name: "Shotgun"}, {name: "Hunting Rifle"}]
@@ -199,7 +206,8 @@ export default {
       return res.json(err);
     });
   },
-  getAllWeapons: function(material) {
+  getAllWeapons: function(req, res) {
+    var material = req.params.material;
     db.Weapons.find({
       material: material
     })
@@ -211,7 +219,8 @@ export default {
       return res.json(err);
     });
   },
-  createUser: function(params) {
+  createUser: function(req, res) {
+    var params = req.params.params;
     db.User.create(
       {
           params
@@ -223,7 +232,9 @@ export default {
         return res.json(err);
       });
   },
-  updateUser: function(id, params) {
+  updateUser: function(req, res) {
+    var id = req.params.id;
+    var params = req.params.params;
     db.User.update(
       {
         user_id: id
@@ -239,7 +250,9 @@ export default {
         return res.json(err);
       });
   },
-  battleLoot: function(CharWon, CharLost) {
+  battleLoot: function(req, res) {
+    var CharWon = req.params.CharWon;
+    var CharLost = req.params.CharLost;
     db.Character.findOne(
       {
         _id: CharLost
@@ -306,10 +319,10 @@ export default {
 
 
   },
-  charLose: function(id) {
+  charLose: function(req, res) {
     db.Character.findOneAndUpdate(
       {
-        character_id: id
+        character_id: req.params.id
       }, {
         $inc: { losses: 1 }
       })
@@ -320,10 +333,10 @@ export default {
         return res.json(err);
       });
   },
-  playerLose: function(id) {
+  playerLose: function(req, res) {
     db.User.findOneAndUpdate(
       {
-        user_id: id
+        user_id: req.params.id
       }, {
         $inc: { losses: 1 }
       })
@@ -334,7 +347,8 @@ export default {
         return res.json(err);
       });
   },
-  charWin: function(id) {
+  charWin: function(req, res) {
+    var id = req.params.id;
     db.Character.findOneAndUpdate(
       {
         character_id: id
@@ -348,7 +362,8 @@ export default {
         return res.json(err);
       });
   },
-  playerWin: function(id) {
+  playerWin: function(req, res) {
+    var id = req.params.id;
     db.User.findOneAndUpdate(
       {
         user_id: id
@@ -362,7 +377,8 @@ export default {
         return res.json(err);
       });
   },
-  deleteChar: function(id) {
+  deleteChar: function(req, res) {
+    var id = req.params.id;
     db.Characters.deleteOne({ character_id: id })
     .then(function(dbCharacter) {
       return res.json(dbCharacter);
@@ -372,7 +388,8 @@ export default {
       return res.json(err);
     });
   },
-  deleteUser: function(id) {
+  deleteUser: function(req, res) {
+    var id = req.params.id;
     db.Users.deleteOne({ user_id: id })
     .then(function(dbCharacter) {
       return res.json(dbCharacter);
@@ -382,7 +399,9 @@ export default {
       return res.json(err);
     });
   },
-  createCharacter: function(id, params) {
+  createCharacter: function(req, res) {
+    var id = req.params.id;
+    var params = req.params.params;
     db.Character.create(
       {
         character_name: params.name,
@@ -402,7 +421,9 @@ export default {
         return res.json(err);
       });
   },
-  getWeaponsPurchasable: function(material, maxcost) {
+  getWeaponsPurchasable: function(req, res) {
+    var material = req.params.material;
+    var maxcost = req.params.maxcost;
     if (!maxcost) {
       maxcost = 99999;
     }
@@ -418,7 +439,7 @@ export default {
       return res.json(err);
     });
   },
-  getAvailableMaterials: function() {
+  getAvailableMaterials: function(req, res) {
     db.Materials.find({
       available: true
     })
@@ -430,7 +451,11 @@ export default {
       return res.json(err);
     });
   },
-  exchangeMaterial: function(id, curMat, newMat, amt) {
+  exchangeMaterial: function(req, res) {
+    var id = req.params.id;
+    var curMat = req.params.curMat;
+    var newMat = req.params.newMat;
+    var amt = req.params.amt;
     db.Materials.find({
       $or: [{name: curMat}, {name: newMat}]
     })
@@ -464,7 +489,10 @@ export default {
 
     
   },
-  buyStats: function(id, mat, amt) {
+  buyStats: function(req, res){
+    var id = req.params.id;
+    var mat = req.params.mat;
+    var amt = req.params.amt;
     var stat="";
     var expgain=1;
     var name="";
@@ -531,7 +559,10 @@ export default {
       return res.json(err);
     });
   },
-  buyWeapon: function(id, mat, newWeap) {
+  buyWeapon: function(req, res){
+    var id = req.params.id;
+    var mat = req.params.mat;
+    var newWeap = req.params.newWeap;
     db.Characters.findOne({ character_id: id })
     .then(function(dbCharacter) {
       db.Weapons.find({
