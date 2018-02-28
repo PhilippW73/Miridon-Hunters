@@ -1,9 +1,9 @@
 import React from 'react';
 import { Route, Link } from 'react-router-dom';
 import axios from 'axios';
+const character =  require('../../../server/db/models/character'); 
 
-
-const Character_Selec = props => (
+const CharacterSelec = props => (
     <div>
     <dl>
         <dd>
