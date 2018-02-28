@@ -23,6 +23,17 @@ module.exports = {
       return res.json(err);
     });
   },
+  getCharacterNames: function(req, res) {
+    db.Characters.find()
+    .select({ _id: 1, name: 1 })
+    .then(function(dbCharacters) {
+      return res.json(dbCharacters);
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      return res.json(err);
+    });
+  },
   getClasses: function(req, res) {
     db.Classes.find()
     .then(function(dbClasses) {
