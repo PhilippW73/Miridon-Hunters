@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import "./Header.css";
 
 const Header = props => {
@@ -7,11 +7,11 @@ const Header = props => {
 	if (!props.user) {
 		Greeting = 
 		<div className="GreetingText">
-			<p>Hello guest</p>
+			<p id="greetingText">Hello guest</p>
 		</div>
 	} else{
 		Greeting = (
-			<p>
+			<p id="greetingText">
 				Welcome back, <strong>{props.user.local.email}</strong>
 			</p>
 		)

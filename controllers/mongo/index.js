@@ -1,1 +1,1 @@
-export { default } from "./mongo";
+const mongo = require('./mongo.js');
