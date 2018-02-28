@@ -129,9 +129,9 @@ class Character_Selection extends React.Component {
                 teamName: 'react-live-chat',
                 imageUrl: 'https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png'
                 }}
-    //   onMessageWasSent={props._onMessageWasSent}
-    //             messageList={props.messageList}
-    //             showEmoji
+      onMessageWasSent={this.props._onMessageWasSent}
+                messageList={this.props.messageList}
+                showEmoji
             />
 
             <div className="App" id="outer-container"> 
