@@ -58,7 +58,7 @@ class CharacterSelection extends React.Component {
           .then(function(response) {
             this.setState({
                 user_id: response._id,
-                character_id: last_character
+                character_id: response.last_character
             })
             this.getCharactersNames();
           })
