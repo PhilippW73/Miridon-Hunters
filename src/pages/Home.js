@@ -11,6 +11,8 @@ import Menu  from '../components/Navbar/menus/pushRotate'
 import Logo from '../components/Logo'
 import { Well, Button, Jumbotron } from 'react-bootstrap';
 import Imagetwo from '../components/Imagetwo'
+import Imagethree from '../components/Imagethree';
+
 // https://react-bootstrap.github.io/components/buttons/
 
 const Home = props => (
@@ -23,7 +25,7 @@ const Home = props => (
 				left 
 				outerContainerId={"outer-container"} 
 				pageWrapId={"page-wrap"}
-				customBurgerIcon={ <img src= "/../public/menuicon.png"/> }  
+				customBurgerIcon={ <Imagethree /> }  
 			>
 				<br />
 				<a href="/">

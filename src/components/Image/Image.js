@@ -38,18 +38,22 @@ class Image extends Component {
     let {imagePreviewUrl} = this.state;
     let $imagePreview = null;
     if (imagePreviewUrl) {
-      $imagePreview = (<img src={imagePreviewUrl} />);
+      $imagePreview = (<img id="imagesizing" src={imagePreviewUrl} />);
     }
 
     return (
       <div>
+       
+        {$imagePreview}
+        
+
         { !this.props.img && (<form onSubmit={this._handleSubmit}>
                           <input type="file" onChange={this._handleImageChange} />
                           <button type="submit" onClick={this._handleSubmit}>Upload Image</button>
                         </form>)
         }
 
-        {$imagePreview}
+        
         
         <div>
           {
