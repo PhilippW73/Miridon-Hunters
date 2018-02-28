@@ -1,7 +1,8 @@
 import React from "react";
 import "./ButtonDropdown.css";
 import {DropdownButton, Dropdown, MenuItem} from "react-bootstrap";
-
+import FontAwesome  from 'react-fontawesome';
+ 
 
 const ButtonDropdown = props =>
 <Dropdown id={`${props.name}Dropdown`}
@@ -9,7 +10,7 @@ const ButtonDropdown = props =>
 		key={`${props.name}Dropdown`}>
 	<Dropdown.Toggle
 		disabled={props.disabled}>
-			<i className={`fa ${props.faIcon}`}></i>
+			{props.faIcon ? <FontAwesome name={props.faIcon} /> : ""} 
 			{props.current ? props.current : props.name}
 	</Dropdown.Toggle>
 	<Dropdown.Menu className="default">
